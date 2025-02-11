@@ -13,8 +13,8 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    //ADD STUFF
-
+    //ADD METHODS THAT HANDLES HTTP REQUESTS
+    //SO NEED @GetMapping OR @PostMapping
 
 
 

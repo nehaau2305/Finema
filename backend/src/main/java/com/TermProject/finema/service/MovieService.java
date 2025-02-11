@@ -12,6 +12,24 @@ public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
 
+    public List<Movie> getAllMovies() {
+        return movieRepository.findAll();
+    }
+
+    public Optional<Movie> getMovieById(int id) {
+        return movieRepository.findById(id);
+    }
+
+    public Movie addMovie(Movie movie) {
+        return movieRepository.save(movie);
+    }
+
+    public void deleteMovie(Long id) {
+        movieRepository.deleteById(id);
+    }
+
+
+
     //ADD METHODS
 
 
