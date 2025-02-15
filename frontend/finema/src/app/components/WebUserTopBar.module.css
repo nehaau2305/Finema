@@ -1,0 +1,7 @@
+.webUserTopBar {
+    background-color: #14a4ff;
+    display: flex;
+    justify-content: space-between;
+    height: 100px;
+
+}
