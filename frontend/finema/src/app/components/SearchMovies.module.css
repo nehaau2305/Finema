@@ -1,0 +1,31 @@
+.main_body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.search_box {
+    background-color: rgb(149, 232, 255);
+}
+
+.search_section {
+    height: 70px;
+}
+
+.filter_section {
+    height: 40px;
+}
+
+.movie_section {
+    flex: 100%;
+}
+
+.button {
+    background-color: #1449ff;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}

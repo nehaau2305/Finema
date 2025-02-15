@@ -1,0 +1,14 @@
+.main_body {
+    text-align: center;
+    background-color: blue;
+    max-width: 90%;
+    margin: auto;
+}
+
+.movie_banner {
+    width: 140px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2px;
+    padding-bottom: 10px;
+}
