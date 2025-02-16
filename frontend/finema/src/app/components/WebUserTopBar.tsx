@@ -1,6 +1,8 @@
 import React from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Button from '../components/Button'
+import LoginPopup from './LoginPopup'
 import styles from './WebUserTopBar.module.css'
 
 const WebUserTopBar = () => {
@@ -11,8 +13,20 @@ const WebUserTopBar = () => {
     }
 
     function goToLogin() {
-        router.push('/login')
+        
+        return (
+        <dialog>
+            <button>Close</button>
+            <p>This modal dialog has a groovy backdrop!</p>
+        </dialog>
+        )
     }
+
+    const [isOpened, setIsOpened] = useState(false);
+
+    const onProceed = () => {
+        console.log("Proceed clicked");
+    };
 
     function goToSignUp() {
         router.push('/registration')
@@ -22,11 +36,16 @@ const WebUserTopBar = () => {
         <div className={styles.webUserTopBar}>
             <Button onClick={goToHome}>Home</Button>
             <div>
-                <Button onClick={goToLogin}>Log In</Button>
+                <Button onClick={() => setIsOpened(true)}>Log In</Button>
                 <Button onClick={goToSignUp}>Sign Up</Button>
             </div>
+            <LoginPopup
+                    isOpened={isOpened}
+                    onClose={() => setIsOpened(false)}
+                />
         </div>
     )
 }
+
 
 export default WebUserTopBar

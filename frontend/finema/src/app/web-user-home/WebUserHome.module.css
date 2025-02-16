@@ -1,0 +1,11 @@
+.main_body {
+    display: flex;
+    background-color: rgb(45, 154, 232);
+}
+
+.movies_body {
+    width: 82.2%;
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(145, 204, 246);
+}
