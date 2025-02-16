@@ -33,8 +33,8 @@ export default function SearchMovies() {
   return (
     <section className={styles.main_body}>
         <h1>Search Movies</h1>
-        <section className={styles.search_section}>
-            <textarea className={styles.search_box} defaultValue="Search"></textarea>
+        <section>
+            <input type="text" className={styles.search_section} />
             <Button onClick={sendQuery}>Go</Button>
         </section>
         <section className={styles.filter_section}> 

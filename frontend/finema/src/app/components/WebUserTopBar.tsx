@@ -13,13 +13,7 @@ const WebUserTopBar = () => {
     }
 
     function goToLogin() {
-        
-        return (
-        <dialog>
-            <button>Close</button>
-            <p>This modal dialog has a groovy backdrop!</p>
-        </dialog>
-        )
+        router.push('/login')
     }
 
     const [isOpened, setIsOpened] = useState(false);
@@ -36,7 +30,7 @@ const WebUserTopBar = () => {
         <div className={styles.webUserTopBar}>
             <Button onClick={goToHome}>Home</Button>
             <div>
-                <Button onClick={() => setIsOpened(true)}>Log In</Button>
+                <Button onClick={goToLogin}>Log In</Button>
                 <Button onClick={goToSignUp}>Sign Up</Button>
             </div>
             <LoginPopup

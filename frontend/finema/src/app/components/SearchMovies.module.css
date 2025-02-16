@@ -1,19 +1,28 @@
 .main_body {
     display: flex;
+    background-color: #33B0FF;
     flex-direction: column;
     height: 100vh;
 }
 
 .search_box {
-    background-color: rgb(149, 232, 255);
+    color: #33B0FF;
+    margin: 5px;
 }
 
 .search_section {
     height: 70px;
+    background-color: #A2D8FA;
+    width: 200px;
+    height: 50px;
+    padding: 10px;
+    margin: 0 auto;
+    border-radius: 10px;
 }
 
 .filter_section {
     height: 40px;
+    margin: 2px;
 }
 
 .movie_section {

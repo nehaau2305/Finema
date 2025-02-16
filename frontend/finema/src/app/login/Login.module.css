@@ -1,0 +1,29 @@
+.login_box {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #33B0FF;
+}
+.headers {
+    color: white;
+}
+
+.main_body {
+    background-color: #A2D8FA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    height: 100vh;
+}
+
+.text_fields {
+    background-color: #33B0FF;
+    border: 5px solid #1449FF;
+    padding: 20px;
+    border-radius: 2px;
+}

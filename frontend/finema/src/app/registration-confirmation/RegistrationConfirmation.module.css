@@ -1,0 +1,14 @@
+.main_body{
+    background-color: #A2D8FA;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+.headers {
+    color: white;
+}
