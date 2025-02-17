@@ -1,0 +1,69 @@
+.main_body {
+    display: flex;
+    background-color: #A2D8FA;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+}
+.order_buttons {
+    margin-left: 240px;
+    margin-right: 120px;
+}
+.summary {
+    background-color: #33B0FF;
+    margin-bottom: 200px;
+    border-radius: 12px;
+    padding: 40px;
+    font-size: x-large;
+    min-width: 400px;
+}
+.button_area {
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+}
+.button {
+
+}
+.checkout {
+    margin-right: 240px;
+    margin-left: 120px;
+    min-width: 400px;
+    min-height: 600px;
+    background-color: #33B0FF;
+    border-radius: 10px;
+    padding: 20px;
+}
+.saved_card {
+    height: 180px;
+    font-size: x-large;
+    text-align: center;
+}
+.saved_card button {
+    width: 200px;
+    margin-top: 40px;
+}
+.payment {
+    height: 420px;
+    font-size: large;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-content: center;
+    text-align: center;
+}
+.payment button {
+    width: 200px;
+}
+.billing {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: space-around;
+}
+.text_fields {
+    background-color: #33B0FF;
+    border: 1px solid #1449FF;
+    border-radius: 4px;
+    margin-top: 6px;
+}

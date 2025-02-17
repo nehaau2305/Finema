@@ -1,5 +1,5 @@
 .info_box {
-    width: 500px;
+    width: 900px;
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -7,6 +7,14 @@
     align-items: center;
     padding: 20px;
     background-color: #33B0FF;
+}
+.big_headers {
+    font-size: x-large;
+    text-align: center;
+}
+.info_box div {
+    margin-left: 50px;
+    margin-right: 50px;
 }
 .headers {
     color: white;
@@ -28,4 +36,9 @@
     height: 25px;
     width: 300px;
     border-radius: 10px;
+}
+.inputs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

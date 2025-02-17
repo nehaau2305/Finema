@@ -3,6 +3,13 @@
     background-color: #1449FF;
     max-width: 90%;
     margin: auto;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.main_body:hover {
+    background-color: #365ede;
 }
 
 .movie_banner {

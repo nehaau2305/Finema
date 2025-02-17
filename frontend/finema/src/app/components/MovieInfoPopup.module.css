@@ -1,0 +1,66 @@
+.main_body {
+    width: 700px;
+    height: 500px;
+    text-align: center;
+    background-color: rgb(147, 208, 246);
+    display: flex;
+}
+
+.trailer_name {
+    text-align: center;
+    height: 100%;
+    width: 60%;
+    padding-top: 10%;
+}
+
+.showtimes_book {
+    width: 40%;
+    padding-top: 10%;
+}
+
+.trailer {
+    width: 330px;
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.exit {
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+.header {
+    font-size: xx-large;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: white;
+}
+
+#trailer_border {
+    border-radius: 10px;
+    background-color: blue;
+}
+
+#name {
+    margin-bottom: 40px;
+}
+
+.list {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: white;
+}
+
+.showtimes {
+    background-color: rgb(32, 178, 252);
+    border-radius: 10px;
+    width: 80%;
+    margin: auto;
+}
+
+.button {
+    padding-left: 9%;
+    margin-bottom: 20%;
+    bottom: 0;
+    position: absolute;
+}

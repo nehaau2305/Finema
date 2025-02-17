@@ -44,7 +44,9 @@ export default function SearchMovies() {
             <FilterButton onClick={setFilter}>Show Date</FilterButton>
         </section>
         <section className={styles.movie_section}>
-            <MovieCard name='time bandits' source='timebandits.png' /> {/* TODO: Make into for loop from results */}
+          <ul>
+            <li><MovieCard name='Time Bandits' source='timebandits.png' /> {/* TODO: Make into for loop from results */}</li>
+          </ul>
         </section>
     </section>
   );

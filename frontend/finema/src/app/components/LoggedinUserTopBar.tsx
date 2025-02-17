@@ -19,7 +19,6 @@ export default function LoggedinUserTopBar() {
             <Button onClick={goToHome}>Home</Button>
             <div>
                 <Button onClick={goToEditProfile}>Edit Profile</Button>
-                
             </div>
         </div>
     )

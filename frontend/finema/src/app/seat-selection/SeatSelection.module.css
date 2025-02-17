@@ -1,0 +1,37 @@
+.main_body {
+    background-color: #A2D8FA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.title {
+    position: absolute;
+    top: 70px;
+    left: 70px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: xx-large;
+}
+
+.seat_box {
+    background-color: #33B0FF;
+    text-align: center;
+    height: 500px;
+    width: 700px;
+}
+
+.seat_selector {
+    font-size: xx-large;
+}
+
+.btn1 {
+    bottom:70px;
+    right:70px;
+    position: absolute;
+}
+.btn2 {
+    bottom:70px;
+    left:70px;
+    position: absolute;
+}

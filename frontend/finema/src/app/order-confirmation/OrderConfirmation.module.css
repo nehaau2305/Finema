@@ -1,0 +1,27 @@
+.main_body {
+    background-color: #A2D8FA;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.summary {
+    background-color: #33B0FF;
+    margin-bottom: 200px;
+    border-radius: 12px;
+    padding: 40px;
+    font-size: x-large;
+    min-width: 400px;
+    margin-left: 50px;
+}
+.summary h1 {
+    text-align: center;
+}
+.thanks {
+    font-size: xx-large;
+    margin-bottom: 300px;
+    width: 400px;
+}
+.thanks h2 {
+    text-wrap: wrap;
+}

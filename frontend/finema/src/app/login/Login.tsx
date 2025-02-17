@@ -28,7 +28,7 @@ export default function Login() {
           </section>
 
       <Button onClick={handleLogIn}>Log In</Button>
-      <h1> Don't have an account yet? Sign up! </h1>
+      <h1> Dont have an account yet? Sign up! </h1>
       <Button onClick={handleSignUp}>Sign Up</Button>
 
 

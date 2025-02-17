@@ -1,12 +1,15 @@
 import React from 'react';
 import MovieCard from '../components/MovieCard'
+import styles from './ComingSoon.module.css'
 
 export default function ComingSoon() {
   return (
-    <div>
-        <h1>Coming Soon</h1>
+    <div className={styles.main_body}>
+        <h1 className={styles.header}>Coming Soon</h1>
         <section>
-            <MovieCard name='time bandits' source='timebandits.png' />
+          <ul className={styles.list}>
+            <li><MovieCard name='Time Bandits' source='timebandits.png' /></li>
+          </ul>
         </section>
     </div>
   );
