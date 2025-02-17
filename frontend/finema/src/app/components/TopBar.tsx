@@ -3,17 +3,9 @@ import { useRouter } from 'next/navigation'
 import Button from './Button'
 import styles from './TopBar.module.css'
 
-const TopBar = (
-    {
-        loggedIn,
-        showEditProfile = true
-    }:
-    {
-        loggedIn:boolean,
-        showEditProfile:boolean
-    }
-) => {
+const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revist this :any later, possibly too optimistic about it
     const router = useRouter()
+    console.log(loggedIn, showEditProfile)
 
     function goToHome() {
         router.push('/')
@@ -30,7 +22,7 @@ const TopBar = (
     function goToEditProfile() {
         router.push('/edit-profile')
     }
-    let loggedInUser = (
+    const loggedInUser = (
         <div className={styles.webUserTopBar}>
             <Button onClick={goToHome}>Home</Button>
             <div>
@@ -38,7 +30,7 @@ const TopBar = (
             </div>
         </div>
     )
-    let webUser = (
+    const webUser = (
         <div className={styles.webUserTopBar}>
             <Button onClick={goToHome}>Home</Button>
             <div>
@@ -48,10 +40,9 @@ const TopBar = (
         </div>
     )
 
-    let currentUser = (loggedIn) ? loggedInUser : webUser;
+    const currentUser = (loggedIn) ? loggedInUser : webUser;
 
     return currentUser
 }
-
 
 export default TopBar

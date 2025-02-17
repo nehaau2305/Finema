@@ -10,7 +10,7 @@ import TopBar from '../components/TopBar';
 export default function LoggedinUserHome() {
   return (
     <div>
-      <TopBar loggedIn={true} />
+      <TopBar loggedIn={true}/>
       <section className={styles.main_body}>
         <SearchMovies />
         <section className={styles.movies_body}>

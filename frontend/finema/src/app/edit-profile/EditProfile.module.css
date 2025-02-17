@@ -1,4 +1,59 @@
 .main_body {
     display: flex;
     background-color: #A2D8FA;
+    height: 90vh;
+    justify-content: center;
+    align-items: center;
+    color: blue ;
+}
+.address_field {
+    display: flex;
+    flex-direction: column;
+}
+.personal_promotion {
+    margin-right: 100px;
+    padding: 30px;
+    max-height: 90%;
+}
+.personal {
+    background-color: #33B0FF;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    padding: 20px;
+}
+.promotion {
+    background-color: #33B0FF;
+    margin-top: 25px;
+    border-radius: 10px;
+    padding: 20px;
+}
+.password_card {
+    margin-left: 100px;
+    padding: 10px;
+    max-height: 90%;
+}
+.password {
+    background-color: #33B0FF;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    padding: 20px;
+}
+.card {
+    background-color: #33B0FF;
+    margin-top: 25px;
+    border-radius: 10px;
+    padding: 20px;
+}
+.main_body input {
+    background-color: #33B0FF;
+    border: 2px solid #1449FF;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+.input_section {
+    display: flex;
+    justify-content: space-between;
+}
+.input_section h1 {
+    margin-right: 10px;
 }

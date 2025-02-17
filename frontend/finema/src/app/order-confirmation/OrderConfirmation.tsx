@@ -5,7 +5,7 @@ import styles from './OrderConfirmation.module.css'
 import TopBar from '../components/TopBar';
 
 export default function OrderConfirmation() {
-  let email = 'joshua@konfrst.com'
+  const email = 'joshua@konfrst.com'
   return (
     <div>
       <TopBar loggedIn={true}/>

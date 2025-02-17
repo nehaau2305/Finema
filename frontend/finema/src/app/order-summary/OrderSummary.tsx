@@ -19,7 +19,7 @@ export default function OrderSummary() {
   function foo() {
     console.log('PHEW!')
   }
-  let total = "20.00"
+  const total = "20.00"
 
 
   return (
