@@ -4,6 +4,7 @@ import com.TermProject.finema.entity.Movie;
 import com.TermProject.finema.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class MovieService {
         return movieRepository.save(movie);
     }
 
-    public void deleteMovie(Long id) {
+    public void deleteMovie(int id) {
         movieRepository.deleteById(id);
     }
 
