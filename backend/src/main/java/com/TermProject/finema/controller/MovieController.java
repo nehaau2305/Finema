@@ -10,12 +10,12 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/movies")
 public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
         Movie savedMovie = movieService.addMovie(movie);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMovie);
