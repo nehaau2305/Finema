@@ -12,3 +12,10 @@
 .button:hover {
     background-color: #1140e0;
 }
+
+.finema_logo {
+    background-color: #14a4ff;
+    display: flex;
+    width: 200px;
+    height: 200px;
+}

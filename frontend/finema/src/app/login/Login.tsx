@@ -13,6 +13,10 @@ export default function Login() {
   const handleLogIn = () => {
     router.push('/loggedin-user-home')
   }
+
+  const handleAdminLogIn = () => {
+    router.push('/admin-home')
+  }
   return (
     <div className={styles.main_body}>
      <div className={styles.login_box}>
@@ -28,8 +32,9 @@ export default function Login() {
           </section>
 
       <Button onClick={handleLogIn}>Log In</Button>
-      <h1> Dont have an account yet? Sign up! </h1>
+      <h1 className={styles.headers}> Dont have an account yet? Sign up! </h1>
       <Button onClick={handleSignUp}>Sign Up</Button>
+      <Button onClick={handleAdminLogIn}>Admin Log In</Button>
 
 
       </div>
