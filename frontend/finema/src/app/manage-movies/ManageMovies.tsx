@@ -8,6 +8,14 @@ import Button from '../components/Button';
 
 export default function ManageMovies() {
 
+  const [showtime, setShowtime] = useState("");
+  const [date, setDate] = useState("");
+  const [msg, setMsg] = useState("");
+  
+  const handleShowtime = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setShowtime(event.target.value);
+  };
+
   function foo() {
     console.log('PHEW!')
   }
@@ -40,11 +48,7 @@ export default function ManageMovies() {
               <input></input>
             </div>
             <div className={styles.input_section}>
-              <h1> Reviews? </h1>
-              <input></input>
-            </div>
-            <div className={styles.input_section}>
-              <h1> Trailer (picture and video?) </h1>
+              <h1> Trailer (video link) </h1>
               <input></input>
             </div>
             <div className={styles.input_section}>
@@ -52,13 +56,22 @@ export default function ManageMovies() {
               <input></input>
             </div>
             <div className={styles.input_section}>
-              <h1> Showtimes (date and time sections?) </h1>
-              <input></input>
+              <h1> Showtimes </h1>
+              <div>
+              <label htmlFor="showtime">Select Showtime:</label>
+              <input
+                type="datetime-local"
+                id="showtime"
+                value={showtime}
+                onChange={handleShowtime}
+              />
+              {showtime && <p>Selected Showtime: {showtime}</p>}
+              </div>
             </div>
             <Button onClick={foo}> Add Movie </Button>
             </section>
-            <h1> Current Movies </h1>
-            <h1> lists all movies in database with option to edit or delete? </h1>
+
+            <h1> lists all movies in database with option to edit or delete </h1>
 
             <section>
 
