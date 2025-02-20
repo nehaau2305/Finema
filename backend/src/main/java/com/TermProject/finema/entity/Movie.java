@@ -1,7 +1,9 @@
 package com.TermProject.finema.entity;
+
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "movie")
 public class Movie {
     @Id // denotes primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // auto-generates primary key value
@@ -23,6 +25,76 @@ public class Movie {
 
     //HAVE TO ADD REVIEWS & CAST
 
-    //ADD GETTER & SETTER METHODS
+    // Getter and Setter methods
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getProducer() {
+        return producer;
+    }
+
+    public void setProducer(String producer) {
+        this.producer = producer;
+    }
+
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
+    }
+
+    public String getTrailerPicture() {
+        return trailerPicture;
+    }
+
+    public void setTrailerPicture(String trailerPicture) {
+        this.trailerPicture = trailerPicture;
+    }
+
+    public String getTrailerVideo() {
+        return trailerVideo;
+    }
+
+    public void setTrailerVideo(String trailerVideo) {
+        this.trailerVideo = trailerVideo;
+    }
+
+    public MpaaRating getMpaaRating() {
+        return mpaaRating;
+    }
+
+    public void setMpaaRating(MpaaRating mpaaRating) {
+        this.mpaaRating = mpaaRating;
+    }
 }

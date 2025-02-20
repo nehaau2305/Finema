@@ -29,6 +29,27 @@ public class MovieService {
         movieRepository.deleteById(id);
     }
 
+    
+    public List<Movie> getMoviesByTitle(String title) {
+        return movieRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    public List<Movie> getMoviesByCategory(String category) {
+        return movieRepository.findByCategoryContainingIgnoreCase(category);
+    }
+
+    public List<Movie> getMoviesByDirector(String director) {
+        return movieRepository.findByDirectorContainingIgnoreCase(director);
+    }
+
+    public List<Movie> getMoviesByProducer(String producer) {
+        return movieRepository.findByProducerContainingIgnoreCase(producer);
+    }
+
+    public List<Movie> searchMovies(String query) {
+        return movieRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCaseOrDirectorContainingIgnoreCaseOrProducerContainingIgnoreCase(
+            query, query, query, query);
+    }
 
 
     //ADD METHODS

@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './SearchMovies.module.css'
 import Button from '../components/Button'
 import MovieCard from '../components/MovieCard'
@@ -22,32 +22,62 @@ return (
 );
 };
 
+interface Movie {
+  id: string;
+  title: string;
+  trailerPicture: string;
+}
+
 export default function SearchMovies() {
   
-  const sendQuery = () => {
-    {/* TODO: Send Query to database to retrieve relevant movies */}
-  }
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<Movie[]>([]);
+
+  const sendQuery = async () => {
+    if (query.trim() === '') return;
+
+    try {
+      const response = await fetch(`http://localhost:8080/movies/search?query=${query}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setResults(data);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  };
   const setFilter = () => {
     {/* TODO: Send Filter Query to database to retrieve relevant movies */}
   }
+  
   return (
     <section className={styles.main_body}>
-        <h1>Search Movies</h1>
-        <section>
-            <input type="text" className={styles.search_section} />
-            <Button onClick={sendQuery}>Go</Button>
-        </section>
-        <section className={styles.filter_section}> 
-            Search By:
-            <FilterButton onClick={setFilter}>Title</FilterButton>
-            <FilterButton onClick={setFilter}>Genre</FilterButton>
-            <FilterButton onClick={setFilter}>Show Date</FilterButton>
-        </section>
-        <section className={styles.movie_section}>
-          <ul>
-            <li><MovieCard name='Time Bandits' source='timebandits.png' /> {/* TODO: Make into for loop from results */}</li>
-          </ul>
-        </section>
+      <h1>Search Movies</h1>
+      <section>
+        <input
+          type="text"
+          className={styles.search_section}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search for movies..."
+        />
+        <Button onClick={sendQuery}>Go</Button>
+      </section>
+      <section className={styles.filter_section}>
+        Search By:
+        <ul>
+          {results.length > 0 ? (
+            results.map((movie: Movie) => (
+              <li key={movie.id}>
+                <MovieCard name={movie.title} source={movie.trailerPicture} />
+              </li>
+            ))
+          ) : (
+            <p>No results found</p>
+          )}
+        </ul>
+      </section>
     </section>
   );
 };

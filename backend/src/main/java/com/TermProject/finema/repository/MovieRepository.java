@@ -8,8 +8,12 @@ import java.util.List;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
-    //ADD STUFF
+    List<Movie> findByTitleContainingIgnoreCase(String title);
+    List<Movie> findByCategoryContainingIgnoreCase(String category);
+    List<Movie> findByDirectorContainingIgnoreCase(String director);
+    List<Movie> findByProducerContainingIgnoreCase(String producer);
+
+    List<Movie> findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCaseOrDirectorContainingIgnoreCaseOrProducerContainingIgnoreCase(
+        String title, String category, String director, String producer);
 }
-
-
-
+ 
