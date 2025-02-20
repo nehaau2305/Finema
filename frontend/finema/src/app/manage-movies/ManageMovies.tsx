@@ -26,7 +26,8 @@ export default function ManageMovies() {
         <TopBar loggedIn={true} showEditProfile={false}/>
       </div>
       <section className={styles.main_body}>
-          <section className={styles.movie_info}>
+        <section className={styles.movie_info}>
+          <form>
             <div className={styles.input_section}>
               <h1> Movie Title </h1>
               <input></input>
@@ -68,15 +69,13 @@ export default function ManageMovies() {
               {showtime && <p>Selected Showtime: {showtime}</p>}
               </div>
             </div>
-            <Button onClick={foo}> Add Movie </Button>
-            </section>
-
-            <h1> lists all movies in database with option to edit or delete </h1>
-
-            <section>
-
-            </section>
+            <Button onClick={foo} type='submit'> Add Movie </Button>
+          </form>
           </section>
+          <h1> lists all movies in database with option to edit or delete </h1>
+          <section>
+        </section>
+      </section>
     </div>
   );
 };
