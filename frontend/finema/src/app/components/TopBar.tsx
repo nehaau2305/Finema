@@ -33,7 +33,7 @@ const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revi
     )
     const webUser = (
         <div className={styles.webUserTopBar}>
-            <Button onClick={goToHome} pngSrc={finemaLogo}>home</Button>
+            <Button onClick={goToHome}>home</Button>
             <div>
                 <Button onClick={goToLogin}>Log In</Button>
                 <Button onClick={goToSignUp}>Sign Up</Button>

@@ -22,6 +22,11 @@
 }
 
 .seat_selector {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-evenly;
+    gap: 100px;
     font-size: xx-large;
 }
 
@@ -34,4 +39,31 @@
     bottom:70px;
     left:70px;
     position: absolute;
+}
+
+.seat_selector button {
+    background-color: #1449ff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 75px;
+    height: 75px;
+}
+
+.seat_selector button:hover {
+    background-color: #0b35b5; 
+    transform: scale(1.05); 
+}
+
+.selected {
+    background-color: #A2D8FA;
+    color: white;
+}
+
+.notSelected {
+    background-color: #1449ff;
+    color: white;
 }
