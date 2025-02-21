@@ -1,11 +1,17 @@
 'use client'
-import React from 'react';
+import React, { SetStateAction, useState } from 'react';
 import styles from './ShowTime.module.css'
 import Button from '../components/Button'
 import { useRouter } from 'next/navigation'
 
 export default function ShowTime() {
   const router = useRouter();
+
+  const [selectedValue, setSelectedValue] = useState('adult');
+
+  const handleRadioChange = (value:SetStateAction<string>) => {
+    setSelectedValue(value);
+  };
 
   function goToSeats() {
     router.push('/seat-selection')
@@ -31,11 +37,20 @@ export default function ShowTime() {
           <h1 className={styles.headers}> Select Ticket Type</h1>
           <section className={styles.box}>
             <h1 className={styles.headers}> Ticket Type </h1>
-            <ul className={styles.list}>
-              <li> Child </li>
-              <li> Adult </li>
-              <li> Senior </li>
-            </ul>
+            <section className={styles.list}>
+              <div>
+                <h2> Adult:  </h2>
+                <input type="text" />
+              </div>
+              <div>
+                <h2> Child:  </h2>
+                <input type="text" />
+              </div>
+              <div>
+                <h2> Senior:  </h2>
+                <input type="text" />
+              </div>
+            </section>
           </section>
         </section>
       </section>

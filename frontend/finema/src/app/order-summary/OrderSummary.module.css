@@ -6,12 +6,12 @@
     height: 100vh;
 }
 .order_buttons {
-    margin-left: 240px;
-    margin-right: 120px;
+    margin-left: 180px;
+    margin-right: 80px;
 }
 .summary {
     background-color: #33B0FF;
-    margin-bottom: 200px;
+    margin-bottom: 100px;
     border-radius: 12px;
     padding: 40px;
     font-size: x-large;
@@ -22,12 +22,13 @@
     justify-content: space-between;
     align-content: space-between;
 }
-.button {
-
+.summary h1 {
+    text-align: center;
+    margin-bottom: 10px;
 }
 .checkout {
     margin-right: 240px;
-    margin-left: 120px;
+    margin-left: 80px;
     min-width: 400px;
     min-height: 600px;
     background-color: #33B0FF;
@@ -66,4 +67,19 @@
     border: 1px solid #1449FF;
     border-radius: 4px;
     margin-top: 6px;
+}
+.ticket_area {
+    background-color: #33B0FF;
+    margin-bottom: 50px;
+    border-radius: 12px;
+    padding: 20px;
+}
+.ticket_area h1 {
+    font-size: x-large;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.list ul {
+    margin-top: 7px;
+    margin-bottom: 7px;
 }

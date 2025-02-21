@@ -43,6 +43,19 @@
     padding: 20%;
 }
 
+.list div {
+    display: flex;
+}
+
+.list div input {
+    margin-left: 10px;
+    background-color: #33B0FF;
+    border: 2px solid #1449FF;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    width: 30px;
+}
+
 .btn1 {
     bottom:70px;
     right:70px;

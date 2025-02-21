@@ -3,6 +3,7 @@ import React from 'react';
 import Button from '../components/Button';
 import styles from './OrderSummary.module.css'
 import { useRouter } from 'next/navigation'
+import TicketStub from '../components/TicketStub'
 
 export default function OrderSummary() {
   const router = useRouter();
@@ -20,6 +21,8 @@ export default function OrderSummary() {
     console.log('PHEW!')
   }
   const total = "20.00"
+  const movieTitle = "Time Bandits"
+  const showTime = "2/10/25 - 12:00pm"
 
 
   return (
@@ -28,11 +31,17 @@ export default function OrderSummary() {
                 <section className={styles.summary}>
                   <h1> Order Summary </h1>
                   <ul>
-                    <li> Movie Name: </li>
-                    <li> Showtime: </li>
-                    <li> Ticket Type: </li>
-                    <li> Seat: </li>
-                    <li> Total: </li>
+                    <li> Movie Name: {movieTitle} </li>
+                    <li> Showtime: {showTime} </li>
+                  </ul>
+                </section>
+                <section className={styles.ticket_area}>
+                  <h1> Tickets: </h1>
+                  <ul> {/** TODO: Add Scrolling */}
+                    <li className={styles.list}>
+                      <ul> <TicketStub ticket_type={'adult'} seat={'3A'} /> </ul>
+                      <ul> <TicketStub ticket_type={'adult'} seat={'3B'} /> </ul>
+                    </li>
                   </ul>
                 </section>
                 <section className={styles.button_area}>

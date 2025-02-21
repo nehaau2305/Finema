@@ -53,6 +53,13 @@
     height: 75px;
 }
 
+.seat_num {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: x-large;
+    text-align: center;
+    background-color: #33B0FF;
+}
+
 .seat_selector button:hover {
     background-color: #0b35b5; 
     transform: scale(1.05); 
