@@ -8,6 +8,19 @@ import Button from '../components/Button';
 
 export default function ManageMovies() {
 
+  console.log("ManageMovies.tsx");
+
+  interface Movie {
+    title: string;
+    category: string;
+    director: string;
+    producer: string;
+    trailerVideo: string;
+    mpaaRating: string;
+    trailerPicture: string;
+    synopsis: string;
+  }
+
   const [showtime, setShowtime] = useState("");
   const [date, setDate] = useState("");
   const [msg, setMsg] = useState("");
@@ -27,6 +40,10 @@ export default function ManageMovies() {
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
+    // print handling to console
+    console.log('Title:', title);
+    console.log('Category:', category);
+    console.log("SDFDSKFHJKDSHJKFJKFJKHDKJFHSJHDJKHFJKSHJh");
     event.preventDefault();
 
     const movie = {
@@ -71,10 +88,6 @@ export default function ManageMovies() {
     }
   };
 
-  function foo() {
-    console.log('PHEW!')
-  }
-
   return (
     <div>
       <div className={styles.top}>
@@ -82,53 +95,46 @@ export default function ManageMovies() {
       </div>
       <section className={styles.main_body}>
         <section className={styles.movie_info}>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className={styles.input_section}>
               <h1> Movie Title </h1>
-              <input></input>
+              <input value={title} onChange={(e) => setTitle(e.target.value)} required />
             </div>
             <div className={styles.input_section}>
               <h1> Category </h1>
-              <input></input>
+              <input value={category} onChange={(e) => setCategory(e.target.value)} required />
             </div>
             <div className={styles.input_section}>
-              <h1> Cast </h1>
-              <input></input>
+              <h1> Synopsis </h1>
+              <input value={synopsis} onChange={(e) => setSynopsis(e.target.value)} required />
             </div>
             <div className={styles.input_section}>
               <h1> Director </h1>
-              <input></input>
+              <input value={director} onChange={(e) => setDirector(e.target.value)} required />
             </div>
             <div className={styles.input_section}>
               <h1> Producer </h1>
-              <input></input>
+              <input value={producer} onChange={(e) => setProducer(e.target.value)} required />
             </div>
             <div className={styles.input_section}>
-              <h1> Trailer (video link) </h1>
-              <input></input>
+              <h1> Trailer Video (video link) </h1>
+              <input value={trailerVideo} onChange={(e) => setTrailerVideo(e.target.value)} required />
             </div>
             <div className={styles.input_section}>
               <h1> MPAA-US film rating code </h1>
-              <input></input>
+              <input value={mpaaRating} onChange={(e) => setMpaaRating(e.target.value)} required />
             </div>
             <div className={styles.input_section}>
-              <h1> Showtimes </h1>
-              <div>
-              <label htmlFor="showtime">Select Showtime:</label>
-              <input
-                type="datetime-local"
-                id="showtime"
-                value={showtime}
-                onChange={handleShowtime}
-              />
-              {showtime && <p>Selected Showtime: {showtime}</p>}
-              </div>
+              <h1> Trailer Picture (image link) </h1>
+              <input value={trailerPicture} onChange={(e) => setTrailerPicture(e.target.value)} required />
             </div>
-            <Button onClick={foo} type='submit'> Add Movie </Button>
+            <Button type='submit'> Add Movie </Button>
           </form>
-          </section>
-          <h1> lists all movies in database with option to edit or delete </h1>
-          <section>
+          {msg && <p>{msg}</p>}
+        </section>
+        <h1> lists all movies in database with option to edit or delete </h1>
+        <section>
+          {/* TODO: Implement movie list with edit and delete options */}
         </section>
       </section>
     </div>
