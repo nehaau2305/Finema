@@ -8,8 +8,6 @@ import Button from '../components/Button';
 
 export default function ManageMovies() {
 
-  console.log("ManageMovies.tsx");
-
   interface Movie {
     title: string;
     category: string;
@@ -40,12 +38,7 @@ export default function ManageMovies() {
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
-    // print handling to console
-    console.log('Title:', title);
-    console.log('Category:', category);
-    console.log("SDFDSKFHJKDSHJKFJKFJKHDKJFHSJHDJKHFJKSHJh");
     event.preventDefault();
-
     const movie = {
       title,
       category,
@@ -56,18 +49,23 @@ export default function ManageMovies() {
       trailerPicture,
       synopsis,
     };
-
     try {
-      const response = await fetch('http://localhost:8080/movies/add', {
+      //const response = await fetch(`http://localhost:8080/movies/search?query=${query}`);
+
+      const response = await fetch(`http://localhost:8080/movies/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer t3klslescdsewe`,
         },
         body: JSON.stringify(movie),
       });
 
       if (!response.ok) {
+        console.log(response);
         throw new Error('Network response was not ok');
+      } else {
+        console.log("response is ok");
       }
 
       const data = await response.json();

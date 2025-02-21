@@ -11,16 +11,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/movies")
+@CrossOrigin(origins = "http://localhost:3000")
 public class MovieController {
     @Autowired
     private MovieService movieService;
 
     @PostMapping("/add")
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
-        System.out.println("Adding movie");
-        Movie savedMovie = movieService.addMovie(movie);
-        headers.add("Access-Control-Allow-Origin", "http://localhost:3000");
-        
+        Movie savedMovie = movieService.addMovie(movie);        
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMovie);
     }
 
