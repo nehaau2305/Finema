@@ -10,5 +10,9 @@
 }
 
 .headers {
+    font-size: xx-large;
+    font-weight: bold;
+    font-family: var(--font-inter);
     color: white;
+    margin: 20px;
 }

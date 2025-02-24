@@ -2,7 +2,8 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import Button from './Button'
 import styles from './TopBar.module.css'
-import finemaLogo from '../images/finemaLogo.png'
+import Image from 'next/image'
+import finemalogo from './finemalogo.png'
 
 const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revist this :any later, possibly too optimistic about it
     const router = useRouter()
@@ -25,7 +26,14 @@ const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revi
     }
     const loggedInUser = (
         <div className={styles.webUserTopBar}>
-            <Button onClick={goToHome} pngSrc={finemaLogo}>home</Button>
+            <button onClick={goToHome}>
+                <Image
+                src={finemalogo}
+                height={200}
+                width={200}
+                alt="finemalogo home button"
+                /> 
+            </button>
             <div>
                 {(showEditProfile) ? <Button onClick={goToEditProfile}>Edit Profile</Button> : <></>}
             </div>
@@ -33,7 +41,14 @@ const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revi
     )
     const webUser = (
         <div className={styles.webUserTopBar}>
-            <Button onClick={goToHome}>home</Button>
+            <button onClick={goToHome}>
+                <Image
+                src={finemalogo}
+                height={200}
+                width={200}
+                alt="finemalogo home button"
+                /> 
+            </button>
             <div>
                 <Button onClick={goToLogin}>Log In</Button>
                 <Button onClick={goToSignUp}>Sign Up</Button>

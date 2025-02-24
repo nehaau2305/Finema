@@ -53,7 +53,7 @@ export default function SearchMovies() {
   
   return (
     <section className={styles.main_body}>
-      <h1>Search Movies</h1>
+      <h1>search movies</h1>
       <section>
         <input
           type="text"

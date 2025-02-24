@@ -1,6 +1,7 @@
 .main_body {
     display: flex;
     background-color: #A2D8FA;
+    align-content: space-around;
 }
 
 .movies_body {

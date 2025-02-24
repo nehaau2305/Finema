@@ -9,7 +9,7 @@
 }
 
 .main_body:hover {
-    background-color: #365ede;
+    background-color: #1140e0;
 }
 
 .movie_banner {
@@ -18,4 +18,9 @@
     margin-left: auto;
     margin-top: 2px;
     padding-bottom: 10px;
+}
+.headers {
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
 }

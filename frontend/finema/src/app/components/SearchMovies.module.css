@@ -3,20 +3,25 @@
     background-color: #33B0FF;
     flex-direction: column;
     height: 100vh;
+    padding: 10px;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
 }
 
 .search_box {
     color: #33B0FF;
-    margin: 5px;
+    margin: 10px;
+    padding: 10px;
 }
 
 .search_section {
     height: 70px;
     background-color: #A2D8FA;
-    width: 210px;
+    width: 210px auto;
     height: 50px;
     padding: 10px;
-    margin: 0 auto;
+    margin: 10px auto;
     border-radius: 10px;
 }
 
@@ -37,4 +42,5 @@
     font-weight: 600;
     border-radius: 10px;
     cursor: pointer;
+    margin: 5px;
 }

@@ -1,5 +1,7 @@
 .header {
     font-size: xx-large;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    color: blue;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+
 }

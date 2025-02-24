@@ -3,6 +3,8 @@ import React from 'react';
 import { useRouter } from 'next/navigation'
 import Button from '../components/Button'
 import styles from './Login.module.css'
+import Image from 'next/image'
+import finemalogo from './finemalogo.png'
 
 export default function Login() {
   const router = useRouter()
@@ -20,7 +22,14 @@ export default function Login() {
   return (
     <div className={styles.main_body}>
      <div className={styles.login_box}>
-        <h1>FINEMA</h1>
+        <div>
+          <Image
+            src={finemalogo}
+            width={200}
+            height={200}
+            alt="finema logo"
+            />
+        </div>
           <section>
             <h2 className={styles.headers}>email</h2>
               <input type="text" className={styles.text_fields} />
@@ -31,10 +40,10 @@ export default function Login() {
               <input type="text" className={styles.text_fields} />
           </section>
 
-      <Button onClick={handleLogIn}>Log In</Button>
-      <h1 className={styles.headers}> Dont have an account yet? Sign up! </h1>
-      <Button onClick={handleSignUp}>Sign Up</Button>
-      <Button onClick={handleAdminLogIn}>Admin Log In</Button>
+      <Button onClick={handleLogIn}>log in</Button>
+      <h1 className={styles.headers}> dont have an account yet? sign up! </h1>
+      <Button onClick={handleSignUp}>sign up</Button>
+      <Button onClick={handleAdminLogIn}>admin log in</Button>
 
 
       </div>

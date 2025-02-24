@@ -11,12 +11,17 @@
 .big_headers {
     font-size: x-large;
     text-align: center;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
 }
 .info_box div {
     margin-left: 50px;
     margin-right: 50px;
 }
 .headers {
+    font-weight: bold;
+    font-family: var(--font-inter);
     color: white;
 }
 .main_body {
@@ -31,14 +36,19 @@
 
 .text_fields {
     background-color: #33B0FF;
-    border: 5px solid #1449FF;
+    border: 3px solid #1449FF;
     padding: 20px;
     height: 25px;
     width: 300px;
     border-radius: 10px;
+    margin: 2px;
 }
 .inputs {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.button {
+    
 }

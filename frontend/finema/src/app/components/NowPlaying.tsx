@@ -16,7 +16,7 @@ export default function NowPlaying() {
   }*/
   return (
     <div className={styles.main_body}>
-        <h1 className={styles.header}>Now Playing</h1>
+        <h1 className={styles.header}>now playing</h1>
         <section>
           <ul className={styles.list}>
             <li><MovieCard name='Time Bandits' source='timebandits.png' /></li>

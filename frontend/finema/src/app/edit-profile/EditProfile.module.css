@@ -4,7 +4,10 @@
     height: 90vh;
     justify-content: center;
     align-items: center;
-    color: blue ;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+
 }
 .address_field {
     display: flex;
@@ -56,4 +59,8 @@
 }
 .input_section h1 {
     margin-right: 10px;
+}
+
+.headers{
+    
 }
