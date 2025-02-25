@@ -23,6 +23,9 @@ public class Movie {
     @Enumerated(EnumType.STRING)
     private MpaaRating mpaaRating;
 
+    private boolean nowShowing;
+    private boolean comingSoon;
+
     //HAVE TO ADD REVIEWS & CAST
 
     // Getter and Setter methods
@@ -97,4 +100,12 @@ public class Movie {
     public void setMpaaRating(MpaaRating mpaaRating) {
         this.mpaaRating = mpaaRating;
     }
+
+    public boolean isNowShowing() {return nowShowing;}
+
+    public void setNowShowing(boolean nowShowing) {this.nowShowing = nowShowing;}
+
+    public boolean isComingSoon() {return comingSoon;}
+
+    public void setComingSoon(boolean comingSoon) {this.comingSoon = comingSoon;}
 }
