@@ -37,6 +37,18 @@ export default function ManageMovies() {
     setShowtime(event.target.value);
   };
 
+  const [nowPlaying, setNowPlaying] = useState(false);
+
+  const handleNowPlaying = (value:boolean) => {
+    setNowPlaying(value);
+  };
+
+  const [comingSoon, setComingSoon] = useState(false);
+
+  const handleComingSoon = (value:boolean) => {
+    setComingSoon(value);
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const movie = {
@@ -125,6 +137,24 @@ export default function ManageMovies() {
             <div className={styles.input_section}>
               <h1> Trailer Picture (image link) </h1>
               <input value={trailerPicture} onChange={(e) => setTrailerPicture(e.target.value)} required />
+            </div>
+            <div>
+              <h1>Now Playing</h1>
+              <input
+                type="checkbox"
+                value='true'
+                checked={nowPlaying === true}
+                onChange={() => handleNowPlaying(true)}
+              />
+            </div>
+            <div>
+              <h1>Coming Soon</h1>
+                <input
+                  type="checkbox"
+                  value='true'
+                  checked={comingSoon === true}
+                  onChange={() => handleComingSoon(true)}
+               />
             </div>
             <Button type='submit'> Add Movie </Button>
           </form>
