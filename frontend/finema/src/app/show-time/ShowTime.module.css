@@ -3,15 +3,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100vh;    
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
 }
 
 .title {
     position: absolute;
     top: 70px;
     left: 70px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: xx-large;
+    font-weight: bold;
+    font-family: var(--font-inter);
 }
 
 .selectors {
@@ -30,17 +34,16 @@
     justify-content: space-between;
     align-items: center;
     border-radius: 10px;
+    padding: 20px;
 }
 
 .headers {
     text-wrap: nowrap;
     font-size: x-large;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .list {
-    text-wrap:nowrap;
-    padding: 20%;
+    padding: 10px;
 }
 
 .list div {

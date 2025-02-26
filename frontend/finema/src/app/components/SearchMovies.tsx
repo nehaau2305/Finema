@@ -1,35 +1,30 @@
 'use client'
 import React, { useState } from 'react';
-import styles from './SearchMovies.module.css'
-import Button from '../components/Button'
-import MovieCard from '../components/MovieCard'
+import styles from './SearchMovies.module.css';
+import Button from '../components/Button';
+import MovieCard from '../components/MovieCard';
 
 interface ButtonProps {
-type?: 'button' | 'submit' | 'reset';
-onClick?: React.MouseEventHandler<HTMLButtonElement>;
-children: React.ReactNode;
+  type?: 'button' | 'submit' | 'reset';
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  children: React.ReactNode;
 }
 
 const FilterButton: React.FC<ButtonProps> = ({ type = 'button', onClick, children }) => {
-return (
-    <button
-    className={styles.button}
-    type={type}
-    onClick={onClick}
-    >
-    {children}
+  return (
+    <button className={styles.button} type={type} onClick={onClick}>
+      {children}
     </button>
-);
+  );
 };
 
 interface Movie {
-  id: string;
+  id: number;
   title: string;
   trailerPicture: string;
 }
 
 export default function SearchMovies() {
-  
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Movie[]>([]);
 
@@ -42,18 +37,21 @@ export default function SearchMovies() {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      setResults(data);
+      setResults(data); 
     } catch (error) {
       console.error('Error fetching search results:', error);
     }
   };
+
   const setFilter = () => {
-    {/* TODO: Send Filter Query to database to retrieve relevant movies */}
+    // TODO: Add filtering functionality, e.g. by category or rating
   }
-  
+
+  console.log(query)
+
   return (
     <section className={styles.main_body}>
-      <h1>search movies</h1>
+      <h1>Search Movies</h1>
       <section>
         <input
           type="text"
@@ -65,12 +63,16 @@ export default function SearchMovies() {
         <Button onClick={sendQuery}>Go</Button>
       </section>
       <section className={styles.filter_section}>
-        Search By:
+        <h2>Search By:</h2>
         <ul>
           {results.length > 0 ? (
             results.map((movie: Movie) => (
               <li key={movie.id}>
-                <MovieCard name={movie.title} source={movie.trailerPicture} />
+                <MovieCard
+                  name={movie.title}
+                  source={movie.trailerPicture}
+                  movieId={movie.id} 
+                />
               </li>
             ))
           ) : (
@@ -80,4 +82,4 @@ export default function SearchMovies() {
       </section>
     </section>
   );
-};
+}

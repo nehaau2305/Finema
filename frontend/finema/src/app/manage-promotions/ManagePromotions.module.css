@@ -18,8 +18,12 @@
 .input_section {
     display: flex;
     align-items: center;
+    flex-direction: column;
     gap: 10px;
     margin-bottom: 15px;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
 }
 
 .input_section input {

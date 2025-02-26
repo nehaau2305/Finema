@@ -9,8 +9,12 @@ const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revi
     const router = useRouter()
     console.log(loggedIn, showEditProfile)
 
-    function goToHome() {
-        router.push('/')
+    function goToWebUserHome() {
+        router.push('/web-user-home')
+    }
+
+    function goToLoggedInHome() {
+        router.push('/loggedin-user-home')
     }
 
     function goToLogin() {
@@ -26,7 +30,7 @@ const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revi
     }
     const loggedInUser = (
         <div className={styles.webUserTopBar}>
-            <button onClick={goToHome}>
+            <button onClick={goToLoggedInHome}>
                 <Image
                 src={finemalogo}
                 height={200}
@@ -34,14 +38,19 @@ const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revi
                 alt="finemalogo home button"
                 /> 
             </button>
+            <div className={styles.buttons}>
             <div>
                 {(showEditProfile) ? <Button onClick={goToEditProfile}>Edit Profile</Button> : <></>}
+            </div>
+            <div>
+                <Button onClick={goToWebUserHome}>Log Out</Button>
+            </div>
             </div>
         </div>
     )
     const webUser = (
         <div className={styles.webUserTopBar}>
-            <button onClick={goToHome}>
+            <button onClick={goToWebUserHome}>
                 <Image
                 src={finemalogo}
                 height={200}
@@ -49,9 +58,13 @@ const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revi
                 alt="finemalogo home button"
                 /> 
             </button>
-            <div>
-                <Button onClick={goToLogin}>Log In</Button>
-                <Button onClick={goToSignUp}>Sign Up</Button>
+            <div className={styles.buttons}>
+                <div>
+                    <Button onClick={goToLogin}>Log In</Button>
+                </div>
+                <div>
+                    <Button onClick={goToSignUp}>Sign Up</Button>
+                </div>
             </div>
         </div>
     )

@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import styles from './SeatSelection.module.css'
 import Button from '../components/Button'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import fish from './fish.png'
 
 
 export default function ShowTime() {
@@ -30,18 +32,103 @@ export default function ShowTime() {
         <section className={styles.seat_box}>
           <h1> Screen </h1>
           <section className={styles.seat_selector}>
-            <button onClick={selectSeat} className={clicked ? styles.selected : styles.notSelected} >1</button>
-            <button onClick={selectSeat} className={clicked ? styles.selected : styles.notSelected} >2</button>
-            <button onClick={selectSeat} className={clicked ? styles.selected : styles.notSelected} >3</button>
-            <button onClick={selectSeat} className={clicked ? styles.selected : styles.notSelected} >4</button>
-            <button onClick={selectSeat} className={clicked ? styles.selected : styles.notSelected} >5</button>
-            <button onClick={selectSeat} className={clicked ? styles.selected : styles.notSelected} >6</button>
-            <button onClick={selectSeat} className={clicked ? styles.selected : styles.notSelected} >7</button>
-            <button onClick={selectSeat} className={clicked ? styles.selected : styles.notSelected} >8</button>
-            <button onClick={selectSeat} className={clicked ? styles.selected : styles.notSelected} >9</button>
-            <button onClick={selectSeat} className={clicked ? styles.selected : styles.notSelected} >10</button>
-            <button onClick={selectSeat} className={clicked ? styles.selected : styles.notSelected} >11</button>
-            <button onClick={selectSeat} className={clicked ? styles.selected : styles.notSelected} >12</button>
+          <button>
+                <Image
+                src={fish}
+                height={200}
+                width={200}
+                alt="fish"
+                /> 
+            </button>
+            <button>
+                <Image
+                src={fish}
+                height={200}
+                width={200}
+                alt="fish"
+                /> 
+            </button>
+            <button>
+                <Image
+                src={fish}
+                height={200}
+                width={200}
+                alt="fish"
+                /> 
+            </button>
+            <button>
+                <Image
+                src={fish}
+                height={200}
+                width={200}
+                alt="fish"
+                /> 
+            </button>
+            <button>
+                <Image
+                src={fish}
+                height={200}
+                width={200}
+                alt="fish"
+                /> 
+            </button>
+            <button>
+                <Image
+                src={fish}
+                height={200}
+                width={200}
+                alt="fish"
+                /> 
+            </button>
+            <button>
+                <Image
+                src={fish}
+                height={200}
+                width={200}
+                alt="fish"
+                /> 
+            </button>
+            <button>
+                <Image
+                src={fish}
+                height={200}
+                width={200}
+                alt="fish"
+                /> 
+            </button>
+            <button>
+                <Image
+                src={fish}
+                height={200}
+                width={200}
+                alt="fish"
+                /> 
+            </button>
+            <button>
+                <Image
+                src={fish}
+                height={200}
+                width={200}
+                alt="fish"
+                /> 
+            </button>
+            <button>
+                <Image
+                src={fish}
+                height={200}
+                width={200}
+                alt="fish"
+                /> 
+            </button>
+            <button>
+                <Image
+                src={fish}
+                height={200}
+                width={200}
+                alt="fish"
+                /> 
+            </button>
+
           </section>
         </section>
       </div>
