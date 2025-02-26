@@ -22,7 +22,7 @@ export default function MovieCard({name, source} : {name:string, source:string})
               <img className={styles.movie_banner} src={source} />
           </section>
       </div>
-       {/* <Button onClick={goToBooking}> Book Ticket </Button> {/** We need a way to send the necessary information to the booking page through the info popup or book ticket button */}
+      <Button onClick={goToBooking}> Book Ticket </Button> {/** We need a way to send the necessary information to the booking page through the info popup or book ticket button */}
       <MovieInfoPopup
             isOpened={isOpened}
             onClose={() => setIsOpened(false)}

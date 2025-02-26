@@ -63,6 +63,18 @@ public class MovieController {
         return ResponseEntity.ok(movies);
     }
 
+    @GetMapping("/search/comingsoon")
+    public ResponseEntity<List<Movie>> searchMoviesByComingSoon(@RequestParam Boolean soon) {
+        List<Movie> movies = movieService.getMoviesByComingSoon(soon);
+        return ResponseEntity.ok(movies);
+    }
+
+    @GetMapping("/search/nowplaying")
+    public ResponseEntity<List<Movie>> searchMoviesByNowPlaying(@RequestParam Boolean now) {
+        List<Movie> movies = movieService.getMoviesByComingSoon(now);
+        return ResponseEntity.ok(movies);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMovie(@PathVariable int id) {
         movieService.deleteMovie(id);

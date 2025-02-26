@@ -7,7 +7,7 @@ import finemalogo from './finemalogo.png'
 
 const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revist this :any later, possibly too optimistic about it
     const router = useRouter()
-    console.log(loggedIn, showEditProfile)
+    //console.log(loggedIn, showEditProfile)
 
     function goToHome() {
         router.push('/')
