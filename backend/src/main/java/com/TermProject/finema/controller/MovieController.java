@@ -80,13 +80,16 @@ public class MovieController {
     }
 
 
+    @GetMapping("/movies/now-showing")
+    public List<Movie> getNowShowingMovies() {
+        return movieService.findByNowShowingTrue();
+    }
 
-
-
-    //ADD METHODS THAT HANDLES HTTP REQUESTS
-    //SO NEED @GetMapping OR @PostMapping
-
-
+    // Endpoint to get movies that are coming soon
+    @GetMapping("/movies/coming-soon")
+    public List<Movie> getComingSoonMovies() {
+        return movieService.findByComingSoonTrue();
+    }
 
 
 
