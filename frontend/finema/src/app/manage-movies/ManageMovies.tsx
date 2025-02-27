@@ -31,25 +31,15 @@ export default function ManageMovies() {
   const [trailerPicture, setTrailerPicture] = useState('');
   const [synopsis, setSynopsis] = useState('');
   const [mpaaRating, setMpaaRating] = useState('');
+  const [nowPlaying, setNowPlaying] = useState(false);
+  const [comingSoon, setComingSoon] = useState(false);
 
 
   const handleShowtime = (event: React.ChangeEvent<HTMLInputElement>) => {
     setShowtime(event.target.value);
   };
 
-  const [nowPlaying, setNowPlaying] = useState(false);
 
-  const handleNowPlaying = (value:boolean) => {
-    console.log(value)
-    setNowPlaying(value);
-  };
-
-  const [comingSoon, setComingSoon] = useState(false);
-
-  const handleComingSoon = (value:boolean) => {
-    console.log(value)
-    setComingSoon(value);
-  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -98,6 +88,8 @@ export default function ManageMovies() {
       setTrailerPicture('');
       setSynopsis('');
       setMpaaRating('');
+      setComingSoon(false);
+      setNowPlaying(false);
     } catch (error) {
       console.error('Error adding movie:', error);
       setMsg('Error adding movie.');
