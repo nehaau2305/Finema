@@ -9,6 +9,9 @@ interface MovieCardProps {
   title: string;
   trailerPicture: string;
   id: number; 
+  synopsis: string;
+  director: string;
+  producer: string;
 }
 
 export default function NowPlaying() {
@@ -49,7 +52,14 @@ export default function NowPlaying() {
             {nowShowingMovies.length > 0 ? (
               nowShowingMovies.map((movie) => (
                 <li key={movie.id}>
-                  <MovieCard name={movie.title} source={movie.trailerPicture} movieId={movie.id} />
+                  <MovieCard 
+                  name={movie.title} 
+                  source={movie.trailerPicture} 
+                  movieId={movie.id} 
+                  synopsis={movie.synopsis}
+                  director={movie.director}
+                  producer={movie.producer}
+                  />
                 </li>
                ))
               ) : (

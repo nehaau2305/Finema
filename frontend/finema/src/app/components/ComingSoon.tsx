@@ -7,6 +7,9 @@ interface MovieCardProps {
   title: string;
   trailerPicture: string;
   id: number; 
+  synopsis: string;
+  director: string;
+  producer: string;
 }
 
 
@@ -38,7 +41,14 @@ export default function ComingSoon() {
             {comingSoonMovies.length > 0 ? (
             comingSoonMovies.map((movie) => (
               <li key={movie.id}>
-                <MovieCard name={movie.title} source={movie.trailerPicture} movieId={movie.id} />
+                <MovieCard 
+                name={movie.title} 
+                source={movie.trailerPicture} 
+                movieId={movie.id} 
+                synopsis={movie.synopsis}
+                director={movie.director}
+                producer={movie.producer}
+                />
               </li>
             ))
             ) : (
