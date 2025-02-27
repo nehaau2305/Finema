@@ -10,5 +10,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public User saveUser(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email is already taken");
+        }
+        return userRepository.save(user);
+    }
     //ADD STUFF
 }

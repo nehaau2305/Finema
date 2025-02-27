@@ -15,5 +15,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     List<Movie> findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCaseOrDirectorContainingIgnoreCaseOrProducerContainingIgnoreCase(
         String title, String category, String director, String producer);
+
+    List<Movie> findByNowShowingTrue();
+    List<Movie> findByComingSoonTrue();
 }
- 
