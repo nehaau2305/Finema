@@ -13,14 +13,24 @@ export default function OrderSummary({ticket_type, seat} : {ticket_type:String, 
   function goType() {
     router.push('/show-time')
   }
+  function deleteTicket() {
+    console.log('ERRRRR, not implemented')
+  }
 
 
   return (
     <section className={styles.main_body}>
       <h1> Type: {ticket_type} </h1> 
       <h1> Seat: {seat} </h1>
-      <Button onClick={goType}> Edit Type </Button>
-      <Button onClick={goSeat}> Edit Seat </Button>
+      <div className={styles.button}>
+        <Button onClick={goType}> Edit Type </Button>
+      </div>
+      <div className={styles.button}>
+        <Button onClick={goSeat}> Edit Seat </Button>
+      </div>
+      <div className={styles.button}>
+        <Button onClick={deleteTicket}> Delete </Button>
+      </div>
     </section>
   );
 };
