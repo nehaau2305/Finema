@@ -1,60 +1,50 @@
-import React, { useState } from 'react';
+
 import MovieCard from '../components/MovieCard'
 import styles from './ComingSoon.module.css'
+import React, { useState, useEffect } from 'react';
 
-interface Movie {
-  id: number;
+interface MovieCardProps {
   title: string;
   trailerPicture: string;
-  coming_soon: boolean;
-  synopsis: string;
-  director: string;
-  producer: string;
+  id: number; 
 }
 
-export default function ComingSoon() {
-  const [results, setResults] = useState<Movie[]>([]);
 
-  const sendQuery = async () => {
-    try {
-      const response = await fetch(`http://localhost:8080/movies/all`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+export default function ComingSoon() {
+  const [comingSoonMovies, setComingSoonMovies] = useState<MovieCardProps[]>([]);
+
+  // fetch coming soon movies from backend
+  useEffect(() => {
+    const fetchComingSoonMovies = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/movies/coming-soon');
+        const data = await response.json();
+        setComingSoonMovies(data);
+      } catch (error) {
+        console.error("Error fetching coming soon movies:", error);
       }
-      const data = await response.json();
-      setResults(data.filter((movie:Movie) => movie.coming_soon));
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-    }
-  };
-  sendQuery()
-  
+    };
+
+    fetchComingSoonMovies();
+  }, []);
+
+  // display the coming soon movies
   return (
     <div className={styles.main_body}>
         <h1 className={styles.header}>coming soon</h1>
         <section>
-          <ul>
-            {results.length > 0 ? (
-              results.map((movie: Movie) => (
-                <li key={movie.id}>
-                  <MovieCard name={movie.title}
-                  source={movie.trailerPicture} 
-                  movieId={movie.id} 
-                  synopsis={movie.synopsis}
-                  director={movie.director}
-                  producer={movie.producer}
-                   />
-                </li>
-              ))
+          <ul className={styles.list}>
+            {/*<li><MovieCard name='Time Bandits' source='timebandits.png' /></li>*/}
+            {comingSoonMovies.length > 0 ? (
+            comingSoonMovies.map((movie) => (
+              <li key={movie.id}>
+                <MovieCard name={movie.title} source={movie.trailerPicture} movieId={movie.id} />
+              </li>
+            ))
             ) : (
-              <p>No results found</p>
+              <p>No coming soon movies available at the moment.</p>
             )}
           </ul>
-          
-          
-          {/**<ul className={styles.list}>
-            <li><MovieCard name='Time Bandits' source='timebandits.png' /></li>
-          </ul>*/}
         </section>
     </div>
   );

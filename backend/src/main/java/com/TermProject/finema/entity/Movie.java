@@ -1,6 +1,8 @@
 package com.TermProject.finema.entity;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "movie")
@@ -27,6 +29,13 @@ public class Movie {
     private boolean comingSoon;
 
     //HAVE TO ADD REVIEWS & CAST
+    // cascade ensures that if the movie is deleted, its reviews are also deleted
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
+
+    @Column(length = 5000)
+    private String cast;
+
 
     // Getter and Setter methods
     public int getId() {
@@ -108,4 +117,14 @@ public class Movie {
     public boolean isComingSoon() {return comingSoon;}
 
     public void setComingSoon(boolean comingSoon) {this.comingSoon = comingSoon;}
+
+    public List<Review> getReviews() {return reviews;}
+
+    public void setReviews(List<Review> reviews) {this.reviews = reviews;
+    }
+
+    public String getCast() {return cast;}
+
+    public void setCast(String cast) {this.cast = cast;
+    }
 }

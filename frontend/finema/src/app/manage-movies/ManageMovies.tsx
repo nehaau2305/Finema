@@ -64,7 +64,7 @@ export default function ManageMovies() {
       trailerPicture,
       synopsis,
       nowPlaying,
-      comingSoon,
+      comingSoon
     };
     console.log(movie.nowPlaying)
     try {
@@ -150,7 +150,7 @@ export default function ManageMovies() {
                 type="checkbox"
                 value='true'
                 checked={nowPlaying === true}
-                onChange={() => handleNowPlaying(true)}
+                onChange={() => setNowPlaying(true)}
               />
             </div>
             <div>
@@ -159,7 +159,7 @@ export default function ManageMovies() {
                   type="checkbox"
                   value='true'
                   checked={comingSoon === true}
-                  onChange={() => handleComingSoon(true)}
+                  onChange={() => setComingSoon(true)}
                />
             </div>
             <Button type='submit'> Add Movie </Button>

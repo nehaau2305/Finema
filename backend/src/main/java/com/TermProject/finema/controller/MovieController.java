@@ -93,19 +93,14 @@ public class MovieController {
     }
 
 
+    @GetMapping("/now-showing")
+    public List<Movie> getNowShowingMovies() {
+        return movieService.getNowShowingMovies();
+    }
 
-
-
-    //ADD METHODS THAT HANDLES HTTP REQUESTS
-    //SO NEED @GetMapping OR @PostMapping
-
-
-
-
-
-
-
-
-
+    @GetMapping("/coming-soon")
+    public List<Movie> getComingSoonMovies() {
+        return movieService.getComingSoonMovies();
+    }
 
 }

@@ -61,11 +61,13 @@ public class MovieService {
             query, query, query, query);
     }
 
+    public List<Movie> getNowShowingMovies() {
+        return movieRepository.findByNowShowingTrue();
+    }
 
-    //ADD METHODS
-
-
-
+    public List<Movie> getComingSoonMovies() {
+        return movieRepository.findByComingSoonTrue();
+    }
 
 
 
