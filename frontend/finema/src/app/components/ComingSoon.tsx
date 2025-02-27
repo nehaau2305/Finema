@@ -41,9 +41,9 @@ export default function ComingSoon() {
                 <MovieCard name={movie.name} source={movie.source} movieId={movie.movieId} />
               </li>
             ))
-          ) : (
-            <p>No coming soon movies available at the moment.</p>
-          )}
+            ) : (
+              <p>No coming soon movies available at the moment.</p>
+            )}
           </ul>
         </section>
     </div>
