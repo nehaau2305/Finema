@@ -31,7 +31,7 @@ export default function ManageMovies() {
   const [trailerPicture, setTrailerPicture] = useState('');
   const [synopsis, setSynopsis] = useState('');
   const [mpaaRating, setMpaaRating] = useState('');
-  const [nowPlaying, setNowPlaying] = useState(false);
+  const [nowShowing, setNowShowing] = useState(false);
   const [comingSoon, setComingSoon] = useState(false);
 
 
@@ -43,7 +43,7 @@ export default function ManageMovies() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(nowPlaying)
+    console.log(nowShowing)
     const movie = {
       title,
       category,
@@ -53,13 +53,13 @@ export default function ManageMovies() {
       mpaaRating,
       trailerPicture,
       synopsis,
-      nowPlaying,
+      nowShowing,
       comingSoon
     };
-    console.log(movie.nowPlaying)
+    console.log(movie.nowShowing)
     try {
       //const response = await fetch(`http://localhost:8080/movies/search?query=${query}`);
-
+      console.log(JSON.stringify(movie))
       const response = await fetch(`http://localhost:8080/movies/add`, {
         method: 'POST',
         headers: {
@@ -89,7 +89,7 @@ export default function ManageMovies() {
       setSynopsis('');
       setMpaaRating('');
       setComingSoon(false);
-      setNowPlaying(false);
+      setNowShowing(false);
     } catch (error) {
       console.error('Error adding movie:', error);
       setMsg('Error adding movie.');
@@ -141,8 +141,8 @@ export default function ManageMovies() {
               <input
                 type="checkbox"
                 value='true'
-                checked={nowPlaying === true}
-                onChange={() => setNowPlaying(true)}
+                checked={nowShowing === true}
+                onChange={() => setNowShowing(true)}
               />
             </div>
             <div>
