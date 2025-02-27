@@ -4,7 +4,7 @@ import MovieCard from './MovieCard';
 import styles from './NowPlaying.module.css'
 
 interface Movie {
-  id: string;
+  id: number;
   title: string;
   trailerPicture: string;
   now_playing: boolean;
@@ -20,17 +20,12 @@ export default function NowPlaying() {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      setResults(data);
+      setResults(data.filter((movie:Movie) => movie.now_playing));
     } catch (error) {
       console.error('Error fetching search results:', error);
     }
   };
   sendQuery()
-  //.then((out) => {
-  //  const filtered = results.filter((movie:Movie) => movie.now_playing);
-  //  setResults(filtered);
-  //})
-  //const filtered = results.filter((movie:Movie) => movie.now_playing);
 
   return (
     <div className={styles.main_body}>
@@ -40,7 +35,7 @@ export default function NowPlaying() {
             {results.length > 0 ? (
               results.map((movie: Movie) => (
                 <li key={movie.id}>
-                  <MovieCard name={movie.title} source={movie.trailerPicture} />
+                  <MovieCard name={movie.title} source={movie.trailerPicture} movieId={movie.id} />
                 </li>
               )
             )

@@ -40,17 +40,20 @@ export default function ManageMovies() {
   const [nowPlaying, setNowPlaying] = useState(false);
 
   const handleNowPlaying = (value:boolean) => {
+    console.log(value)
     setNowPlaying(value);
   };
 
   const [comingSoon, setComingSoon] = useState(false);
 
   const handleComingSoon = (value:boolean) => {
+    console.log(value)
     setComingSoon(value);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    console.log(nowPlaying)
     const movie = {
       title,
       category,
@@ -60,7 +63,10 @@ export default function ManageMovies() {
       mpaaRating,
       trailerPicture,
       synopsis,
+      nowPlaying,
+      comingSoon,
     };
+    console.log(movie.nowPlaying)
     try {
       //const response = await fetch(`http://localhost:8080/movies/search?query=${query}`);
 

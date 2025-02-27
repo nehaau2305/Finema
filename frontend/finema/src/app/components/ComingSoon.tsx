@@ -3,10 +3,10 @@ import MovieCard from '../components/MovieCard'
 import styles from './ComingSoon.module.css'
 
 interface Movie {
-  id: string;
+  id: number;
   title: string;
   trailerPicture: string;
-  //coming_soon: boolean;
+  coming_soon: boolean;
 }
 
 export default function ComingSoon() {
@@ -19,13 +19,12 @@ export default function ComingSoon() {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      setResults(data);
+      setResults(data.filter((movie:Movie) => movie.coming_soon));
     } catch (error) {
       console.error('Error fetching search results:', error);
     }
   };
   sendQuery()
-  //const filtered = results.filter((movie:Movie) => movie.coming_soon);
   
   return (
     <div className={styles.main_body}>
@@ -35,7 +34,7 @@ export default function ComingSoon() {
             {results.length > 0 ? (
               results.map((movie: Movie) => (
                 <li key={movie.id}>
-                  <MovieCard name={movie.title} source={movie.trailerPicture} />
+                  <MovieCard name={movie.title} source={movie.trailerPicture} movieId={movie.id} />
                 </li>
               ))
             ) : (
