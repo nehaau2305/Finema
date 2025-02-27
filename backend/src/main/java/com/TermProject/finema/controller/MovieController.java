@@ -80,22 +80,14 @@ public class MovieController {
     }
 
 
-    @GetMapping("/movies/now-showing")
+    @GetMapping("/now-showing")
     public List<Movie> getNowShowingMovies() {
-        return movieService.findByNowShowingTrue();
+        return movieService.getNowShowingMovies();
     }
 
-    // Endpoint to get movies that are coming soon
-    @GetMapping("/movies/coming-soon")
+    @GetMapping("/coming-soon")
     public List<Movie> getComingSoonMovies() {
-        return movieService.findByComingSoonTrue();
+        return movieService.getComingSoonMovies();
     }
-
-
-
-
-
-
-
 
 }
