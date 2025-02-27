@@ -20,9 +20,9 @@ export default function Registration() {
               <input type="text" className={styles.text_fields} />
               <h2 className={styles.headers}>Phone Number*</h2>
               <input type="text" className={styles.text_fields} />
-              <h2 className={styles.headers}>Email</h2>
+              <h2 className={styles.headers}>Email*</h2>
               <input type="text" className={styles.text_fields} />
-              <h2 className={styles.headers}>Password</h2>
+              <h2 className={styles.headers}>Set Password*</h2>
               <input type="text" className={styles.text_fields} />
               <h2 className={styles.headers}>Home Address</h2>
               <input type="text" className={styles.text_fields} />

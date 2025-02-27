@@ -25,7 +25,7 @@ export default function ShowTime() {
       <h1 className={styles.title}> MOVIE TITLE </h1>
       <section className={styles.selectors}>
         <section>
-          <h1 className={styles.headers}> Select Showtimes</h1>
+          
           <section className={styles.box}>
             <h1 className={styles.headers}> Showtimes </h1>
             <ul className={styles.list}>
@@ -34,7 +34,7 @@ export default function ShowTime() {
           </section>
         </section>
         <section>
-          <h1 className={styles.headers}> Select Ticket Type</h1>
+          
           <section className={styles.box}>
             <h1 className={styles.headers}> Ticket Type </h1>
             <section className={styles.list}>
