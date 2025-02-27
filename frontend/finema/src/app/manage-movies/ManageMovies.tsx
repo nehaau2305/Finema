@@ -60,6 +60,8 @@ export default function ManageMovies() {
       mpaaRating,
       trailerPicture,
       synopsis,
+      nowPlaying,
+      comingSoon
     };
     try {
       //const response = await fetch(`http://localhost:8080/movies/search?query=${query}`);
