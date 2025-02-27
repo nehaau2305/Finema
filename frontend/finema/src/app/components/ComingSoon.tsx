@@ -7,6 +7,9 @@ interface Movie {
   title: string;
   trailerPicture: string;
   coming_soon: boolean;
+  synopsis: string;
+  director: string;
+  producer: string;
 }
 
 export default function ComingSoon() {
@@ -34,7 +37,13 @@ export default function ComingSoon() {
             {results.length > 0 ? (
               results.map((movie: Movie) => (
                 <li key={movie.id}>
-                  <MovieCard name={movie.title} source={movie.trailerPicture} movieId={movie.id} />
+                  <MovieCard name={movie.title}
+                  source={movie.trailerPicture} 
+                  movieId={movie.id} 
+                  synopsis={movie.synopsis}
+                  director={movie.director}
+                  producer={movie.producer}
+                   />
                 </li>
               ))
             ) : (

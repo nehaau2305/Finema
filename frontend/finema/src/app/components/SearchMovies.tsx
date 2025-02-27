@@ -22,6 +22,9 @@ interface Movie {
   id: number;
   title: string;
   trailerPicture: string;
+  synopsis: string;
+  director: string;
+  producer: string;
 }
 
 export default function SearchMovies() {
@@ -72,6 +75,9 @@ export default function SearchMovies() {
                   name={movie.title}
                   source={movie.trailerPicture}
                   movieId={movie.id} 
+                  synopsis={movie.synopsis}
+                  director={movie.director}
+                  producer={movie.producer}
                 />
               </li>
             ))

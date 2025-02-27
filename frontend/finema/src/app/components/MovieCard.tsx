@@ -9,9 +9,12 @@ interface MovieCardProps {
   name: string;
   source: string;
   movieId: number; 
+  synopsis: string;
+  director: string;
+  producer: string;
 }
 
-export default function MovieCard({ name, source, movieId }: MovieCardProps) {
+export default function MovieCard({ name, source, movieId, synopsis, director, producer }: MovieCardProps) {
   const [isOpened, setIsOpened] = useState(false);
 
   const router = useRouter();
@@ -36,9 +39,11 @@ export default function MovieCard({ name, source, movieId }: MovieCardProps) {
         name={name}
         imageSrc={source}
         movieId={movieId}
+        synopsis={synopsis}
+        director={director}
+        producer={producer}
       />
 
-      <Button onClick={goToBooking}> Book Ticket </Button>
     </div>
   );
 }
