@@ -7,6 +7,7 @@ interface Movie {
   id: string;
   title: string;
   trailerPicture: string;
+  now_playing: boolean;
 }
 
 export default function NowPlaying() {
@@ -14,7 +15,7 @@ export default function NowPlaying() {
 
   const sendQuery = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/movies/search/nowplaying?now=${true}`);
+      const response = await fetch(`http://localhost:8080/movies/all`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -25,6 +26,11 @@ export default function NowPlaying() {
     }
   };
   sendQuery()
+  //.then((out) => {
+  //  const filtered = results.filter((movie:Movie) => movie.now_playing);
+  //  setResults(filtered);
+  //})
+  //const filtered = results.filter((movie:Movie) => movie.now_playing);
 
   return (
     <div className={styles.main_body}>
@@ -36,7 +42,8 @@ export default function NowPlaying() {
                 <li key={movie.id}>
                   <MovieCard name={movie.title} source={movie.trailerPicture} />
                 </li>
-              ))
+              )
+            )
             ) : (
               <p>No results found</p>
             )}

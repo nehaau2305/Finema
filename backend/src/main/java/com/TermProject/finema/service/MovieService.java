@@ -47,13 +47,14 @@ public class MovieService {
         return movieRepository.findByProducerContainingIgnoreCase(producer);
     }
 
-    public List<Movie> getMoviesByComingSoon(Boolean coming_soon) {
+    /**public List<Movie> getMoviesByComingSoon(Boolean coming_soon) {
         return movieRepository.findByComingSoon(coming_soon);
     }
 
+
     public List<Movie> getMoviesByNowPlaying(Boolean now_playing) {
         return movieRepository.findByNowPlaying(now_playing);
-    }
+    }*/
 
     public List<Movie> searchMovies(String query) {
         return movieRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCaseOrDirectorContainingIgnoreCaseOrProducerContainingIgnoreCase(

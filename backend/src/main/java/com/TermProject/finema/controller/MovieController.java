@@ -62,7 +62,7 @@ public class MovieController {
         List<Movie> movies = movieService.getMoviesByProducer(producer);
         return ResponseEntity.ok(movies);
     }
-
+    /**
     @GetMapping("/search/comingsoon")
     public ResponseEntity<List<Movie>> searchMoviesByComingSoon(@RequestParam Boolean soon) {
         List<Movie> movies = movieService.getMoviesByComingSoon(soon);
@@ -74,6 +74,7 @@ public class MovieController {
         List<Movie> movies = movieService.getMoviesByComingSoon(now);
         return ResponseEntity.ok(movies);
     }
+    */
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMovie(@PathVariable int id) {

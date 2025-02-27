@@ -6,6 +6,7 @@ interface Movie {
   id: string;
   title: string;
   trailerPicture: string;
+  //coming_soon: boolean;
 }
 
 export default function ComingSoon() {
@@ -13,7 +14,7 @@ export default function ComingSoon() {
 
   const sendQuery = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/movies/search/comingsoon?soon=${true}`);
+      const response = await fetch(`http://localhost:8080/movies/all`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -24,6 +25,7 @@ export default function ComingSoon() {
     }
   };
   sendQuery()
+  //const filtered = results.filter((movie:Movie) => movie.coming_soon);
   
   return (
     <div className={styles.main_body}>
