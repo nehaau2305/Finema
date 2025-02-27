@@ -55,7 +55,6 @@ public class MovieService {
         return movieRepository.findByNowShowingTrue();
     }
 
-    // Method to fetch all movies that are coming soon
     public List<Movie> getComingSoonMovies() {
         return movieRepository.findByComingSoonTrue();
     }
