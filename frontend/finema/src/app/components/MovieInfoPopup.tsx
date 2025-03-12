@@ -9,6 +9,9 @@ type Props = {
         name: string;
         imageSrc: string;
         movieId: number;
+        synopsis: string;
+        director: string;
+        producer: string;
     };
 
 const MovieInfoPopup = ({
@@ -17,6 +20,9 @@ const MovieInfoPopup = ({
         name,
         imageSrc,
         movieId,
+        synopsis,
+        director,
+        producer,
     }: Props) => {
     const ref = useRef<HTMLDialogElement>(null);
     const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
@@ -58,11 +64,17 @@ const MovieInfoPopup = ({
     <dialog
       ref={ref}
       onCancel={onClose}
+      className={styles.dialog}
     >
         <section className={styles.main_body}>
             <section className={styles.trailer_name}>
                 <button onClick={onClose} className={styles.exit}>X</button>
                 <h1 className={styles.header} id={styles.name}> {name} </h1>
+
+                <section id={styles.synopsis}>
+                    Synopsis:<br/>
+                    {synopsis}
+                </section>
                 
                 <section id={styles.trailer_border}>
                     {trailerUrl && (
@@ -88,6 +100,10 @@ const MovieInfoPopup = ({
                         <li> 4:15 </li>
                         <li> 4:15 </li>
                     </ul>
+                </section>
+                <section id={styles.director_producer}>
+                    <h1> Directed by: {director} </h1>
+                    <h1> Produced by: {producer} </h1>
                 </section>
                 <div className={styles.button}>
                     <Button onClick={goToBooking}> Book Tickets </Button>

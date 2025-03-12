@@ -3,6 +3,7 @@ package com.TermProject.finema.service;
 import com.TermProject.finema.entity.Movie;
 import com.TermProject.finema.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -46,6 +47,15 @@ public class MovieService {
         return movieRepository.findByProducerContainingIgnoreCase(producer);
     }
 
+    /**public List<Movie> getMoviesByComingSoon(Boolean coming_soon) {
+        return movieRepository.findByComingSoon(coming_soon);
+    }
+
+
+    public List<Movie> getMoviesByNowPlaying(Boolean now_playing) {
+        return movieRepository.findByNowPlaying(now_playing);
+    }*/
+
     public List<Movie> searchMovies(String query) {
         return movieRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCaseOrDirectorContainingIgnoreCaseOrProducerContainingIgnoreCase(
             query, query, query, query);
@@ -55,7 +65,6 @@ public class MovieService {
         return movieRepository.findByNowShowingTrue();
     }
 
-    // Method to fetch all movies that are coming soon
     public List<Movie> getComingSoonMovies() {
         return movieRepository.findByComingSoonTrue();
     }

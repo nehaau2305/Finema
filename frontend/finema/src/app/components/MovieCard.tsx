@@ -9,9 +9,12 @@ interface MovieCardProps {
   name: string;
   source: string;
   movieId: number; 
+  synopsis: string;
+  director: string;
+  producer: string;
 }
 
-export default function MovieCard({ name, source, movieId }: MovieCardProps) {
+export default function MovieCard({ name, source, movieId, synopsis, director, producer }: MovieCardProps) {
   const [isOpened, setIsOpened] = useState(false);
 
   const router = useRouter();
@@ -29,16 +32,18 @@ export default function MovieCard({ name, source, movieId }: MovieCardProps) {
           <img className={styles.movie_banner} src={source} alt={name} />
         </section>
       </div>
-
+      <Button onClick={goToBooking}> Book Ticket </Button> {/** We need a way to send the necessary information to the booking page through the info popup or book ticket button */}
       <MovieInfoPopup
         isOpened={isOpened}
         onClose={() => setIsOpened(false)}
         name={name}
         imageSrc={source}
         movieId={movieId}
+        synopsis={synopsis}
+        director={director}
+        producer={producer}
       />
 
-      <Button onClick={goToBooking}> Book Ticket </Button>
     </div>
   );
 }

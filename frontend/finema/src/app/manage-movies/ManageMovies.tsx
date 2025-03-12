@@ -31,26 +31,19 @@ export default function ManageMovies() {
   const [trailerPicture, setTrailerPicture] = useState('');
   const [synopsis, setSynopsis] = useState('');
   const [mpaaRating, setMpaaRating] = useState('');
+  const [nowShowing, setNowShowing] = useState(false);
+  const [comingSoon, setComingSoon] = useState(false);
 
 
   const handleShowtime = (event: React.ChangeEvent<HTMLInputElement>) => {
     setShowtime(event.target.value);
   };
 
-  const [nowPlaying, setNowPlaying] = useState(false);
 
-  const handleNowPlaying = (value:boolean) => {
-    setNowPlaying(value);
-  };
-
-  const [comingSoon, setComingSoon] = useState(false);
-
-  const handleComingSoon = (value:boolean) => {
-    setComingSoon(value);
-  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    console.log(nowShowing)
     const movie = {
       title,
       category,
@@ -60,10 +53,13 @@ export default function ManageMovies() {
       mpaaRating,
       trailerPicture,
       synopsis,
+      nowShowing,
+      comingSoon
     };
+    console.log(movie.nowShowing)
     try {
       //const response = await fetch(`http://localhost:8080/movies/search?query=${query}`);
-
+      console.log(JSON.stringify(movie))
       const response = await fetch(`http://localhost:8080/movies/add`, {
         method: 'POST',
         headers: {
@@ -92,6 +88,8 @@ export default function ManageMovies() {
       setTrailerPicture('');
       setSynopsis('');
       setMpaaRating('');
+      setComingSoon(false);
+      setNowShowing(false);
     } catch (error) {
       console.error('Error adding movie:', error);
       setMsg('Error adding movie.');
@@ -143,8 +141,8 @@ export default function ManageMovies() {
               <input
                 type="checkbox"
                 value='true'
-                checked={nowPlaying === true}
-                onChange={() => handleNowPlaying(true)}
+                checked={nowShowing === true}
+                onChange={() => setNowShowing(true)}
               />
             </div>
             <div>
@@ -153,7 +151,7 @@ export default function ManageMovies() {
                   type="checkbox"
                   value='true'
                   checked={comingSoon === true}
-                  onChange={() => handleComingSoon(true)}
+                  onChange={() => setComingSoon(true)}
                />
             </div>
             <Button type='submit'> Add Movie </Button>

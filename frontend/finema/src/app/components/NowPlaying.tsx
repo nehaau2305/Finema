@@ -6,9 +6,12 @@ import MovieCard from './MovieCard';
 import styles from './NowPlaying.module.css'
 
 interface MovieCardProps {
-  name: string;
-  source: string;
-  movieId: number; 
+  title: string;
+  trailerPicture: string;
+  id: number; 
+  synopsis: string;
+  director: string;
+  producer: string;
 }
 
 export default function NowPlaying() {
@@ -48,8 +51,15 @@ export default function NowPlaying() {
             {/*<li><MovieCard name='Les Miserables (1952)' source='les-mis.png' /></li>*/}
             {nowShowingMovies.length > 0 ? (
               nowShowingMovies.map((movie) => (
-                <li key={movie.movieId}>
-                  <MovieCard name={movie.name} source={movie.source} movieId={movie.movieId} />
+                <li key={movie.id}>
+                  <MovieCard 
+                  name={movie.title} 
+                  source={movie.trailerPicture} 
+                  movieId={movie.id} 
+                  synopsis={movie.synopsis}
+                  director={movie.director}
+                  producer={movie.producer}
+                  />
                 </li>
                ))
               ) : (

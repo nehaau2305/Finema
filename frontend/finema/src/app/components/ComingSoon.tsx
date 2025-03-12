@@ -4,9 +4,12 @@ import styles from './ComingSoon.module.css'
 import React, { useState, useEffect } from 'react';
 
 interface MovieCardProps {
-  name: string;
-  source: string;
-  movieId: number; 
+  title: string;
+  trailerPicture: string;
+  id: number; 
+  synopsis: string;
+  director: string;
+  producer: string;
 }
 
 
@@ -37,13 +40,20 @@ export default function ComingSoon() {
             {/*<li><MovieCard name='Time Bandits' source='timebandits.png' /></li>*/}
             {comingSoonMovies.length > 0 ? (
             comingSoonMovies.map((movie) => (
-              <li key={movie.movieId}>
-                <MovieCard name={movie.name} source={movie.source} movieId={movie.movieId} />
+              <li key={movie.id}>
+                <MovieCard 
+                name={movie.title} 
+                source={movie.trailerPicture} 
+                movieId={movie.id} 
+                synopsis={movie.synopsis}
+                director={movie.director}
+                producer={movie.producer}
+                />
               </li>
             ))
-          ) : (
-            <p>No coming soon movies available at the moment.</p>
-          )}
+            ) : (
+              <p>No coming soon movies available at the moment.</p>
+            )}
           </ul>
         </section>
     </div>
