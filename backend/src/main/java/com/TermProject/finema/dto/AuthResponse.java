@@ -1,7 +1,7 @@
 package com.TermProject.finema.dto;
 
 public class AuthResponse {
-    private Strong token;
+    private String token;
 
     public AuthResponse(String token) {this.token = token;}
     public String getToken() {return this.token;}

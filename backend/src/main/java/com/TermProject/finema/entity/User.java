@@ -24,8 +24,6 @@ public class User {
     @NotBlank(message = "Password cannot be blank")
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
 
     // default constructor
     public User() {}
@@ -42,13 +40,8 @@ public class User {
 
     public void setEmail(String email) {this.email = email;}
 
-    public String getPassword(String password) {return password;}
+    public String getPassword() {return password;}
 
     // encrypt the password
-    public void setPassword(String password) {this.password = BCryptPasswordEncoder().encode(password);}
-
-    public List<Review> getReviews() {return reviews;}
-
-    public void setReviews(List<Review> reviews) {this.reviews = reviews;}
-
+    public void setPassword(String password) {this.password = new BCryptPasswordEncoder().encode(password);}
 }
