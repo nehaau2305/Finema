@@ -1,6 +1,7 @@
 package com.TermProject.finema.controller;
 
 import com.TermProject.finema.entity.User;
+import com.TermProject.finema.dto.LoginRequest;
 import com.TermProject.finema.jwt.JwtTokenProvider;
 import com.TermProject.finema.dto.AuthRequest;
 import com.TermProject.finema.dto.AuthResponse;
@@ -17,7 +18,8 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User loginRequest) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+        System.out.println("Login attempt for: " + loginRequest.getEmail());
         String token = authService.authenticateAndGenerateToken(loginRequest.getEmail(), loginRequest.getPassword());
         if (token == null || token.isEmpty()) {return ResponseEntity.status(401).body("Invalid credentials");}
         return ResponseEntity.ok(token);
