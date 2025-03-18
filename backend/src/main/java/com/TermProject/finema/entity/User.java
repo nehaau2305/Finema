@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.TermProject.finema.entity.Review;
+
 
 @Entity
 public class User {
@@ -15,31 +18,22 @@ public class User {
     private String name;
 
     @Column(nullable = false, unique = true)
-    @NotBlank(message = "email cannot be blank")
+    @NotBlank(message = "Email cannot be blank")
     private String email;
 
     @NotBlank(message = "Password cannot be blank")
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
+
+    // default constructor
+    public User() {}
 
     public int getId() {return id;}
-
     public void setId(int id) {this.id = id;}
-
     public String getName() {return name;}
-
     public void setName(String name) {this.name = name;}
-
     public String getEmail() {return email;}
-
     public void setEmail(String email) {this.email = email;}
-
-    //CREATE SECURE PASSWORD
-
-    public List<Review> getReviews() {return reviews;}
-
-    public void setReviews(List<Review> reviews) {this.reviews = reviews;}
-
+    public String getPassword() {return password;}
+    public void setPassword(String password) {this.password = password;}
 }
