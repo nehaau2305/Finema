@@ -3,10 +3,15 @@ import React from 'react';
 import Button from '../components/Button';
 import styles from './OrderSummary.module.css'
 import { useRouter } from 'next/navigation'
+import { useToken } from '../components/useToken'
 import TicketStub from '../components/TicketStub'
 
 export default function OrderSummary() {
   const router = useRouter();
+  const [token, setToken] = useToken('');
+  if (token === 'null') {
+    router.push('/login') // Will have to figure out how to save their order during their login
+  }
 
   function goBack() {
     router.push('/seat-selection')

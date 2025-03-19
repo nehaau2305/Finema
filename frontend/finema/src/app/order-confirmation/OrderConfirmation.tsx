@@ -1,10 +1,16 @@
 'use client'
 import React from 'react';
-//import LoggedinUserTopBar from '../components/LoggedinUserTopBar'
+import { useRouter } from 'next/navigation'
+import { useToken } from '../components/useToken'
 import styles from './OrderConfirmation.module.css'
 import TopBar from '../components/TopBar';
 
 export default function OrderConfirmation() {
+  const router = useRouter()
+  const [token, setToken] = useToken('');
+  if (token === 'null') {
+    router.push('/web-user-home')
+  }
   const email = 'joshua@konfrst.com'
   return (
     <div>

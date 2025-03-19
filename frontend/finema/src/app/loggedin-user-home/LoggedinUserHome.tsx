@@ -9,12 +9,12 @@ import styles from './LoggedinUserHome.module.css'
 import TopBar from '../components/TopBar';
 
 export default function LoggedinUserHome() {
-  const [token, setToken] = useToken('');
   const router = useRouter()
-  console.log(token)
-  if (token === null) {
+  const [token, setToken] = useToken('');
+  if (token === 'null') {
     router.push('/web-user-home')
   }
+  
 
   return (
     <div>

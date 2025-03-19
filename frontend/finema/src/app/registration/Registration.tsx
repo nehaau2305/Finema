@@ -38,12 +38,14 @@ async function registerUser(accountInfo:User) {
 
     } catch (error) {
       console.error("Error registering in:", error);
+      return false;
     }
+    return true;
 }
 
 export default function Registration() {
   const router = useRouter()
-
+  const [msg, setMsg] = useState("");
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -54,9 +56,16 @@ export default function Registration() {
   const [billingAddress, setBillAddress] = useState('');
 
   
-  const handleClick = () => {
-    registerUser({name, phone, email, password, homeAddress, cardNumber, expirationDate, billingAddress})
-    router.push('/registration-confirmation')
+  const handleClick = (e:any) => {
+    e.preventDefault();
+    registerUser({name, phone, email, password, homeAddress, cardNumber, expirationDate, billingAddress}).then((result) => {
+      console.log(result)
+      if (result) {
+        router.push('/registration-confirmation')
+      } else {
+        setMsg('Error registering.');
+      }
+    })
   }
   return (
     <div className={styles.main_body}>
@@ -89,8 +98,9 @@ export default function Registration() {
                 <input value={billingAddress} onChange={(e) => setBillAddress(e.target.value)} className={styles.text_fields} />
                 <input value={billingAddress} onChange={(e) => setBillAddress(e.target.value)} className={styles.text_fields} />
               </div>
+              <Button type='submit'>Create Account</Button>
             </form>
-            <Button type='submit'>Create Account</Button>
+            {msg && <p>{msg}</p>}
           </section>
       </div>
     </div>

@@ -3,12 +3,17 @@
 import React from 'react';
 import styles from './AdminHome.module.css'
 import { useRouter } from 'next/navigation'
+import { useToken } from '../components/useToken'
 import TopBar from '../components/TopBar';
 import Button from '../components/Button'
 
 export default function AdminHome() {
 
   const router = useRouter();
+  const [token, setToken] = useToken('');
+  if (token === null) {
+    router.push('/web-user-home')
+  }
 
   const handleManageMovies = () => {
     router.push('/manage-movies')
