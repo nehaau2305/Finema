@@ -39,6 +39,8 @@ public class User {
     @Column(nullable = true)
     private String billingAddress;
 
+    private boolean isAdmin;
+
 
     // default constructor
     public User() {}
@@ -61,4 +63,6 @@ public class User {
     public void setExpirationDate(String expirationDate) {this.expirationDate = expirationDate;}
     public String getBillingAddress() {return billingAddress;}
     public void setBillingAddress(String billingAddress) {this.billingAddress = billingAddress;}
+    public boolean isAdmin() {return isAdmin;}
+    public void setAdmin(boolean isAdmin) {this.isAdmin = isAdmin;}
 }
