@@ -12,7 +12,7 @@ public class MailService {
 
     public String sendConfirmationEmail(String toEmail, String userName) {
         try {
-            String subject = "Welcome to Finema 🎉";
+            String subject = "Welcome to Finema 🐟";
             String message = "Hi " + userName + ",\n\n" +
                     "Thank you for registering on Finema!\n\n" +
                     "Best Regards,\nFinema Team";
