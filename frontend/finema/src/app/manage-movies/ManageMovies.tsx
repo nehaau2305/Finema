@@ -8,17 +8,6 @@ import Button from '../components/Button';
 
 export default function ManageMovies() {
 
-  interface Movie {
-    title: string;
-    category: string;
-    director: string;
-    producer: string;
-    trailerVideo: string;
-    mpaaRating: string;
-    trailerPicture: string;
-    synopsis: string;
-  }
-
   const [showtime, setShowtime] = useState("");
   const [date, setDate] = useState("");
   const [msg, setMsg] = useState("");
@@ -43,7 +32,7 @@ export default function ManageMovies() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(nowShowing)
+    //console.log(nowShowing)
     const movie = {
       title,
       category,
@@ -56,10 +45,10 @@ export default function ManageMovies() {
       nowShowing,
       comingSoon
     };
-    console.log(movie.nowShowing)
+    //console.log(movie.nowShowing)
     try {
       //const response = await fetch(`http://localhost:8080/movies/search?query=${query}`);
-      console.log(JSON.stringify(movie))
+      //console.log(JSON.stringify(movie))
       const response = await fetch(`http://localhost:8080/movies/add`, {
         method: 'POST',
         headers: {

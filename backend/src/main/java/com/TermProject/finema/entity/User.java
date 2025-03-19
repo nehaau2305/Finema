@@ -17,12 +17,27 @@ public class User {
     @NotBlank(message = "Name cannot be blank")
     private String name;
 
+    @Column(nullable = true)
+    private String phone;
+
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Email cannot be blank")
     private String email;
 
     @NotBlank(message = "Password cannot be blank")
     private String password;
+
+    @Column(nullable = true)
+    private String homeAddress;
+
+    @Column(nullable = true)
+    private String cardNumber;
+
+    @Column(nullable = true)
+    private String expirationDate;
+
+    @Column(nullable = true)
+    private String billingAddress;
 
 
     // default constructor
@@ -32,8 +47,18 @@ public class User {
     public void setId(int id) {this.id = id;}
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
+    public String getPhone() {return phone;}
+    public void setPhone(String phone) {this.phone = phone;}
     public String getEmail() {return email;}
     public void setEmail(String email) {this.email = email;}
     public String getPassword() {return password;}
     public void setPassword(String password) {this.password = password;}
+    public String getHomeAddress() {return homeAddress;}
+    public void setHomeAddress(String homeAddress) {this.homeAddress = homeAddress;}
+    public String getCardNumber() {return cardNumber;}
+    public void setCardNumber(String cardNumber) {this.cardNumber = cardNumber;}
+    public String getExpirationDate() {return expirationDate;}
+    public void setExpirationDate(String expirationDate) {this.expirationDate = expirationDate;}
+    public String getBillingAddress() {return billingAddress;}
+    public void setBillingAddress(String billingAddress) {this.billingAddress = billingAddress;}
 }

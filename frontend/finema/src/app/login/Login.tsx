@@ -1,18 +1,53 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'
 import Button from '../components/Button'
+import { useToken } from '../components/useToken'
 import styles from './Login.module.css'
 import Image from 'next/image'
 import finemalogo from './finemalogo.png'
 
+async function loginUser({email, password}:{email:String, password:String}) {
+  const loginInfo = {email, password}
+    try {
+      const response = await fetch(`http://localhost:8080/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loginInfo),
+      })
+
+      if (!response.ok) {
+        console.log(response);
+        throw new Error('Network response was not ok');
+      } else {
+        console.log("response is ok");
+        console.log(response);
+      }
+      
+      const data = await response.text();
+      console.log('Login Confirmed:', data);
+      return data;
+
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+}
+
 export default function Login() {
+  const [token, setToken] = useToken('');
   const router = useRouter()
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   
   const handleSignUp = () => {
     router.push('/registration')
   }
-  const handleLogIn = () => {
+  const handleLogIn = async (e:any) => {
+    e.preventDefault()
+    const token = loginUser({email, password}).then((result) => setToken(result))
+    console.log(token)
     router.push('/loggedin-user-home')
   }
 
@@ -30,17 +65,19 @@ export default function Login() {
             alt="finema logo"
             />
         </div>
-          <section>
-            <h2 className={styles.headers}>email</h2>
-              <input type="text" className={styles.text_fields} />
-          </section>
+          <form onSubmit={handleLogIn}>
+            <section>
+              <h2 className={styles.headers}>email </h2>
+              <input value={email} onChange={(e) => setEmail(e.target.value)} className={styles.text_fields} required />
+            </section>
 
-          <section>
-            <h2 className={styles.headers}>password</h2>
-              <input type="text" className={styles.text_fields} />
-          </section>
+            <section>
+              <h2 className={styles.headers}>password </h2>
+              <input value={password} onChange={(e) => setPassword(e.target.value)} className={styles.text_fields} required />
+            </section>
 
-      <Button onClick={handleLogIn}>log in</Button>
+            <Button type='submit'>Log-In</Button>
+          </form>
       <h1 className={styles.headers}> dont have an account yet? sign up! </h1>
       <Button onClick={handleSignUp}>sign up</Button>
       <Button onClick={handleAdminLogIn}>admin log in</Button>
