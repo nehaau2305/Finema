@@ -3,6 +3,7 @@ package com.TermProject.finema.service;
 import com.TermProject.finema.entity.User;
 import com.TermProject.finema.jwt.JwtTokenProvider;
 import com.TermProject.finema.repository.UserRepository;
+import com.TermProject.finema.service.MailService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ public class AuthService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private MailService mailService;
 
     @Autowired
     public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
@@ -32,6 +35,9 @@ public class AuthService {
             throw new IllegalArgumentException("This email is already associated with an account.");
         }
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        return userRepository.save(newUser);
+        User savedUser = userRepository.save(newUser);
+        // send confirmation email
+        mailService.sendConfirmationEmail(newUser.getEmail(), newUser.getName());
+        return savedUser;
     } // register new user
 }
