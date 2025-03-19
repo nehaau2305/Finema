@@ -1,113 +1,167 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'
 import { useToken } from '../components/useToken'
 import styles from './EditProfile.module.css'
 import TopBar from '../components/TopBar';
 import Button from '../components/Button';
 
-
 export default function EditProfile() {
-  const router = useRouter()
+  const router = useRouter();
   const [token, setToken] = useToken('');
-  if (token === 'null') {
-    router.push('/web-user-home')
-  }
-  const [selectedValue, setSelectedValue] = useState(false);
+  const [userData, setUserData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    homeAddress: '',
+    cardNumber: '',
+    expirationDate: '',
+    billingAddress: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+    promotions: false,
+  });
 
-  function foo() {
-    console.log('PHEW!')
-  }
+  useEffect(() => {
+    if (token === 'null') {
+      router.push('/web-user-home');
+    } else {
+      // Fetch user data from the backend
+      fetch('/api/user/profile', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => response.json())
+      .then(data => setUserData(data))
+      .catch(error => console.error('Error fetching user data:', error));
+    }
+  }, [token, router]);
 
-  const handleRadioChange = (value:boolean) => {
-    setSelectedValue(value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
+
+  const handleRadioChange = (value: boolean) => {
+    setUserData(prevState => ({
+      ...prevState,
+      promotions: value
+    }));
+  };
+
+  const handleSubmit = () => {
+    // Validate form data
+    if (userData.newPassword !== userData.confirmPassword) {
+      alert('New password and confirm password do not match');
+      return;
+    }
+
+    // Submit updated user data to the backend
+    fetch('/api/user/profile', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(userData)
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('Profile updated successfully');
+      } else {
+        alert('Error updating profile');
+      }
+    })
+    .catch(error => console.error('Error updating profile:', error));
+  };
+
   return (
     <div>
       <div className={styles.top}>
-        <TopBar loggedIn={true} showEditProfile={false}/>
+        <TopBar loggedIn={true} showEditProfile={false} />
       </div>
       <section className={styles.main_body}>
         <section className={styles.personal_promotion}>
           <section className={styles.personal}>
             <div className={styles.input_section}>
-              <h1> Name </h1>
-              <input></input>
+              <h1>Name</h1>
+              <input name="name" value={userData.name} onChange={handleChange} />
             </div>
             <div className={styles.input_section}>
-              <h1> Phone Number </h1>
-              <input></input>
+              <h1>Phone Number</h1>
+              <input name="phone" value={userData.phone} onChange={handleChange} />
             </div>
             <div className={styles.input_section}>
-              <h1> Email </h1>
-              <input></input>
+              <h1>Email</h1>
+              <input name="email" value={userData.email} readOnly />
             </div>
             <div className={styles.address_field}>
-              <h1> Home Address </h1>
-              <input></input>
-              <input></input>
-              <input></input>
+              <h1>Home Address</h1>
+              <input name="homeAddress" value={userData.homeAddress} onChange={handleChange} />
             </div>
-            <Button onClick={foo}> Update Information </Button>
+            <Button onClick={handleSubmit}>Update Information</Button>
           </section>
           <section className={styles.promotion}>
             <div>
-              <h2> Subscribe for email Promotions </h2>
+              <h2>Subscribe for email Promotions</h2>
               <input
                 type="radio"
-                value='true'
-                checked={selectedValue === true}
+                value="true"
+                checked={userData.promotions === true}
                 onChange={() => handleRadioChange(true)}
               />
             </div>
             <div>
-              <h2> Unsubscribe from email Promotions </h2>
+              <h2>Unsubscribe from email Promotions</h2>
               <input
                 type="radio"
-                value='false'
-                checked={selectedValue === false}
-                onChange={() =>handleRadioChange(false)}
+                value="false"
+                checked={userData.promotions === false}
+                onChange={() => handleRadioChange(false)}
               />
             </div>
           </section>
         </section>
         <section className={styles.password_card}>
           <section className={styles.password}>
-            <h2> Change Password </h2>
+            <h2>Change Password</h2>
             <div className={styles.input_section}>
-              <h1> Current Password </h1>
-              <input></input>
+              <h1>Current Password</h1>
+              <input name="currentPassword" type="password" value={userData.currentPassword} onChange={handleChange} />
             </div>
             <div className={styles.input_section}>
-              <h1> New Password </h1>
-              <input></input>
+              <h1>New Password</h1>
+              <input name="newPassword" type="password" value={userData.newPassword} onChange={handleChange} />
             </div>
             <div className={styles.input_section}>
-              <h1> Confirm New Password </h1>
-              <input></input>
+              <h1>Confirm New Password</h1>
+              <input name="confirmPassword" type="password" value={userData.confirmPassword} onChange={handleChange} />
             </div>
-            <Button onClick={foo}> Change Password </Button>
+            <Button onClick={handleSubmit}>Change Password</Button>
           </section>
           <section className={styles.card}>
-            <h2> Payment Information </h2>
+            <h2>Payment Information</h2>
             <div className={styles.input_section}>
-              <h1> Card Number </h1>
-              <input></input>
+              <h1>Card Number</h1>
+              <input name="cardNumber" value={userData.cardNumber} onChange={handleChange} />
             </div>
             <div className={styles.input_section}>
-              <h1> Expiration Date </h1>
-              <input></input>
+              <h1>Expiration Date</h1>
+              <input name="expirationDate" value={userData.expirationDate} onChange={handleChange} />
             </div>
             <div className={styles.address_field}>
-              <h1> Billing Address </h1>
-              <input></input>
-              <input></input>
-              <input></input>
+              <h1>Billing Address</h1>
+              <input name="billingAddress" value={userData.billingAddress} onChange={handleChange} />
             </div>
-            <Button onClick={foo}> Add Card </Button>
+            <Button onClick={handleSubmit}>Add Card</Button>
           </section>
         </section>
       </section>
     </div>
   );
-};
+}

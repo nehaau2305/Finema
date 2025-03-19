@@ -31,4 +31,20 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
+    
+    public Optional<User> getUserByUsername(String username) {
+        return userRepository.findByEmail(username);
+    }
+
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public User registerUser(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email is already taken");
+        }
+        return userRepository.save(user);
+    }
+
 }

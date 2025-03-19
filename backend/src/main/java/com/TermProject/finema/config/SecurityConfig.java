@@ -45,6 +45,11 @@ public class SecurityConfig {
                 //.anyRequest().permitAll()
                     //.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .requestMatchers("/auth/register", "/auth/login").permitAll()
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow all OPTIONS requests
+                    .requestMatchers("/users/register").permitAll()
+                    .requestMatchers("/users/login").permitAll()
+                    .requestMatchers("/users/edit-profile").permitAll()
+                    .requestMatchers("/users/**").permitAll()
                     .anyRequest().authenticated()
             )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
