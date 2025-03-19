@@ -1,11 +1,18 @@
 'use client'
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation'
+import { useToken } from '../components/useToken'
 import styles from './ManagePromotions.module.css'
 import TopBar from '../components/TopBar';
 import Button from '../components/Button';
 
 
 export default function ManagePromotions() {
+  const router = useRouter()
+  const [token, setToken] = useToken('');
+  if (token === 'null') {
+    router.push('/web-user-home')
+  }
 
   function foo() {
     console.log('PHEW!')

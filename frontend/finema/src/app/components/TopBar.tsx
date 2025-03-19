@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
+import { useToken } from '../components/useToken'
 import Button from './Button'
 import styles from './TopBar.module.css'
 import Image from 'next/image'
@@ -7,9 +8,10 @@ import finemalogo from './finemalogo.png'
 
 const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revist this :any later, possibly too optimistic about it
     const router = useRouter()
-    //console.log(loggedIn, showEditProfile)
+    const [token, setToken] = useToken('');
 
     function goToWebUserHome() {
+        setToken(null)
         router.push('/web-user-home')
     }
 
