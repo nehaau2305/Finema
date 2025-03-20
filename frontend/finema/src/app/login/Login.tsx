@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'
 import Button from '../components/Button'
 import { useToken } from '../components/useToken'
@@ -33,12 +33,30 @@ async function loginUser({email, password}:{email:String, password:String}) {
 
 export default function Login() {
   const [msg, setMsg] = useState("");
-  const [token, setToken] = useToken();
-  //const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
+  const [token, setToken] = useToken('token');
+  const [username, setUsername] = useToken('username');
+  const [checked, setChecked] = useState(username !== "");
   const router = useRouter()
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  
+  const [email, setEmail] = useState(username);
+
+  useEffect(() => {
+    if (checked) {
+      setUsername(email)
+    }
+  }, [email]
+  );
+
+  const handleRemember = () => {
+    console.log(checked);
+    setChecked(!checked);
+    if (checked) {
+      console.log("The value is" + checked);
+      setUsername("");
+    } else if (!checked) {
+      setUsername(email)
+    }
+  };
   const handleSignUp = () => {
     router.push('/registration')
   }
@@ -117,6 +135,8 @@ const fetchUserDetailsByEmail = async (email: string, token: string) => {
             <Button type='submit'>Log-In</Button>
           </form>
       <h1 className={styles.headers}> dont have an account yet? sign up! </h1>
+      <h2 className={styles.headers}> Remember Me? </h2>
+      <input type="checkbox" checked={checked} onChange={handleRemember}></input>
       <Button onClick={handleSignUp}>sign up</Button>
       {msg && <p>{msg}</p>}
       <Button onClick={handleAdminLogIn}>admin log in</Button>

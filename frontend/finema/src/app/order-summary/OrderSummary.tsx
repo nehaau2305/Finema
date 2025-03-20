@@ -8,8 +8,8 @@ import TicketStub from '../components/TicketStub'
 
 export default function OrderSummary() {
   const router = useRouter();
-  const [token, setToken] = useToken();
-  if (token === 'null') {
+  const [token, setToken] = useToken('token');
+  if (token === '') {
     router.push('/login') // Will have to figure out how to save their order during their login
   }
 

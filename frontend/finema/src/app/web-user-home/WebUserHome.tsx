@@ -10,9 +10,9 @@ import ComingSoon from '../components/ComingSoon'
 
 export default function WebUserHome() {
   const router = useRouter()
-  const [token, setToken] = useToken();
+  const [token, setToken] = useToken('token');
   //console.log(token)
-  if (token != 'null') {
+  if (token != '') {
     router.push('/loggedin-user-home')
   }
   return (

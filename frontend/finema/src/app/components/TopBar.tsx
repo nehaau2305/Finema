@@ -8,10 +8,10 @@ import finemalogo from './finemalogo.png'
 
 const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revist this :any later, possibly too optimistic about it
     const router = useRouter()
-    const [token, setToken] = useToken();
+    const [token, setToken] = useToken('token');
 
     async function goToWebUserHome() {
-        setToken("null")
+        setToken("")
         try {
             const response = await fetch(`http://localhost:8080/users/logout`, {
                 method: 'POST',
@@ -19,7 +19,7 @@ const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revi
                   'Content-Type': 'application/json',
                   'Authorization': token,
                 },
-                body: JSON.stringify(JSON.stringify(token))
+                body: JSON.stringify(token)
               });
         
               if (!response.ok) {

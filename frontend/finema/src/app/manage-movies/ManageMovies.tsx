@@ -26,8 +26,8 @@ export default function ManageMovies() {
   const [nowShowing, setNowShowing] = useState(false);
   const [comingSoon, setComingSoon] = useState(false);
 
-  const [token, setToken] = useToken();
-  if (token === 'null') {
+  const [token, setToken] = useToken('token');
+  if (token === '') {
     router.push('/web-user-home')
   }
 
