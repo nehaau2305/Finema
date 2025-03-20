@@ -1,6 +1,6 @@
 .login_box {
     width: 500px;
-    height: 500px;
+    height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -14,6 +14,12 @@
     font-weight: bold;
     font-family: var(--font-inter);
     color: white;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .main_body {
@@ -35,4 +41,10 @@
 .email {
     display: flex;
     align-items: center;
+}
+
+.login_button {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
 }
