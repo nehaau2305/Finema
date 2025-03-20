@@ -1,35 +1,34 @@
 import {useState, useEffect} from "react";
 
 export function useToken() {
-    //const isLocalStorageAvailable = typeof window !== "undefined" && window.localStorage;
+    const isLocalStorageAvailable = typeof window !== "undefined" && window.localStorage;
 
-    let storedValue = localStorage.getItem('token');
-    if (storedValue == null) {
-        storedValue = '';
-    }
+    //console.log("The true intital value " + initialValue)
 
-    //const initial = storedValue ? storedValue : initialValue;
+    const storedValue = isLocalStorageAvailable ? localStorage.getItem('token') : null;
 
-    console.log("in hook: The retrieved stored value is " + storedValue)
+    //console.log("The stored value " + storedValue)
 
-    const [token, setToken] = useState(storedValue);
+    const initial = storedValue ? storedValue : "null";
+
+    console.log("in hook: The initial value " + initial)
+
+    const [token, setToken] = useState(initial);
   
     useEffect(() => {
-        localStorage.setItem('token', token);
-    }, [token]);
+        if (isLocalStorageAvailable) {
+            localStorage.setItem('token', token);
+        }
+    }, [token, isLocalStorageAvailable]);
   
     function setStoredValue(newValue:string) {
+        console.log("in hook: The newValue is ", newValue)
         setToken(newValue);
-        localStorage.setItem('token', newValue);
+        if (isLocalStorageAvailable) {
+            localStorage.setItem('token', newValue);
+        }
+        console.log("in hook: The token was set to ", token)
     }
-
-    // const setStoredValue = (newValue:string) => {
-    //     setToken(newValue);
-    //     if (isLocalStorageAvailable) {
-    //         localStorage.setItem('token', newValue);
-    //     }
-    // };
-  
     return [token, setStoredValue];
   }
   

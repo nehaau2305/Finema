@@ -7,7 +7,7 @@ import TopBar from '../components/TopBar';
 
 export default function OrderConfirmation() {
   const router = useRouter()
-  const [token, setToken] = useToken('');
+  const [token, setToken] = useToken();
   if (token === 'null') {
     router.push('/web-user-home')
   }
