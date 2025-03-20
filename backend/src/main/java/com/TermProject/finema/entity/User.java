@@ -70,4 +70,6 @@ public class User {
     public void setBillingAddress(String billingAddress) {this.billingAddress = billingAddress;}
     public boolean isAdmin() {return isAdmin;}
     public void setAdmin(boolean isAdmin) {this.isAdmin = isAdmin;}
+    public Status getStatus() {return status;}
+    public void setStatus(Status status){this.status = status;}
 }
