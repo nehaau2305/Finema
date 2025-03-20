@@ -28,11 +28,6 @@ public class Movie {
     private boolean nowShowing;
     private boolean comingSoon;
 
-    //HAVE TO ADD REVIEWS & CAST
-    // cascade ensures that if the movie is deleted, its reviews are also deleted
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
-
     @Column(length = 5000)
     private String cast;
 
@@ -117,11 +112,6 @@ public class Movie {
     public boolean isComingSoon() {return comingSoon;}
 
     public void setComingSoon(boolean comingSoon) {this.comingSoon = comingSoon;}
-
-    public List<Review> getReviews() {return reviews;}
-
-    public void setReviews(List<Review> reviews) {this.reviews = reviews;
-    }
 
     public String getCast() {return cast;}
 
