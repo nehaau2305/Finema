@@ -65,20 +65,12 @@ export default function Login() {
     loginUser({email, password}).then((result) => {
       setToken(result);
       localStorage.setItem("token", result);
-<<<<<<< Updated upstream
       //setTimeout(() => router.push('/loggedin-user-home'), 1000)
       const decodedToken: any = jwtDecode(result);
       console.log("Decoded Token:", decodedToken);
       const emailFromToken = decodedToken.sub;
       console.log("Extracted Email:", emailFromToken);
       fetchUserDetailsByEmail(emailFromToken, result);
-=======
-
-      const decodedToken: any = jwtDecode(result); // decode token to get values
-      const emailFromToken = decodedToken.sub; 
-      fetchUserDetailsByEmail(emailFromToken);
-      
->>>>>>> Stashed changes
       setMsg("Login Success!")
     }).catch((error) => {
       setMsg("Error logging in, check password or email")
@@ -86,15 +78,9 @@ export default function Login() {
     })
   }
 
-<<<<<<< Updated upstream
 const fetchUserDetailsByEmail = async (email: string, token: string) => {
   try {
     const response = await fetch(`http://localhost:8080/users/details?email=${email}`, {
-=======
-const fetchUserDetailsByEmail = async (email: string) => {
-  try {
-    const response = await fetch(`/api/user/details?email=${email}`, {
->>>>>>> Stashed changes
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,  // Pass token in the Authorization header
@@ -104,7 +90,6 @@ const fetchUserDetailsByEmail = async (email: string) => {
     if (response.ok) {
       const userDetails = await response.json();
       console.log("User Details:", userDetails);
-<<<<<<< Updated upstream
       console.log("Admin?", userDetails.isAdmin);
       if (userDetails.isAdmin == true) {
         console.log("Redirecting to admin-home");
@@ -113,10 +98,6 @@ const fetchUserDetailsByEmail = async (email: string) => {
         console.log("Redirecting to loggedin-user-home");
         setTimeout(() => router.push('/loggedin-user-home'), 1000);
       }
-=======
-      if (userDetails.isAdmin) {setTimeout(() => router.push('/admin-home'), 1000); } 
-      else {setTimeout(() => router.push('/loggedin-user-home'), 1000); }
->>>>>>> Stashed changes
     } else {
       console.error("Error fetching user details");
     }
