@@ -11,7 +11,7 @@ export function useToken(initialValue:any) {
 
     const initial = storedValue ? storedValue : initialValue;
 
-    //console.log("The initial value " + initial)
+    console.log("in hook: The initial value " + initial)
 
     const [token, setToken] = useState(initial);
   
@@ -22,10 +22,12 @@ export function useToken(initialValue:any) {
     }, [token, isLocalStorageAvailable]);
   
     function setStoredValue(newValue:string) {
+        console.log("in hook: The newValue is ", newValue)
         setToken(newValue);
         if (isLocalStorageAvailable) {
             localStorage.setItem('token', newValue);
         }
+        console.log("in hook: The token was set to ", token)
     }
 
     // const setStoredValue = (newValue:string) => {

@@ -16,7 +16,7 @@ export default function LoggedinUserHome() {
     if (token === 'null') {
       router.push('/web-user-home')
     }
-  }, [token, router]);
+  }, [token]);
   
 
   return (
