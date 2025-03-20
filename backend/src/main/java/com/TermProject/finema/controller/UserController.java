@@ -80,6 +80,7 @@ public class UserController {
     @GetMapping("/details")
     public ResponseEntity<User> getUserDetails(@RequestParam String email) {
         Optional<User> user = userRepository.findByEmail(email);
+
         System.out.println("User found: " + user.get().getEmail() + " | isAdmin: " + user.get().getIsAdmin());
         if (user.isPresent()) {
             return ResponseEntity.ok(user.get());

@@ -21,7 +21,7 @@ public class MailService {
             email.setTo(toEmail);
             email.setSubject(subject);
             email.setText(message);
-            email.setFrom("nehaau2305@gmail.com");
+            email.setFrom("finemateam@gmail.com");
 
             mailSender.send(email);
             return "Confirmation email sent successfully to " + toEmail;
@@ -29,4 +29,48 @@ public class MailService {
             return "Error sending confirmation email: " + e.getMessage();
         }
     } // sendConfirmationEmail
+
+    public String sendResetPasswordEmail(String toEmail, String userName) {
+        try {
+            String resetLink = "http://localhost:3000/reset-password";
+
+            String subject = "Finema Account: Reset Password";
+            String message = "Hi " + userName + ",\n\n" +
+                    "Please follow this link to change your password.\n" +
+                    resetLink + "\n\n" +
+                    "Best Regards,\nFinema Team";
+
+            SimpleMailMessage email = new SimpleMailMessage();
+            email.setTo(toEmail);
+            email.setSubject(subject);
+            email.setText(message);
+            email.setFrom("finemateam@gmail.com");
+
+            mailSender.send(email);
+            return "Reset Password email verification email sent successfully to " + toEmail;
+        } catch (Exception e) {
+            return "Error sending Reset Password email verification email: " + e.getMessage();
+        }
+    } // sendResetPasswordEmail
+
+    public String sendPasswordResetConfirmationEmail(String toEmail, String userName) {
+        try {
+            String subject = "Finema Account: Password Reset Confirmation";
+            String message = "Hi " + userName + ",\n\n" +
+                    "Your password was successfully reset.\n\n" +
+                    "Best Regards,\nFinema Team";
+
+            SimpleMailMessage email = new SimpleMailMessage();
+            email.setTo(toEmail);
+            email.setSubject(subject);
+            email.setText(message);
+            email.setFrom("finemateam@gmail.com");
+
+            mailSender.send(email);
+            return "Password reset confirmation email sent successfully to " + toEmail;
+        } catch (Exception e) {
+            return "Error sending Password reset confirmation email: " + e.getMessage();
+        }
+    } // sendPasswordResetConfirmationEmail
+
 }
