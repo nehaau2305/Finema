@@ -8,7 +8,7 @@ import Button from '../components/Button';
 
 export default function EditProfile() {
   const router = useRouter();
-  const [token, setToken] = useToken();
+  const [token, setToken] = useToken('token');
   const [userData, setUserData] = useState({
     name: '',
     phone: '',
@@ -24,7 +24,7 @@ export default function EditProfile() {
   });
 
   useEffect(() => {
-    if (token === 'null') {
+    if (token === '') {
       router.push('/web-user-home');
     } else {
       // Fetch user data from the backend

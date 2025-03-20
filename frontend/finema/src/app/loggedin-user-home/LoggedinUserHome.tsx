@@ -11,16 +11,12 @@ import TopBar from '../components/TopBar';
 
 export default function LoggedinUserHome() {
   const router = useRouter()
-  const [token, setToken] = useToken();
+  const [token, setToken] = useToken('token');
   useEffect(() => {
-    if (token === 'null') {
+    if (token === '') {
       router.push('/web-user-home')
     }
   }, [token]);
-
-  const displayToken = () => {
-    console.log(token)
-  }
   
   return (
     <div>
@@ -32,7 +28,6 @@ export default function LoggedinUserHome() {
           <ComingSoon />
         </section>
       </section>
-      <Button onClick={displayToken}>Token</Button>
     </div>
   );
 };

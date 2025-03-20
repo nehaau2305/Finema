@@ -7,8 +7,8 @@ import TopBar from '../components/TopBar';
 
 export default function OrderConfirmation() {
   const router = useRouter()
-  const [token, setToken] = useToken();
-  if (token === 'null') {
+  const [token, setToken] = useToken('token');
+  if (token === '') {
     router.push('/web-user-home')
   }
   const email = 'joshua@konfrst.com'
