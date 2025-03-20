@@ -36,6 +36,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(username);
     }
 
+    public Optional<User> getUserByToken(String token) {
+        return userRepository.findByToken(token);
+    }
+
     public User updateUser(User user) {
         return userRepository.save(user);
     }

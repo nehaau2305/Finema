@@ -28,10 +28,13 @@ export default function EditProfile() {
       router.push('/web-user-home');
     } else {
       // Fetch user data from the backend
-      fetch('/api/user/profile', {
+      fetch('/users/profile', {
+        method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(JSON.stringify(token))
       })
       .then(response => response.json())
       .then(data => setUserData(data))

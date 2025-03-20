@@ -26,7 +26,9 @@ public class AuthService {
     public String authenticateAndGenerateToken(String email, String password) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
         if (!passwordEncoder.matches(password, user.getPassword())) {return null;}
-        return jwtTokenProvider.generateToken(email);
+        String token = jwtTokenProvider.generateToken(email);
+        user.setToken(token);
+        return token;
     } // Authenticate user & generate JWT token
 
     public User registerUser(User newUser) {

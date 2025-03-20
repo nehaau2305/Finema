@@ -48,7 +48,6 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow all OPTIONS requests
                     .requestMatchers("/users/register").permitAll()
                     .requestMatchers("/users/login").permitAll()
-                    .requestMatchers("/users/edit-profile").permitAll()
                     .requestMatchers("/users/**").permitAll()
                     .anyRequest().authenticated()
             )

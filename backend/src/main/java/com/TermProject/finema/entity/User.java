@@ -46,6 +46,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Status status = Status.Active;
 
+    @Column(nullable = true)
+    private String token;
+
 
     // default constructor
     public User() {}
@@ -72,4 +75,6 @@ public class User {
     public void setAdmin(boolean isAdmin) {this.isAdmin = isAdmin;}
     public Status getStatus() {return status;}
     public void setStatus(Status status){this.status = status;}
+    public String getToken() {return token;}
+    public void setToken(String token){this.token = token;}
 }

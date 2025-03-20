@@ -29,6 +29,26 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/profile")
+    public ResponseEntity<User> getUserByToken(@RequestBody String token) {
+        System.out.println("It was called...");
+        User user = userService.getUserByToken(token).orElse(null);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<User> updateUserToken(@RequestBody String token) {
+        User user = userService.getUserByToken(token).orElse(null);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        user.setToken(null);
+        return ResponseEntity.ok(user);
+    }
+
     @PutMapping("/{username}")
     public ResponseEntity<User> updateUser(@PathVariable String username, @RequestBody User user) {
         User existingUser = userService.getUserByUsername(username).orElse(null);
