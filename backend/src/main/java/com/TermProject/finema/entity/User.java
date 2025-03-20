@@ -39,7 +39,12 @@ public class User {
     @Column(nullable = true)
     private String billingAddress;
 
+    @Column(nullable = true)
     private boolean isAdmin;
+
+    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.Active;
 
 
     // default constructor
