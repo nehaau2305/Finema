@@ -2,10 +2,12 @@ package com.TermProject.finema.controller;
 
 import com.TermProject.finema.entity.User;
 import com.TermProject.finema.service.UserService;
+import com.TermProject.finema.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -13,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
@@ -67,8 +72,19 @@ public class UserController {
         existingUser.setCardNumber(user.getCardNumber());
         existingUser.setExpirationDate(user.getExpirationDate());
         existingUser.setBillingAddress(user.getBillingAddress());
-        existingUser.setAdmin(user.isAdmin());
+        existingUser.setAdmin(user.getIsAdmin());
         User updatedUser = userService.updateUser(existingUser);
         return ResponseEntity.ok(updatedUser);
+    }
+
+    @GetMapping("/details")
+    public ResponseEntity<User> getUserDetails(@RequestParam String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        System.out.println("User found: " + user.get().getEmail() + " | isAdmin: " + user.get().getIsAdmin());
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }
