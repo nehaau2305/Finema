@@ -6,6 +6,7 @@ import { useToken } from '../components/useToken'
 import styles from './Login.module.css'
 import Image from 'next/image'
 import finemalogo from './finemalogo.png'
+import { jwtDecode } from "jwt-decode";
 
 async function loginUser({email, password}:{email:String, password:String}) {
   const loginInfo = {email, password}
@@ -21,7 +22,7 @@ async function loginUser({email, password}:{email:String, password:String}) {
         console.log(response);
         throw new Error('Network response was not ok');
       } else {
-        console.log("response is ok");
+        console.log("Network response is ok");
         console.log(response);
       }
       
@@ -84,14 +85,48 @@ export default function Login() {
     e.preventDefault()
     loginUser({email, password}).then((result) => {
       setToken(result);
-      //localStorage.setItem("token", result);
-      setTimeout(() => router.push('/loggedin-user-home'), 1000)
+      localStorage.setItem("token", result);
+      //setTimeout(() => router.push('/loggedin-user-home'), 1000)
+      const decodedToken: any = jwtDecode(result);
+      console.log("Decoded Token:", decodedToken);
+      const emailFromToken = decodedToken.sub;
+      console.log("Extracted Email:", emailFromToken);
+      fetchUserDetailsByEmail(emailFromToken, result);
       setMsg("Login Success!")
     }).catch((error) => {
       setMsg("Error logging in, check password or email")
       console.error("Error logging in:", error);
     })
   }
+
+const fetchUserDetailsByEmail = async (email: string, token: string) => {
+  try {
+    const response = await fetch(`http://localhost:8080/users/details?email=${email}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,  // Pass token in the Authorization header
+      },
+    });
+
+    if (response.ok) {
+      const userDetails = await response.json();
+      console.log("User Details:", userDetails);
+      console.log("Admin?", userDetails.isAdmin);
+      if (userDetails.isAdmin == true) {
+        console.log("Redirecting to admin-home");
+        setTimeout(() => router.push('/admin-home'), 1000);
+      } else {
+        console.log("Redirecting to loggedin-user-home");
+        setTimeout(() => router.push('/loggedin-user-home'), 1000);
+      }
+    } else {
+      console.error("Error fetching user details");
+    }
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+  }
+};
+  
 
   const handleAdminLogIn = () => {
     router.push('/admin-home')

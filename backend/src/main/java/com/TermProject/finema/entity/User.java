@@ -71,7 +71,7 @@ public class User {
     public void setExpirationDate(String expirationDate) {this.expirationDate = expirationDate;}
     public String getBillingAddress() {return billingAddress;}
     public void setBillingAddress(String billingAddress) {this.billingAddress = billingAddress;}
-    public boolean isAdmin() {return isAdmin;}
+    public boolean getIsAdmin() {return isAdmin;}
     public void setAdmin(boolean isAdmin) {this.isAdmin = isAdmin;}
     public Status getStatus() {return status;}
     public void setStatus(Status status){this.status = status;}
