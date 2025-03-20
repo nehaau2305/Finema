@@ -28,7 +28,7 @@ public class DefaultAdminService {
             userRepository.save(admin);
             System.out.println("Default admin account created.");
         } else {
-            System.out.println("Defaul admin already exists.");
+            System.out.println("Default admin already exists.");
         }
     }
 }

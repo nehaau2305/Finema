@@ -39,7 +39,12 @@ public class User {
     @Column(nullable = true)
     private String billingAddress;
 
+    @Column(nullable = true)
     private boolean isAdmin;
+
+    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.Active;
 
 
     // default constructor
@@ -65,4 +70,6 @@ public class User {
     public void setBillingAddress(String billingAddress) {this.billingAddress = billingAddress;}
     public boolean isAdmin() {return isAdmin;}
     public void setAdmin(boolean isAdmin) {this.isAdmin = isAdmin;}
+    public Status getStatus() {return status;}
+    public void setStatus(Status status){this.status = status;}
 }
