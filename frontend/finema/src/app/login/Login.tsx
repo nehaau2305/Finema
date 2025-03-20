@@ -116,33 +116,33 @@ const fetchUserDetailsByEmail = async (email: string, token: string) => {
   return (
     <div className={styles.main_body}>
      <div className={styles.login_box}>
-      <div>
-        <Image
-          src={finemalogo}
-          width={200}
-          height={200}
-          alt="finema logo"
-          />
-      </div>
-      <form onSubmit={handleLogIn}>
-        <section>
-          <h2 className={styles.headers}>email </h2>
-          <input value={email} onChange={(e) => setEmail(e.target.value)} className={styles.text_fields} required />
-        </section>
+        <div>
+          <Image
+            src={finemalogo}
+            width={200}
+            height={200}
+            alt="finema logo"
+            />
+        </div>
+          <form className={styles.form} onSubmit={handleLogIn}>
+            <section>
+              <h2 className={styles.headers}>Email </h2>
+              <input value={email} onChange={(e) => setEmail(e.target.value)} className={styles.text_fields} required />
+            </section>
 
-        <section>
-          <h2 className={styles.headers}>password </h2>
-          <input value={password} onChange={(e) => setPassword(e.target.value)} className={styles.text_fields} required />
-        </section>
-
-        <Button type='submit'>Log-In</Button>
-      </form>
+            <section>
+              <h2 className={styles.headers}>Password </h2>
+              <input value={password} type="password" onChange={(e) => setPassword(e.target.value)} className={styles.text_fields} required />
+            </section>
+          <div className={styles.login_button}>
+            <Button type='submit'>Log In</Button>
+          </div>
+          </form>
       <h2 className={styles.headers}> Remember Me? </h2>
       <input type="checkbox" checked={checked} onChange={handleRemember}></input>
-      <h1 className={styles.headers}> dont have an account yet? sign up! </h1>
-      <Button onClick={handleSignUp}>sign up</Button>
+      <h1 className={styles.headers}> Dont have an account yet? Sign up! </h1>
+      <Button onClick={handleSignUp}>Sign Up</Button>
       {msg && <p>{msg}</p>}
-      <Button onClick={handleAdminLogIn}>admin log in</Button>
       <h1 className={styles.headers}> Forgot password? </h1>
       <Button onClick={()=>setIsOpened(true)}> Reset Password </Button>
       <LoginPopup

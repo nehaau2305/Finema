@@ -13,6 +13,7 @@ interface User {
   cardNumber: string;
   expirationDate: string;
   billingAddress: string;
+  promotions: boolean,
 }
 
 async function registerUser(accountInfo:User) {
@@ -54,11 +55,12 @@ export default function Registration() {
   const [cardNumber, setCardNum] = useState('');
   const [expirationDate, setExpDate] = useState('');
   const [billingAddress, setBillAddress] = useState('');
+  const [promotions, setPromotions] = useState(false);
 
   
   const handleClick = (e:any) => {
     e.preventDefault();
-    registerUser({name, phone, email, password, homeAddress, cardNumber, expirationDate, billingAddress}).then((result) => {
+    registerUser({name, phone, email, password, homeAddress, cardNumber, expirationDate, billingAddress, promotions}).then((result) => {
       console.log(result)
       if (result) {
         router.push('/registration-confirmation')
@@ -67,6 +69,7 @@ export default function Registration() {
       }
     })
   }
+
   return (
     <div className={styles.main_body}>
       <div className={styles.info_box}>
@@ -94,7 +97,29 @@ export default function Registration() {
                 <h2 className={styles.headers}>Billing Address</h2>
                 <input value={billingAddress} onChange={(e) => setBillAddress(e.target.value)} className={styles.text_fields} />
               </div>
+            <section className={styles.promotion}>
+              <div>
+                <h2>        Subscribe for email Promotions</h2>
+                <input
+                  type="radio"
+                  value="true"
+                  checked={promotions === true}
+                  onChange={() => setPromotions(true)}
+                />
+              </div>
+              <div>
+                <h2>Unsubscribe from email Promotions</h2>
+                <input
+                  type="radio"
+                  value="false"
+                  checked={promotions === false}
+                  onChange={() => setPromotions(false)}
+                />
+              </div>
+          </section>
+          <div className={styles.submit}>
               <Button type='submit'>Create Account</Button>
+          </div>
             </form>
             {msg && <p>{msg}</p>}
           </section>
