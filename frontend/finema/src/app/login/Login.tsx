@@ -11,25 +11,25 @@ import { jwtDecode } from "jwt-decode";
 
 async function loginUser({email, password}:{email:String, password:String}) {
   const loginInfo = {email, password}
-      const response = await fetch(`http://localhost:8080/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(loginInfo),
-      })
+  const response = await fetch(`http://localhost:8080/auth/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(loginInfo),
+  })
 
-      if (!response.ok) {
-        console.log(response);
-        throw new Error('Network response was not ok');
-      } else {
-        console.log("Network response is ok");
-        console.log(response);
-      }
-      
-      const data = await response.text();
-      console.log('Login Confirmed:', data);
-      return data;
+  if (!response.ok) {
+    console.log(response);
+    throw new Error('Network response was not ok');
+  } else {
+    console.log("Network response is ok");
+    console.log(response);
+  }
+  
+  const data = await response.text();
+  console.log('Login Confirmed:', data);
+  return data;
 }
 
 
