@@ -29,6 +29,27 @@ async function loginUser({email, password}:{email:String, password:String}) {
       console.log('Login Confirmed:', data);
       return data;
 }
+async function handleResetPassword() {
+  const response = await fetch(``, { // Replace with path
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(""),
+  })
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error('Network response was not ok');
+  } else {
+    console.log("response is ok");
+    console.log(response);
+  }
+  
+  const data = await response.text();
+  console.log('Password reset:', data);
+  return data;
+}
 
 export default function Login() {
   const [msg, setMsg] = useState("");
@@ -99,12 +120,14 @@ export default function Login() {
 
             <Button type='submit'>Log-In</Button>
           </form>
-      <h1 className={styles.headers}> dont have an account yet? sign up! </h1>
       <h2 className={styles.headers}> Remember Me? </h2>
       <input type="checkbox" checked={checked} onChange={handleRemember}></input>
+      <h1 className={styles.headers}> dont have an account yet? sign up! </h1>
       <Button onClick={handleSignUp}>sign up</Button>
       {msg && <p>{msg}</p>}
       <Button onClick={handleAdminLogIn}>admin log in</Button>
+      <h1 className={styles.headers}> Forgot password? </h1>
+      <Button onClick={handleResetPassword}> Reset Password </Button>
 
 
       </div>
