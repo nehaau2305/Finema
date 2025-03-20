@@ -50,7 +50,7 @@ export default function SearchMovies() {
     // TODO: Add filtering functionality, e.g. by category or rating
   }
 
-  console.log(query)
+  //console.log(query)
 
   return (
     <section className={styles.main_body}>

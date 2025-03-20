@@ -46,8 +46,11 @@ export default function Login() {
   }
   const handleLogIn = async (e:any) => {
     e.preventDefault()
-    const token = loginUser({email, password}).then((result) => setToken(result))
-    console.log(token)
+    const unused = loginUser({email, password}).then((result) => {
+      setToken(result);
+      console.log("The result is " + result);
+      console.log("The token is " + token);
+    })
     router.push('/loggedin-user-home')
   }
 

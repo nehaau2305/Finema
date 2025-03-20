@@ -11,9 +11,12 @@ import TopBar from '../components/TopBar';
 export default function LoggedinUserHome() {
   const router = useRouter()
   const [token, setToken] = useToken('');
-  if (token === 'null') {
-    router.push('/web-user-home')
-  }
+  console.log("The token everyone!" + token)
+  useEffect(() => {
+    if (token === 'null') {
+      router.push('/web-user-home')
+    }
+  }, [token, router]);
   
 
   return (
