@@ -1,15 +1,44 @@
 .main_body {
     width: 500px;
-    height: 300px;
-    text-align: center;
-    background-color: rgb(52, 157, 222);
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    background-color: #33B0FF;
+    border-radius: 10px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-around;
+}
+
+.form input {
+    margin-bottom: 80px;
+}
+
+.form Button {
+    margin-bottom: 150px;
+}
+
+.backround_stuff {
+    background-color: #8ec0df;
 }
 
 .text_fields {
-    background-color: rgb(52, 157, 222);
-    border: 1px ridge rgb(34, 106, 151);
+    background-color: #33B0FF;
+    border: 3px solid #1449FF;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .headers {
-
+    display: flex;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    text-align: center;
+    color: white;
 }

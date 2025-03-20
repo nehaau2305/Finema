@@ -8,12 +8,8 @@ import Button from '../components/Button';
 
 export default function EditProfile() {
   const router = useRouter();
-<<<<<<< Updated upstream
   const [token, setToken] = useToken('token');
-=======
-  const [token, setToken] = useToken();
   const [password, setPassword] = useState('');
->>>>>>> Stashed changes
   const [userData, setUserData] = useState({
     name: '',
     phone: '',

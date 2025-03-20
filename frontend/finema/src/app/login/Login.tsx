@@ -5,6 +5,7 @@ import Button from '../components/Button'
 import { useToken } from '../components/useToken'
 import styles from './Login.module.css'
 import Image from 'next/image'
+import LoginPopup from '../components/LoginPopup';
 import finemalogo from './finemalogo.png'
 import { jwtDecode } from "jwt-decode";
 
@@ -30,27 +31,7 @@ async function loginUser({email, password}:{email:String, password:String}) {
       console.log('Login Confirmed:', data);
       return data;
 }
-async function handleResetPassword() {
-  const response = await fetch(``, { // Replace with path
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(""),
-  })
 
-  if (!response.ok) {
-    console.log(response);
-    throw new Error('Network response was not ok');
-  } else {
-    console.log("response is ok");
-    console.log(response);
-  }
-  
-  const data = await response.text();
-  console.log('Password reset:', data);
-  return data;
-}
 
 export default function Login() {
   const [msg, setMsg] = useState("");
@@ -60,6 +41,7 @@ export default function Login() {
   const router = useRouter()
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState(username);
+  const [isOpened, setIsOpened] = useState(false);
 
   useEffect(() => {
     if (checked) {
@@ -134,27 +116,27 @@ const fetchUserDetailsByEmail = async (email: string, token: string) => {
   return (
     <div className={styles.main_body}>
      <div className={styles.login_box}>
-        <div>
-          <Image
-            src={finemalogo}
-            width={200}
-            height={200}
-            alt="finema logo"
-            />
-        </div>
-          <form onSubmit={handleLogIn}>
-            <section>
-              <h2 className={styles.headers}>email </h2>
-              <input value={email} onChange={(e) => setEmail(e.target.value)} className={styles.text_fields} required />
-            </section>
+      <div>
+        <Image
+          src={finemalogo}
+          width={200}
+          height={200}
+          alt="finema logo"
+          />
+      </div>
+      <form onSubmit={handleLogIn}>
+        <section>
+          <h2 className={styles.headers}>email </h2>
+          <input value={email} onChange={(e) => setEmail(e.target.value)} className={styles.text_fields} required />
+        </section>
 
-            <section>
-              <h2 className={styles.headers}>password </h2>
-              <input value={password} onChange={(e) => setPassword(e.target.value)} className={styles.text_fields} required />
-            </section>
+        <section>
+          <h2 className={styles.headers}>password </h2>
+          <input value={password} onChange={(e) => setPassword(e.target.value)} className={styles.text_fields} required />
+        </section>
 
-            <Button type='submit'>Log-In</Button>
-          </form>
+        <Button type='submit'>Log-In</Button>
+      </form>
       <h2 className={styles.headers}> Remember Me? </h2>
       <input type="checkbox" checked={checked} onChange={handleRemember}></input>
       <h1 className={styles.headers}> dont have an account yet? sign up! </h1>
@@ -162,7 +144,11 @@ const fetchUserDetailsByEmail = async (email: string, token: string) => {
       {msg && <p>{msg}</p>}
       <Button onClick={handleAdminLogIn}>admin log in</Button>
       <h1 className={styles.headers}> Forgot password? </h1>
-      <Button onClick={handleResetPassword}> Reset Password </Button>
+      <Button onClick={()=>setIsOpened(true)}> Reset Password </Button>
+      <LoginPopup
+        isOpened={isOpened}
+        onClose={() => setIsOpened(false)}
+      />
 
 
       </div>
