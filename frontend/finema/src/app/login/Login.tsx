@@ -9,7 +9,6 @@ import finemalogo from './finemalogo.png'
 
 async function loginUser({email, password}:{email:String, password:String}) {
   const loginInfo = {email, password}
-    try {
       const response = await fetch(`http://localhost:8080/auth/login`, {
         method: 'POST',
         headers: {
@@ -29,13 +28,10 @@ async function loginUser({email, password}:{email:String, password:String}) {
       const data = await response.text();
       console.log('Login Confirmed:', data);
       return data;
-
-    } catch (error) {
-      console.error("Error logging in:", error);
-    }
 }
 
 export default function Login() {
+  const [msg, setMsg] = useState("");
   const [token, setToken] = useToken();
   const router = useRouter()
   const [password, setPassword] = useState("");
@@ -48,8 +44,12 @@ export default function Login() {
     e.preventDefault()
     loginUser({email, password}).then((result) => {
       setToken(result);
+      setTimeout(() => router.push('/loggedin-user-home'), 1000)
+      setMsg("Login Success!")
+    }).catch((error) => {
+      setMsg("Error logging in, check password or email")
+      console.error("Error logging in:", error);
     })
-    setTimeout(() => router.push('/loggedin-user-home'), 1000)
   }
 
   const handleAdminLogIn = () => {
@@ -81,6 +81,7 @@ export default function Login() {
           </form>
       <h1 className={styles.headers}> dont have an account yet? sign up! </h1>
       <Button onClick={handleSignUp}>sign up</Button>
+      {msg && <p>{msg}</p>}
       <Button onClick={handleAdminLogIn}>admin log in</Button>
 
 
