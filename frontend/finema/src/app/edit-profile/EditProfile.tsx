@@ -8,7 +8,12 @@ import Button from '../components/Button';
 
 export default function EditProfile() {
   const router = useRouter();
+<<<<<<< Updated upstream
   const [token, setToken] = useToken('token');
+=======
+  const [token, setToken] = useToken();
+  const [password, setPassword] = useState('');
+>>>>>>> Stashed changes
   const [userData, setUserData] = useState({
     name: '',
     phone: '',
@@ -65,7 +70,9 @@ export default function EditProfile() {
     }
 
     // Submit updated user data to the backend
-    fetch('/api/user/profile', {
+
+    console.log('Updating user: ', userData.email)
+    fetch('http://localhost:8080/users/' + userData.email, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -98,10 +105,6 @@ export default function EditProfile() {
             <div className={styles.input_section}>
               <h1>Phone Number</h1>
               <input name="phone" value={userData.phone} onChange={handleChange} />
-            </div>
-            <div className={styles.input_section}>
-              <h1>Email</h1>
-              <input name="email" value={userData.email} readOnly />
             </div>
             <div className={styles.address_field}>
               <h1>Home Address</h1>
@@ -139,11 +142,11 @@ export default function EditProfile() {
             </div>
             <div className={styles.input_section}>
               <h1>New Password</h1>
-              <input name="newPassword" type="password" value={userData.newPassword} onChange={handleChange} />
+              <input value={userData.newPassword} type="password" onChange={(e) => setPassword(e.target.value)} />
             </div>
             <div className={styles.input_section}>
               <h1>Confirm New Password</h1>
-              <input name="confirmPassword" type="password" value={userData.confirmPassword} onChange={handleChange} />
+              <input value={userData.newPassword} type="password" onChange={(e) => setPassword(e.target.value)} />
             </div>
             <Button onClick={handleSubmit}>Change Password</Button>
           </section>

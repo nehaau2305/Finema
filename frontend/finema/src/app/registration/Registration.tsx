@@ -84,8 +84,6 @@ export default function Registration() {
                 <input value={password} onChange={(e) => setPassword(e.target.value)} className={styles.text_fields} required />
                 <h2 className={styles.headers}>Home Address</h2>
                 <input value={homeAddress} onChange={(e) => setHomeAddress(e.target.value)} className={styles.text_fields} />
-                <input value={homeAddress} onChange={(e) => setHomeAddress(e.target.value)} className={styles.text_fields} />
-                <input value={homeAddress} onChange={(e) => setHomeAddress(e.target.value)} className={styles.text_fields} />
               </div>
               <div>
                 <h2 className={styles.big_headers}> Payment Information</h2>
@@ -94,8 +92,6 @@ export default function Registration() {
                 <h2 className={styles.headers}>Expiration Date</h2>
                 <input value={expirationDate} onChange={(e) => setExpDate(e.target.value)} className={styles.text_fields} />
                 <h2 className={styles.headers}>Billing Address</h2>
-                <input value={billingAddress} onChange={(e) => setBillAddress(e.target.value)} className={styles.text_fields} />
-                <input value={billingAddress} onChange={(e) => setBillAddress(e.target.value)} className={styles.text_fields} />
                 <input value={billingAddress} onChange={(e) => setBillAddress(e.target.value)} className={styles.text_fields} />
               </div>
               <Button type='submit'>Create Account</Button>
