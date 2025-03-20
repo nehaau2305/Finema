@@ -32,7 +32,8 @@ async function loginUser({email, password}:{email:String, password:String}) {
 
 export default function Login() {
   const [msg, setMsg] = useState("");
-  const [token, setToken] = useToken();
+  //const [token, setToken] = useToken();
+  const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
   const router = useRouter()
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -44,6 +45,7 @@ export default function Login() {
     e.preventDefault()
     loginUser({email, password}).then((result) => {
       setToken(result);
+      localStorage.setItem("token", result);
       setTimeout(() => router.push('/loggedin-user-home'), 1000)
       setMsg("Login Success!")
     }).catch((error) => {
