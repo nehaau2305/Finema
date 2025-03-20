@@ -10,10 +10,6 @@ import Button from '../components/Button';
 
 export default function ManageMovies() {
   const router = useRouter()
-  const [token, setToken] = useToken('');
-  if (token === 'null') {
-    router.push('/web-user-home')
-  }
 
   const [showtime, setShowtime] = useState("");
   const [date, setDate] = useState("");
@@ -29,6 +25,11 @@ export default function ManageMovies() {
   const [mpaaRating, setMpaaRating] = useState('');
   const [nowShowing, setNowShowing] = useState(false);
   const [comingSoon, setComingSoon] = useState(false);
+
+  const [token, setToken] = useToken();
+  if (token === 'null') {
+    router.push('/web-user-home')
+  }
 
 
   const handleShowtime = (event: React.ChangeEvent<HTMLInputElement>) => {

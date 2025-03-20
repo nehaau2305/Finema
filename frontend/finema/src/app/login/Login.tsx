@@ -36,7 +36,7 @@ async function loginUser({email, password}:{email:String, password:String}) {
 }
 
 export default function Login() {
-  const [token, setToken] = useToken('');
+  const [token, setToken] = useToken();
   const router = useRouter()
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -46,12 +46,10 @@ export default function Login() {
   }
   const handleLogIn = async (e:any) => {
     e.preventDefault()
-    const unused = loginUser({email, password}).then((result) => {
+    loginUser({email, password}).then((result) => {
       setToken(result);
-      console.log("The result is " + result);
-      console.log("The token is " + token);
     })
-    router.push('/loggedin-user-home')
+    setTimeout(() => router.push('/loggedin-user-home'), 1000)
   }
 
   const handleAdminLogIn = () => {

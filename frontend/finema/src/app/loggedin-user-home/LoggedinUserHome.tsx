@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'
 import { useToken } from '../components/useToken'
+import Button from '../components/Button';
 import SearchMovies from '../components/SearchMovies'
 import ComingSoon from '../components/ComingSoon'
 import NowPlaying from '../components/NowPlaying'
@@ -10,15 +11,21 @@ import TopBar from '../components/TopBar';
 
 export default function LoggedinUserHome() {
   const router = useRouter()
-  const [token, setToken] = useToken('');
+  // useEffect(() => {
+  //   if (token === 'null') {
+  //     router.push('/web-user-home')
+  //   }
+  // }, [token]);
+
+  const displayToken = () => {
+    console.log(token)
+  }
+  
+  const [token, setToken] = useToken();
   console.log("The token everyone!" + token)
   useEffect(() => {
-    if (token === 'null') {
-      router.push('/web-user-home')
-    }
+    console.log("The token everyone!" + token)
   }, [token]);
-  
-
   return (
     <div>
       <TopBar loggedIn={(token !== '' ? true : false)}/>
@@ -29,6 +36,7 @@ export default function LoggedinUserHome() {
           <ComingSoon />
         </section>
       </section>
+      <Button onClick={displayToken}>Token</Button>
     </div>
   );
 };

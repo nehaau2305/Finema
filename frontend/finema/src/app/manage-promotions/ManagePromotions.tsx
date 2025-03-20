@@ -9,7 +9,7 @@ import Button from '../components/Button';
 
 export default function ManagePromotions() {
   const router = useRouter()
-  const [token, setToken] = useToken('');
+  const [token, setToken] = useToken();
   if (token === 'null') {
     router.push('/web-user-home')
   }
