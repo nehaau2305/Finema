@@ -60,7 +60,7 @@ export default function ManageMovies() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer t3klslescdsewe`,
+          'Authorization': token,
         },
         body: JSON.stringify(movie),
       });
