@@ -19,7 +19,7 @@ const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revi
                   'Content-Type': 'application/json',
                   'Authorization': token,
                 },
-                body: JSON.stringify(token),
+                body: JSON.stringify(JSON.stringify(token))
               });
         
               if (!response.ok) {
