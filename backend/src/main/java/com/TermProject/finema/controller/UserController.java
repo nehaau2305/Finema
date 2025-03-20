@@ -80,13 +80,8 @@ public class UserController {
     @GetMapping("/details")
     public ResponseEntity<User> getUserDetails(@RequestParam String email) {
         Optional<User> user = userRepository.findByEmail(email);
-<<<<<<< Updated upstream
         System.out.println("User found: " + user.get().getEmail() + " | isAdmin: " + user.get().getIsAdmin());
         if (user.isPresent()) {
-=======
-
-        if (user != null) {
->>>>>>> Stashed changes
             return ResponseEntity.ok(user.get());
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
