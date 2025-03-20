@@ -37,7 +37,8 @@ public class UserService implements UserDetailsService {
     }
 
     public Optional<User> getUserByToken(String token) {
-        return userRepository.findByToken(token);
+        String betterToken = token.substring(1, token.length() - 1);
+        return userRepository.findByToken(betterToken);
     }
 
     public User updateUser(User user) {

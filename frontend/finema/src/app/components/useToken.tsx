@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 
-export function useToken() {
+export function useToken() : [string, (newValue: string) => void] {
     const isLocalStorageAvailable = typeof window !== "undefined" && window.localStorage;
 
     //console.log("The true intital value " + initialValue)
@@ -11,8 +11,6 @@ export function useToken() {
 
     const initial = storedValue ? storedValue : "null";
 
-    console.log("in hook: The initial value " + initial)
-
     const [token, setToken] = useState(initial);
   
     useEffect(() => {
@@ -22,12 +20,10 @@ export function useToken() {
     }, [token, isLocalStorageAvailable]);
   
     function setStoredValue(newValue:string) {
-        console.log("in hook: The newValue is ", newValue)
         setToken(newValue);
         if (isLocalStorageAvailable) {
             localStorage.setItem('token', newValue);
         }
-        console.log("in hook: The token was set to ", token)
     }
     return [token, setStoredValue];
   }

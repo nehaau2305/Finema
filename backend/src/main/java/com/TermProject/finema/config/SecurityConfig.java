@@ -41,15 +41,17 @@ public class SecurityConfig {
             .cors(withDefaults()) // Enable CORS
             .csrf(csrf -> csrf.disable()) // Disable CSRF using Lambda DSL
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/movies/**").permitAll() // Allow all requests to movie-related endpoints
-                //.anyRequest().permitAll()
-                    //.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .requestMatchers("/auth/register", "/auth/login").permitAll()
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow all OPTIONS requests
-                    .requestMatchers("/users/register").permitAll()
-                    .requestMatchers("/users/login").permitAll()
-                    .requestMatchers("/users/**").permitAll()
-                    .anyRequest().authenticated()
+                //     .requestMatchers("/movies/**").permitAll() // Allow all requests to movie-related endpoints
+                .anyRequest().permitAll()
+                //     //.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                //     .requestMatchers("/auth/register", "/auth/login").permitAll()
+                //     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow all OPTIONS requests
+                //     .requestMatchers("/users/register").permitAll()
+                //     .requestMatchers("/users/login").permitAll()
+                //     .requestMatchers("/users/profile").permitAll()
+                //     .requestMatchers("/users/logout").permitAll()
+                //     .requestMatchers("/users/**").permitAll()
+                //     .anyRequest().authenticated()
             )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

@@ -13,9 +13,6 @@ export default function LoggedinUserHome() {
   const router = useRouter()
   const [token, setToken] = useToken();
   useEffect(() => {
-    console.log("The token everyone! " + token)
-  }, [token]);
-  useEffect(() => {
     if (token === 'null') {
       router.push('/web-user-home')
     }

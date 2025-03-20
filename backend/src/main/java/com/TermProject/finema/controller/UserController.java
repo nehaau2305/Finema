@@ -29,9 +29,9 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/profile")
+    @PostMapping("/profile")
     public ResponseEntity<User> getUserByToken(@RequestBody String token) {
-        System.out.println("It was called...");
+        System.out.println("profile was called...");
         User user = userService.getUserByToken(token).orElse(null);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -39,15 +39,18 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public ResponseEntity<User> updateUserToken(@RequestBody String token) {
         User user = userService.getUserByToken(token).orElse(null);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         user.setToken(null);
-        return ResponseEntity.ok(user);
+        User updatedUser = userService.updateUser(user);
+        return ResponseEntity.ok(updatedUser);
     }
+    //eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqIiwiaWF0IjoxNzQyNDgzNzEyLCJleHAiOjE3NDI1NzAxMTJ9.njIB-uiDfWkAJ63bBd3DIVr2S08wg9pbjUTJMB78Aho
+    //eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqIiwiaWF0IjoxNzQyNDgzODc5LCJleHAiOjE3NDI1NzAyNzl9.SRdw5114KwEE5lhZTz6JO7KWLtDH8GM26SpkkSimFoQ
 
     @PutMapping("/{username}")
     public ResponseEntity<User> updateUser(@PathVariable String username, @RequestBody User user) {

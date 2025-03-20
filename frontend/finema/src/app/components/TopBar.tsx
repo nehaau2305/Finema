@@ -10,8 +10,27 @@ const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revi
     const router = useRouter()
     const [token, setToken] = useToken();
 
-    function goToWebUserHome() {
-        setToken(null)
+    async function goToWebUserHome() {
+        setToken("null")
+        try {
+            const response = await fetch(`http://localhost:8080/users/logout`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': token,
+                },
+                body: JSON.stringify(token),
+              });
+        
+              if (!response.ok) {
+                console.log(response);
+                throw new Error('Network response was not ok');
+              } else {
+                console.log("response is ok");
+              }
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
         router.push('/web-user-home')
     }
 
