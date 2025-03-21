@@ -3,6 +3,7 @@ package com.TermProject.finema.controller;
 import com.TermProject.finema.entity.User;
 import com.TermProject.finema.jwt.JwtTokenProvider;
 import com.TermProject.finema.entity.Card;
+import com.TermProject.finema.service.MailService;
 import com.TermProject.finema.service.UserService;
 import com.TermProject.finema.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.Optional;
 import java.util.List;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/users")
@@ -21,6 +24,10 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    
+    @Autowired
+    private MailService mailService;
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -34,6 +41,21 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        if (email == null || email.isEmpty()) {return ResponseEntity.badRequest().body("Email is required");}
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            String response = mailService.sendResetPasswordEmail(user.get().getEmail(), user.get().getName());
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found");
+        }
+    }
+
 
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
