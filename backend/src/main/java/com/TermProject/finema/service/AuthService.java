@@ -52,6 +52,7 @@ public class AuthService {
         System.out.println("3");
         User newUser = userRepository.save(user);
         System.out.println("4");
+        mailService.sendPasswordResetConfirmationEmail(newUser.getEmail(), newUser.getName());
         return newUser;
     }
 }
