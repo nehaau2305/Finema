@@ -30,11 +30,11 @@ CREATE TABLE IF NOT EXISTS Movie (
     director VARCHAR(255),
     producer VARCHAR(255),
     synopsis TEXT,
-    trailerPicture VARCHAR(2083), -- URL for picture
-    trailerVideo VARCHAR(2083), -- URL for video
-    mpaaRating ENUM('G', 'PG', 'PG-13', 'R', 'NC-17'),
-    nowShowing BOOLEAN DEFAULT FALSE,
-    comingSoon BOOLEAN DEFAULT FALSE,
+    trailer_picture VARCHAR(2083), -- URL for picture
+    trailer_video VARCHAR(2083), -- URL for video
+    mpaa_rating ENUM('G', 'PG', 'PG-13', 'R', 'NC-17'),
+    now_showing BOOLEAN DEFAULT FALSE,
+    coming_soon BOOLEAN DEFAULT FALSE,
     cast TEXT
 );
 
@@ -104,4 +104,21 @@ CREATE TABLE IF NOT EXISTS Payment (
     cost DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (ticketID) REFERENCES Ticket(ticketID) ON DELETE CASCADE,
     FOREIGN KEY (userID) REFERENCES User(id) ON DELETE CASCADE
+);
+
+
+-- Insert a random movie into the Movie table
+INSERT INTO Movie (title, category, director, producer, synopsis, trailer_picture, trailer_video, mpaa_rating, now_showing, coming_soon, cast)
+VALUES (
+    'Random Movie Title',
+    'Action',
+    'Random Director',
+    'Random Producer',
+    'This is a random synopsis for the movie.',
+    'http://example.com/trailer-picture.jpg',
+    'http://example.com/trailer-video.mp4',
+    'PG_13',
+    TRUE,
+    FALSE,
+    'Random Actor 1, Random Actor 2, Random Actor 3'
 );
