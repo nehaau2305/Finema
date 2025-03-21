@@ -5,11 +5,19 @@ import { useToken } from '../components/useToken'
 import styles from './EditProfile.module.css'
 import TopBar from '../components/TopBar';
 import Button from '../components/Button';
+import PayCard from '../components/PayCard';
+
+interface Card {
+  id: number;
+  cardNumber: string;
+  expDate: string;
+  billingAddress: string;
+}
 
 export default function EditProfile() {
   const router = useRouter();
   const [token, setToken] = useToken('token');
-  const [password, setPassword] = useState('');
+
   const [userData, setUserData] = useState({
     name: '',
     phone: '',
@@ -17,12 +25,84 @@ export default function EditProfile() {
     homeAddress: '',
     cardNumber: '',
     expirationDate: '',
+    cvv: '',
     billingAddress: '',
     currentPassword: '',
     newPassword: '',
     confirmPassword: '',
     promotions: false,
   });
+
+  const [results, setResults] = useState<Card[]>([]);
+
+  useEffect(() => {
+    fetch(``, { // add fetch for cards
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(token)
+    })
+    .then(response => response.json())
+    .then(data => setResults(data))
+    .catch(error => console.error('Error fetching user data:', error));
+    const mine:Card = {
+      id: 1,
+      cardNumber: '1234',
+      expDate: '02/32',
+      billingAddress: 'here'
+    }
+    const hers:Card = {
+      id: 2,
+      cardNumber: '1234',
+      expDate: '02/32',
+      billingAddress: 'here'
+    }
+    const his:Card = {
+      id: 3,
+      cardNumber: '1234',
+      expDate: '02/32',
+      billingAddress: 'here'
+    }
+    const theirs:Card = {
+      id: 4,
+      cardNumber: '1234',
+      expDate: '02/32',
+      billingAddress: 'here'
+    }
+    setResults([mine, hers, his, theirs])
+  }, [router]);
+
+  const deleteCard = (card:Card) => {
+    const cardAndToken = {card, token}
+    fetch(``, { // add delete path for card
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cardAndToken)
+    })
+    .then(response => response.json()) // Assuming results will be a new list of cards
+    .then(data => setResults(data))
+    .catch(error => console.error('Error fetching user data:', error));
+  };
+
+  const addCard = (card:Card) => {
+    const cardAndToken = {card, token}
+    fetch(``, { // add add path for card
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cardAndToken)
+    })
+    .then(response => response.json())
+    .then(data => setResults(data))
+    .catch(error => console.error('Error fetching user data:', error));
+  };
 
   useEffect(() => {
     if (token === '') {
@@ -41,7 +121,7 @@ export default function EditProfile() {
       .then(data => setUserData(data))
       .catch(error => console.error('Error fetching user data:', error));
     }
-  }, [token, router]);
+  }, [router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -85,6 +165,7 @@ export default function EditProfile() {
     })
     .catch(error => console.error('Error updating profile:', error));
   };
+  
 
   return (
     <div>
@@ -138,30 +219,54 @@ export default function EditProfile() {
             </div>
             <div className={styles.input_section}>
               <h1>New Password</h1>
-              <input value={userData.newPassword} type="password" onChange={(e) => setPassword(e.target.value)} />
+              <input name="newPassword" value={userData.newPassword} type="password" onChange={handleChange} />
             </div>
             <div className={styles.input_section}>
               <h1>Confirm New Password</h1>
-              <input value={userData.newPassword} type="password" onChange={(e) => setPassword(e.target.value)} />
+              <input name="confirmPassword" value={userData.confirmPassword} type="password" onChange={handleChange} />
             </div>
             <Button onClick={handleSubmit}>Change Password</Button>
           </section>
-          <section className={styles.card}>
-            <h2>Payment Information</h2>
-            <div className={styles.input_section}>
-              <h1>Card Number</h1>
-              <input name="cardNumber" value={userData.cardNumber} onChange={handleChange} />
-            </div>
-            <div className={styles.input_section}>
-              <h1>Expiration Date</h1>
-              <input name="expirationDate" value={userData.expirationDate} onChange={handleChange} />
-            </div>
-            <div className={styles.address_field}>
-              <h1>Billing Address</h1>
-              <input name="billingAddress" value={userData.billingAddress} onChange={handleChange} />
-            </div>
-            <Button onClick={handleSubmit}>Add Card</Button>
-          </section>
+          <div className={styles.card_zone}>
+            <section className={styles.card}>
+              <h2>Payment Information</h2>
+              <div className={styles.input_section}>
+                <h1>Card Number</h1>
+                <input name="cardNumber" value={userData.cardNumber} onChange={handleChange} />
+              </div>
+              <div className={styles.input_section}>
+                <h1>Expiration Date</h1>
+                <input name="expirationDate" value={userData.expirationDate} onChange={handleChange} />
+              </div>
+              <div className={styles.input_section}>
+                <h1> CVV </h1>
+                <input name="cvv" value={userData.cvv} onChange={handleChange} />
+              </div>
+              <div className={styles.address_field}>
+                <h1>Billing Address</h1>
+                <input name="billingAddress" value={userData.billingAddress} onChange={handleChange} />
+              </div>
+              <Button onClick={handleSubmit}>Add Card</Button>
+            </section>
+            <section className={styles.card_list}>
+              <h1 className={styles.headers}> Your Saved Cards: </h1>
+              <ul>
+                {results.length > 0 ? (
+                  results.map((card: Card) => (
+                    <li key={card.id}>
+                      <PayCard
+                        cardNum={card.cardNumber}
+                        expDate={card.expDate}
+                        deleteCard={() => deleteCard(card)}
+                      />
+                    </li>
+                  ))
+                ) : (
+                  <p>No results found</p>
+                )}
+              </ul>
+            </section>
+          </div>
         </section>
       </section>
     </div>

@@ -1,0 +1,21 @@
+.main_body {
+    display: flex;
+    justify-content: space-around;
+    background-color: #4c76ff;
+    max-width: 100%;
+    margin: auto;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+}
+.header {
+    font-weight: bold;
+    margin-right: 10px;
+    font-family: var(--font-inter);
+    color: white;
+}
+.headers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

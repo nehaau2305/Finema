@@ -47,6 +47,19 @@
     border-radius: 10px;
     padding: 20px;
 }
+.card_zone {
+    display: flex;
+    margin-top: 25px;
+    border-radius: 10px;
+}
+.card_list {
+    background-color: #33B0FF;
+    width: 250px;
+    margin-top: 25px;
+    margin-left: 10px;
+    border-radius: 10px;
+    padding: 20px;
+}
 .main_body input {
     background-color: #33B0FF;
     border: 2px solid #1449FF;
