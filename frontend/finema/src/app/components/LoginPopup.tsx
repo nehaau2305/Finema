@@ -27,7 +27,7 @@ const LoginPopup = ({
        headers: {
          'Content-Type': 'application/json'
        },
-       body: JSON.stringify(""),
+       body: JSON.stringify({ email }),
      })
      .then(response => {
        if (response.ok) {
@@ -40,6 +40,7 @@ const LoginPopup = ({
 
     setCodeDisplayBool(true)
   }
+  /**
   async function handleCode() {
     if (password1 !== password2) {
       setMsg("Passwords do not match!")
@@ -66,6 +67,7 @@ const LoginPopup = ({
      //console.log('Password reset:', data);
     onClose()
   }
+    */
 
   useEffect(() => {
     if (isOpened) {
@@ -105,6 +107,7 @@ const LoginPopup = ({
       </div>
     </dialog>
   );
+  /** 
   const codeDisplay = (
     <dialog
       ref={ref}
@@ -137,8 +140,9 @@ const LoginPopup = ({
       </div>
     </dialog>
   );
-
-  return codeDisplayBool ? codeDisplay : emailDisplay;
+  */
+  //return codeDisplayBool ? codeDisplay : emailDisplay;
+  return emailDisplay;
 };
 
 export default LoginPopup;

@@ -27,17 +27,22 @@ async function sendNewPassword(password:string, email:string) {
 export default function Reset() {
   const router = useRouter();
   const [password1, setPassword1] = useState("");
-  const [email, setEmail] = useState("");
+  //const [email, setEmail] = useState("");
+  const [email, setEmail] = useState<string | null>(null);
   const [password2, setPassword2] = useState("");
   const [msg, setMsg] = useState("");
 
   const handleReset = (e:any) => {
     e.preventDefault()
     if (password1 === password2) {
-      sendNewPassword(password1, email).then((result)=> {
-        setMsg("Reset Successfull!")
-        setTimeout(() => router.push("/login"), 1000)
-      }).catch((error) => setMsg("Error Has occured: " + error))
+      const urlParams = new URLSearchParams(window.location.search);
+      const email = urlParams.get("email");
+      if (email != null) {
+        sendNewPassword(password1, email).then((result)=> {
+          setMsg("Reset Successfull!")
+          setTimeout(() => router.push("/login"), 1000)
+        }).catch((error) => setMsg("Error Has occured: " + error))
+      }
     } else {
       setMsg("Passwords do not match!")
     }
