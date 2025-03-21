@@ -22,21 +22,21 @@ const LoginPopup = ({
   const [msg, setMsg] = useState("");
 
   async function handleReset() {
-    // const response = await fetch(``, { //**** Replace with path to send email
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(""),
-    // })
-    // .then(response => {
-    //   if (response.ok) {
-    //     setMsg('Password change successfully');
-    //   } else {
-    //     setMsg('Error sending email, email incorrect or error occured');
-    //   }
-    // })
-    // .catch(error => console.error('Error sending email:', error));
+     const response = await fetch("http://localhost:8080/users/forgot-password", { //**** Replace with path to send email
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json'
+       },
+       body: JSON.stringify(""),
+     })
+     .then(response => {
+       if (response.ok) {
+         setMsg('Password change successfully');
+       } else {
+         setMsg('Error sending email, email incorrect or error occured');
+       }
+     })
+     .catch(error => console.error('Error sending email:', error));
 
     setCodeDisplayBool(true)
   }
@@ -45,25 +45,25 @@ const LoginPopup = ({
       setMsg("Passwords do not match!")
     }
     const codeAndPasswordAndEmail = {code:code, password:password1, email:email}
-    // const response = await fetch(``, { //**** Replace with path to reset password
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(codeAndPasswordAndEmail),
-    // })
-    // .then(response => {
-    //   if (response.ok) {
-    //     setMsg('Password change successfully');
-    //   } else {
-    //     setMsg('Error changing password, code incorrect or error occured');
-    //   }
-    // })
-    // .catch(error => console.error('Error updating password:', error));
+     const response = await fetch(``, { //**** Replace with path to reset password
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json'
+       },
+       body: JSON.stringify(codeAndPasswordAndEmail),
+     })
+     .then(response => {
+       if (response.ok) {
+         setMsg('Password change successfully');
+       } else {
+         setMsg('Error changing password, code incorrect or error occured');
+       }
+     })
+     .catch(error => console.error('Error updating password:', error));
 
     
-    // const data = await response.text();
-    // console.log('Password reset:', data);
+     //const data = await response.text();
+     //console.log('Password reset:', data);
     onClose()
   }
 
