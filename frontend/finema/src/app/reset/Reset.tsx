@@ -6,38 +6,35 @@ import styles from './Reset.module.css'
 import Image from 'next/image'
 import finemalogo from './finemalogo.png'
 
-async function sendNewPassword(password:string) {
-  const response = await fetch(``, { // set to correct path
-    method: 'POST',
+async function sendNewPassword(password:string, email:string) {
+  fetch('http://localhost:8080/auth/newpassword', {
+    method: 'PUT',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(password),
+    body: JSON.stringify({password:password, email:email})
   })
-
-  if (!response.ok) {
-    console.log(response);
-    throw new Error('Network response was not ok');
-  } else {
-    console.log("Network response is ok");
-    console.log(response);
-  }
-  
-  const data = await response.text();
-  console.log('Login Confirmed:', data);
-  return data;
-}
+  .then(response => {
+    if (response.ok) {
+      alert('Password updated successfully');
+    } else {
+      alert('Error updating password');
+    }
+  })
+  .catch(error => console.error('Error updating password:', error));
+};
 
 export default function Reset() {
   const router = useRouter();
   const [password1, setPassword1] = useState("");
+  const [email, setEmail] = useState("");
   const [password2, setPassword2] = useState("");
   const [msg, setMsg] = useState("");
 
   const handleReset = (e:any) => {
     e.preventDefault()
     if (password1 === password2) {
-      sendNewPassword(password1).then((result)=> {
+      sendNewPassword(password1, email).then((result)=> {
         setMsg("Reset Successfull!")
         setTimeout(() => router.push("/login"), 1000)
       }).catch((error) => setMsg("Error Has occured: " + error))

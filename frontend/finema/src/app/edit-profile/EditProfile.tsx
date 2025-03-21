@@ -23,17 +23,19 @@ export default function EditProfile() {
     phone: '',
     email: '',
     homeAddress: '',
+    promotions: false,
+  });
+  const [cardData, setCardData] = useState({
     cardNumber: '',
     expirationDate: '',
-    cvv: '',
     billingAddress: '',
-    promotions: false,
   });
   const [passwords, setPasswords] = useState({
     currentPassword: '',
     newPassword: '',
     confirmPassword: '',
   });
+  //const [password, setPassword] = useState();
 
   const [results, setResults] = useState<Card[]>([]);
 
@@ -78,8 +80,8 @@ export default function EditProfile() {
   }, [router]);
 
   const deleteCard = (card:Card) => {
-    const cardAndToken = {card, token}
-    fetch(``, { // add delete path for card
+    const cardAndToken = {card:card, token:token}
+    fetch(``, { // add the delete path for card
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -92,9 +94,9 @@ export default function EditProfile() {
     .catch(error => console.error('Error fetching user data:', error));
   };
 
-  const addCard = (card:Card) => {
-    const cardAndToken = {card, token}
-    fetch(``, { // add add path for card
+  const addCard = () => {
+    const cardAndToken = {...cardData, token:token}
+    fetch(``, { // add the add path for card
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -102,7 +104,7 @@ export default function EditProfile() {
       },
       body: JSON.stringify(cardAndToken)
     })
-    .then(response => response.json())
+    .then(response => response.json()) // Assuming results will be a new list of cards
     .then(data => setResults(data))
     .catch(error => console.error('Error fetching user data:', error));
   };
@@ -121,7 +123,10 @@ export default function EditProfile() {
         body: JSON.stringify(token)
       })
       .then(response => response.json())
-      .then(data => setUserData(data))
+      .then(data => {
+        setUserData(data)
+        //setPassword(data.password);
+      })
       .catch(error => console.error('Error fetching user data:', error));
     }
   }, [router]);
@@ -142,7 +147,10 @@ export default function EditProfile() {
     }));
   };
 
+  useEffect(() => handleRadioChange(false), [])
+
   const handleRadioChange = (value: boolean) => {
+    console.log(value)
     setUserData(prevState => ({
       ...prevState,
       promotions: value
@@ -183,26 +191,30 @@ export default function EditProfile() {
       alert('New password and confirm password do not match');
       return;
     }
+    // if (passwords.currentPassword !== password) {
+    //   alert('Current Password is incorrect');
+    //   return;
+    // }
+    // Currently password is returned from user in encrypted form, not sure how to change this
 
     // Submit updated user data to the backend
 
-    console.log('Updating password for: ', userData.email)
+    console.log('Updating password forff: ', userData.email)
     fetch('http://localhost:8080/auth/newpassword', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({password:passwords.newPassword, token:token})
+      body: JSON.stringify({password:passwords.newPassword, email:userData.email})
     })
     .then(response => {
       if (response.ok) {
-        alert('Profile updated successfully');
+        alert('Password updated successfully');
       } else {
-        alert('Error updating profile');
+        alert('Error updating password');
       }
     })
-    .catch(error => console.error('Error updating profile:', error));
+    .catch(error => console.error('Error updating password:', error));
   };
 
   return (
@@ -270,21 +282,17 @@ export default function EditProfile() {
               <h2>Payment Information</h2>
               <div className={styles.input_section}>
                 <h1>Card Number</h1>
-                <input name="cardNumber" value={userData.cardNumber} onChange={handleChange} />
+                <input name="cardNumber" value={cardData.cardNumber} onChange={handleChange} />
               </div>
               <div className={styles.input_section}>
                 <h1>Expiration Date</h1>
-                <input name="expirationDate" value={userData.expirationDate} onChange={handleChange} />
-              </div>
-              <div className={styles.input_section}>
-                <h1> CVV </h1>
-                <input name="cvv" value={userData.cvv} onChange={handleChange} />
+                <input name="expirationDate" value={cardData.expirationDate} onChange={handleChange} />
               </div>
               <div className={styles.address_field}>
                 <h1>Billing Address</h1>
-                <input name="billingAddress" value={userData.billingAddress} onChange={handleChange} />
+                <input name="billingAddress" value={cardData.billingAddress} onChange={handleChange} />
               </div>
-              <Button onClick={handleSubmit}>Add Card</Button>
+              <Button onClick={addCard}>Add Card</Button>
             </section>
             <section className={styles.card_list}>
               <h1 className={styles.headers}> Your Saved Cards: </h1>
