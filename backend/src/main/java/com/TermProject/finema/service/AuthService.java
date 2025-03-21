@@ -48,6 +48,8 @@ public class AuthService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
         user.setPassword(passwordEncoder.encode(password));
         User newUser = userRepository.save(user);
+        System.out.println("4");
+        mailService.sendPasswordResetConfirmationEmail(newUser.getEmail(), newUser.getName());
         return newUser;
     }
 }
