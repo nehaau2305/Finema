@@ -43,4 +43,15 @@ public class AuthService {
         mailService.sendConfirmationEmail(newUser.getEmail(), newUser.getName());
         return savedUser;
     } // register new user
+
+    public User changePassword(String token, String password) {
+        System.out.println("1");
+        User user = userRepository.findByToken(token).orElseThrow(() -> new RuntimeException("User not found"));
+        System.out.println("2");
+        user.setPassword(passwordEncoder.encode(password));
+        System.out.println("3");
+        User newUser = userRepository.save(user);
+        System.out.println("4");
+        return newUser;
+    }
 }

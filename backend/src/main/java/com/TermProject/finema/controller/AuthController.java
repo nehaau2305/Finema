@@ -2,6 +2,7 @@ package com.TermProject.finema.controller;
 
 import com.TermProject.finema.entity.User;
 import com.TermProject.finema.dto.LoginRequest;
+import com.TermProject.finema.dto.PasswordChangeRequest;
 import com.TermProject.finema.jwt.JwtTokenProvider;
 import com.TermProject.finema.dto.AuthRequest;
 import com.TermProject.finema.dto.AuthResponse;
@@ -33,5 +34,13 @@ public class AuthController {
             authService.registerUser(newUser);
             return ResponseEntity.status(201).body("User registered successfully");
         } catch (Exception e) {return ResponseEntity.status(400).body("Error registering user: " + e.getMessage());}
+    } // register
+
+    @PutMapping("/newpassword")
+    public ResponseEntity<String> setPassword(@RequestBody PasswordChangeRequest passwordChange) {
+        try {
+            authService.changePassword(passwordChange.getToken(), passwordChange.getPassword());
+            return ResponseEntity.status(201).body("User registered successfully");
+        } catch (Exception e) {return ResponseEntity.status(400).body("Error changing password: " + e.getMessage());}
     } // register
 }

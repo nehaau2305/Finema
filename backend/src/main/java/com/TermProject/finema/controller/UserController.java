@@ -36,13 +36,10 @@ public class UserController {
 
     @PostMapping("/profile")
     public ResponseEntity<User> getUserByToken(@RequestBody String token) {
-        System.out.println("profile was called with token: " + token);
         User user = userService.getUserByToken(token).orElse(null);
-        System.out.println("profile was called...2");
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        System.out.println("profile was called...3");
         return ResponseEntity.ok(user);
     }
 

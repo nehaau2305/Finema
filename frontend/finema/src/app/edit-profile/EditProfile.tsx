@@ -27,10 +27,12 @@ export default function EditProfile() {
     expirationDate: '',
     cvv: '',
     billingAddress: '',
+    promotions: false,
+  });
+  const [passwords, setPasswords] = useState({
     currentPassword: '',
     newPassword: '',
     confirmPassword: '',
-    promotions: false,
   });
 
   const [results, setResults] = useState<Card[]>([]);
@@ -49,29 +51,30 @@ export default function EditProfile() {
     .catch(error => console.error('Error fetching user data:', error));
     const mine:Card = {
       id: 1,
-      cardNumber: '1234',
+      cardNumber: '1234345',
       expDate: '02/32',
       billingAddress: 'here'
     }
     const hers:Card = {
       id: 2,
-      cardNumber: '1234',
+      cardNumber: '1234654',
       expDate: '02/32',
       billingAddress: 'here'
     }
     const his:Card = {
       id: 3,
-      cardNumber: '1234',
+      cardNumber: '12343456',
       expDate: '02/32',
       billingAddress: 'here'
     }
     const theirs:Card = {
       id: 4,
-      cardNumber: '1234',
+      cardNumber: '1234987',
       expDate: '02/32',
       billingAddress: 'here'
     }
     setResults([mine, hers, his, theirs])
+    // Remove above once working
   }, [router]);
 
   const deleteCard = (card:Card) => {
@@ -131,6 +134,14 @@ export default function EditProfile() {
     }));
   };
 
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPasswords(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
   const handleRadioChange = (value: boolean) => {
     setUserData(prevState => ({
       ...prevState,
@@ -140,7 +151,7 @@ export default function EditProfile() {
 
   const handleSubmit = () => {
     // Validate form data
-    if (userData.newPassword !== userData.confirmPassword) {
+    if (passwords.newPassword !== passwords.confirmPassword) {
       alert('New password and confirm password do not match');
       return;
     }
@@ -165,7 +176,34 @@ export default function EditProfile() {
     })
     .catch(error => console.error('Error updating profile:', error));
   };
-  
+
+  const handlePasswordSubmit = () => {
+    // Validate form data
+    if (passwords.newPassword !== passwords.confirmPassword) {
+      alert('New password and confirm password do not match');
+      return;
+    }
+
+    // Submit updated user data to the backend
+
+    console.log('Updating password for: ', userData.email)
+    fetch('http://localhost:8080/auth/newpassword', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({password:passwords.newPassword, token:token})
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('Profile updated successfully');
+      } else {
+        alert('Error updating profile');
+      }
+    })
+    .catch(error => console.error('Error updating profile:', error));
+  };
 
   return (
     <div>
@@ -215,17 +253,17 @@ export default function EditProfile() {
             <h2>Change Password</h2>
             <div className={styles.input_section}>
               <h1>Current Password</h1>
-              <input name="currentPassword" type="password" value={userData.currentPassword} onChange={handleChange} />
+              <input name="currentPassword" type="password" value={passwords.currentPassword} onChange={handlePasswordChange} />
             </div>
             <div className={styles.input_section}>
               <h1>New Password</h1>
-              <input name="newPassword" value={userData.newPassword} type="password" onChange={handleChange} />
+              <input name="newPassword" value={passwords.newPassword} type="password" onChange={handlePasswordChange} />
             </div>
             <div className={styles.input_section}>
               <h1>Confirm New Password</h1>
-              <input name="confirmPassword" value={userData.confirmPassword} type="password" onChange={handleChange} />
+              <input name="confirmPassword" value={passwords.confirmPassword} type="password" onChange={handlePasswordChange} />
             </div>
-            <Button onClick={handleSubmit}>Change Password</Button>
+            <Button onClick={handlePasswordSubmit}>Change Password</Button>
           </section>
           <div className={styles.card_zone}>
             <section className={styles.card}>
