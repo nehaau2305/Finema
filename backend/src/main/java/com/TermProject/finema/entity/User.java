@@ -36,12 +36,17 @@ public class User {
     private boolean isAdmin;
 
     @Column(nullable = true)
-    @Enumerated(EnumType.STRING)
-    private Status status = Status.Active;
-
-    @Column(nullable = true)
     private String token;
 
+    @Column(nullable = true)
+    private boolean active = false;
+
+    @Column(nullable = true)
+    private boolean suspended = false;
+
+
+    @Column(nullable = true)
+    private boolean suspended = false;
 
 
 
@@ -62,10 +67,12 @@ public class User {
     public void setHomeAddress(String homeAddress) {this.homeAddress = homeAddress;}
     public boolean getIsAdmin() {return isAdmin;}
     public void setAdmin(boolean isAdmin) {this.isAdmin = isAdmin;}
-    public Status getStatus() {return status;}
-    public void setStatus(Status status){this.status = status;}
     public String getToken() {return token;}
     public void setToken(String token){this.token = token;}
 
 
+    public boolean isActive() {return active;}
+    public void setActive(boolean active) {this.active = active;}
+    public boolean isSuspended() {return suspended;}
+    public void setSuspended(boolean suspended) {this.suspended = suspended;}
 }

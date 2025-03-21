@@ -35,8 +35,79 @@ export default function EditProfile() {
     newPassword: '',
     confirmPassword: '',
   });
+  //const [password, setPassword] = useState();
 
   const [cards, setCards] = useState<Card[]>([]);
+  
+  useEffect(() => {
+    fetch(``, { // add fetch for cards
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(token)
+    })
+    .then(response => response.json())
+    .then(data => setResults(data))
+    .catch(error => console.error('Error fetching user data:', error));
+    const mine:Card = {
+      id: 1,
+      cardNumber: '1234345',
+      expDate: '02/32',
+      billingAddress: 'here'
+    }
+    const hers:Card = {
+      id: 2,
+      cardNumber: '1234654',
+      expDate: '02/32',
+      billingAddress: 'here'
+    }
+    const his:Card = {
+      id: 3,
+      cardNumber: '12343456',
+      expDate: '02/32',
+      billingAddress: 'here'
+    }
+    const theirs:Card = {
+      id: 4,
+      cardNumber: '1234987',
+      expDate: '02/32',
+      billingAddress: 'here'
+    }
+    setResults([mine, hers, his, theirs])
+    // Remove above once working
+  }, [router]);
+
+  const deleteCard = (card:Card) => {
+    const cardAndToken = {card, token}
+    fetch(``, { // add delete path for card
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cardAndToken)
+    })
+    .then(response => response.json()) // Assuming results will be a new list of cards
+    .then(data => setResults(data))
+    .catch(error => console.error('Error fetching user data:', error));
+  };
+
+  const addCard = (card:Card) => {
+    const cardAndToken = {card, token}
+    fetch(``, { // add add path for card
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cardAndToken)
+    })
+    .then(response => response.json())
+    .then(data => setResults(data))
+    .catch(error => console.error('Error fetching user data:', error));
+  };
 
   useEffect(() => {
     if (token === '') {
@@ -52,7 +123,10 @@ export default function EditProfile() {
         body: JSON.stringify({ token })
       })
       .then(response => response.json())
-      .then(data => setUserData(data))
+      .then(data => {
+        setUserData(data)
+        //setPassword(data.password);
+      })
       .catch(error => console.error('Error fetching user data:', error));
 
       // Fetch user's cards from the backend
@@ -145,7 +219,10 @@ export default function EditProfile() {
     }));
   };
 
+  useEffect(() => handleRadioChange(false), [])
+
   const handleRadioChange = (value: boolean) => {
+    console.log(value)
     setUserData(prevState => ({
       ...prevState,
       promotions: value
@@ -184,24 +261,30 @@ export default function EditProfile() {
       alert('New password and confirm password do not match');
       return;
     }
+    // if (passwords.currentPassword !== password) {
+    //   alert('Current Password is incorrect');
+    //   return;
+    // }
+    // Currently password is returned from user in encrypted form, not sure how to change this
 
     // Submit updated user data to the backend
+
+    console.log('Updating password for: ', userData.email)
     fetch('http://localhost:8080/auth/newpassword', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({ password: passwords.newPassword, token })
+      body: JSON.stringify({password:passwords.newPassword, token:token})
     })
     .then(response => {
       if (response.ok) {
-        alert('Profile updated successfully');
+        alert('Password updated successfully');
       } else {
-        alert('Error updating profile');
+        alert('Error updating password');
       }
     })
-    .catch(error => console.error('Error updating profile:', error));
+    .catch(error => console.error('Error updating password:', error));
   };
 
   return (
@@ -269,32 +352,21 @@ export default function EditProfile() {
               <h2>Payment Information</h2>
               <div className={styles.input_section}>
                 <h1>Card Number</h1>
-                <input name="cardNumber" value={cardData.cardNumber} onChange={handleCardChange} />
-              </div>
-              <div className={styles.input_section}>
-                <h1>Cardholder Name</h1>
-                <input name="cardholderName" value={cardData.cardholderName} onChange={handleCardChange} />
+                <input name="cardNumber" value={userData.cardNumber} onChange={handleChange} />
               </div>
               <div className={styles.input_section}>
                 <h1>Expiration Date</h1>
-                <input name="expirationDate" value={cardData.expirationDate} onChange={handleCardChange} />
+                <input name="expirationDate" value={userData.expirationDate} onChange={handleChange} />
               </div>
               <div className={styles.input_section}>
-                <h1>CVV</h1>
-                <input name="cvv" value={cardData.cvv} onChange={handleCardChange} />
+                <h1> CVV </h1>
+                <input name="cvv" value={userData.cvv} onChange={handleChange} />
               </div>
               <div className={styles.address_field}>
                 <h1>Billing Address</h1>
-                <input name="billingAddress" value={cardData.billingAddress} onChange={handleCardChange} />
+                <input name="billingAddress" value={userData.billingAddress} onChange={handleChange} />
               </div>
-              <Button onClick={() => addCard({
-                id: 0, // id will be generated by the backend
-                cardNumber: cardData.cardNumber,
-                cardholderName: cardData.cardholderName,
-                expirationDate: cardData.expirationDate,
-                cvv: cardData.cvv,
-                billingAddress: cardData.billingAddress
-              })}>Add Card</Button>
+              <Button onClick={handleSubmit}>Add Card</Button>
             </section>
             <section className={styles.card_list}>
               <h1 className={styles.headers}> Your Saved Cards: </h1>

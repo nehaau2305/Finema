@@ -39,7 +39,7 @@ public class AuthController {
     @PutMapping("/newpassword")
     public ResponseEntity<String> setPassword(@RequestBody PasswordChangeRequest passwordChange) {
         try {
-            authService.changePassword(passwordChange.getToken(), passwordChange.getPassword());
+            authService.changePassword(passwordChange.getEmail(), passwordChange.getPassword());
             return ResponseEntity.status(201).body("User registered successfully");
         } catch (Exception e) {return ResponseEntity.status(400).body("Error changing password: " + e.getMessage());}
     } // register

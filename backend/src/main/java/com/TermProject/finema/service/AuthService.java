@@ -28,6 +28,7 @@ public class AuthService {
         if (!passwordEncoder.matches(password, user.getPassword())) {return null;}
         String token = jwtTokenProvider.generateToken(email);
         user.setToken(token);
+        user.setActive(true);
         userRepository.save(user);
         return token;
     } // Authenticate user & generate JWT token
@@ -44,14 +45,12 @@ public class AuthService {
         return savedUser;
     } // register new user
 
-    public User changePassword(String token, String password) {
-        System.out.println("1");
-        User user = userRepository.findByToken(token).orElseThrow(() -> new RuntimeException("User not found"));
-        System.out.println("2");
+    public User changePassword(String email, String password) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
         user.setPassword(passwordEncoder.encode(password));
-        System.out.println("3");
         User newUser = userRepository.save(user);
         System.out.println("4");
+        mailService.sendPasswordResetConfirmationEmail(newUser.getEmail(), newUser.getName());
         return newUser;
     }
 }
