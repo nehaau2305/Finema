@@ -3,6 +3,7 @@ package com.TermProject.finema.entity;
 import jakarta.persistence.*;
 import java.util.Date;
 
+
 @Entity
 @Table(name = "card")
 public class Card {
@@ -29,7 +30,7 @@ public class Card {
     private String billingAddress;
 
     @ManyToOne
-    @JoinColumn(name = "userID", nullable = false)
+    @JoinColumn(name = "user", nullable = false)
     private User user;
 
     public Card() {
@@ -92,6 +93,14 @@ public class Card {
 
     public void setBillingAddress(String billingAddress) {
         this.billingAddress = billingAddress;
+    }
+
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(User user) {
+        this.userID = user.getId();
     }
 
     public User getUser() {

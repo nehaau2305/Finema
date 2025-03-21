@@ -62,9 +62,9 @@ CREATE TABLE IF NOT EXISTS User (
 CREATE TABLE IF NOT EXISTS Card (
     cardID INT PRIMARY KEY AUTO_INCREMENT,
     userID INT NOT NULL,
-    cardNumber VARCHAR(16) NOT NULL UNIQUE, -- 16-digit card number
-    cardholderName VARCHAR(255) NOT NULL,
-    expirationDate VARCHAR(5) NOT NULL,
+    card_number VARCHAR(16) NOT NULL UNIQUE, -- 16-digit card number
+    cardholder_name VARCHAR(255) NOT NULL,
+    expiration_date VARCHAR(5) NOT NULL,
     cvv VARCHAR(4) NOT NULL, -- Typically 3 or 4 digits
     billing_address TEXT,
     FOREIGN KEY (userID) REFERENCES User(id) ON DELETE CASCADE
