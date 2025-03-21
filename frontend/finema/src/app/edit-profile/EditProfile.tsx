@@ -1,8 +1,8 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation'
-import { useToken } from '../components/useToken'
-import styles from './EditProfile.module.css'
+import { useRouter } from 'next/navigation';
+import { useToken } from '../components/useToken';
+import styles from './EditProfile.module.css';
 import TopBar from '../components/TopBar';
 import Button from '../components/Button';
 import PayCard from '../components/PayCard';
@@ -20,8 +20,10 @@ export default function EditProfile() {
   const router = useRouter();
   const [token, setToken] = useToken('token');
 
-  console.log("THIS is the token")
-  console.log(token);
+  useEffect(() => {
+    console.log("THIS is the token");
+    console.log(token);
+  }, [token]);
 
   const [userData, setUserData] = useState({
     name: '',
@@ -91,13 +93,14 @@ export default function EditProfile() {
   };
 
   const addCard = (card: Card) => {
+    const newCard = { ...card, id: 0 };
     fetch('http://localhost:8080/users/addCard', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(card)
+      body: JSON.stringify(newCard)
     })
     .then(response => {
       if (!response.ok) {
@@ -110,6 +113,7 @@ export default function EditProfile() {
       setCards(data);
       // Reset card fields
       setCardData({
+        id: 0,
         cardNumber: '',
         cardholderName: '',
         expirationDate: '',
@@ -121,6 +125,7 @@ export default function EditProfile() {
   };
 
   const [cardData, setCardData] = useState({
+    id: 0,
     cardNumber: '',
     cardholderName: '',
     expirationDate: '',
@@ -152,10 +157,10 @@ export default function EditProfile() {
     }));
   };
 
-  useEffect(() => handleRadioChange(false), [])
+  useEffect(() => handleRadioChange(false), []);
 
   const handleRadioChange = (value: boolean) => {
-    console.log(value)
+    console.log(value);
     setUserData(prevState => ({
       ...prevState,
       promotions: value
@@ -196,13 +201,13 @@ export default function EditProfile() {
     }
 
     // Submit updated user data to the backend
-    console.log('Updating password for: ', userData.email)
+    console.log('Updating password for: ', userData.email);
     fetch('http://localhost:8080/auth/newpassword', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({password:passwords.newPassword, token:token})
+      body: JSON.stringify({ password: passwords.newPassword, token: token })
     })
     .then(response => {
       if (response.ok) {
@@ -224,15 +229,15 @@ export default function EditProfile() {
           <section className={styles.personal}>
             <div className={styles.input_section}>
               <h1>Name</h1>
-              <input name="name" value={userData.name} onChange={handleChange} />
+              <input name="name" value={userData.name || ''} onChange={handleChange} />
             </div>
             <div className={styles.input_section}>
               <h1>Phone Number</h1>
-              <input name="phone" value={userData.phone} onChange={handleChange} />
+              <input name="phone" value={userData.phone || ''} onChange={handleChange} />
             </div>
             <div className={styles.address_field}>
               <h1>Home Address</h1>
-              <input name="homeAddress" value={userData.homeAddress} onChange={handleChange} />
+              <input name="homeAddress" value={userData.homeAddress || ''} onChange={handleChange} />
             </div>
             <Button onClick={handleSubmit}>Update Information</Button>
           </section>
@@ -262,15 +267,15 @@ export default function EditProfile() {
             <h2>Change Password</h2>
             <div className={styles.input_section}>
               <h1>Current Password</h1>
-              <input name="currentPassword" type="password" value={passwords.currentPassword} onChange={handlePasswordChange} />
+              <input name="currentPassword" type="password" value={passwords.currentPassword || ''} onChange={handlePasswordChange} />
             </div>
             <div className={styles.input_section}>
               <h1>New Password</h1>
-              <input name="newPassword" value={passwords.newPassword} type="password" onChange={handlePasswordChange} />
+              <input name="newPassword" value={passwords.newPassword || ''} type="password" onChange={handlePasswordChange} />
             </div>
             <div className={styles.input_section}>
               <h1>Confirm New Password</h1>
-              <input name="confirmPassword" value={passwords.confirmPassword} type="password" onChange={handlePasswordChange} />
+              <input name="confirmPassword" value={passwords.confirmPassword || ''} type="password" onChange={handlePasswordChange} />
             </div>
             <Button onClick={handlePasswordSubmit}>Change Password</Button>
           </section>
@@ -278,20 +283,24 @@ export default function EditProfile() {
             <section className={styles.card}>
               <h2>Payment Information</h2>
               <div className={styles.input_section}>
+                <h1>Cardholder Name</h1>
+                <input name="cardholderName" value={cardData.cardholderName || ''} onChange={handleCardChange} />
+              </div>
+              <div className={styles.input_section}>
                 <h1>Card Number</h1>
-                <input name="cardNumber" value={cardData.cardNumber} onChange={handleCardChange} />
+                <input name="cardNumber" value={cardData.cardNumber || ''} onChange={handleCardChange} />
               </div>
               <div className={styles.input_section}>
                 <h1>Expiration Date</h1>
-                <input name="expirationDate" value={cardData.expirationDate} onChange={handleCardChange} />
+                <input name="expirationDate" value={cardData.expirationDate || ''} onChange={handleCardChange} />
               </div>
               <div className={styles.input_section}>
                 <h1> CVV </h1>
-                <input name="cvv" value={cardData.cvv} onChange={handleCardChange} />
+                <input name="cvv" value={cardData.cvv || ''} onChange={handleCardChange} />
               </div>
               <div className={styles.address_field}>
                 <h1>Billing Address</h1>
-                <input name="billingAddress" value={cardData.billingAddress} onChange={handleCardChange} />
+                <input name="billingAddress" value={cardData.billingAddress || ''} onChange={handleCardChange} />
               </div>
               <Button onClick={() => addCard(cardData)}>Add Card</Button>
             </section>

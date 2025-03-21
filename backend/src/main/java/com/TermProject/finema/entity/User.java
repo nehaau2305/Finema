@@ -45,10 +45,6 @@ public class User {
     private boolean suspended = false;
 
 
-    @Column(nullable = true)
-    private boolean suspended = false;
-
-
 
     // default constructor
     public User() {}
