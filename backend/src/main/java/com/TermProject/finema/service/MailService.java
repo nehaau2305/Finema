@@ -32,7 +32,7 @@ public class MailService {
 
     public String sendResetPasswordEmail(String toEmail, String userName) {
         try {
-            String resetLink = "http://localhost:3000/reset-password";
+            String resetLink = "http://localhost:3000/reset-password?email=" + toEmail;
 
             String subject = "Finema Account: Reset Password";
             String message = "Hi " + userName + ",\n\n" +
