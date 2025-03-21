@@ -3,7 +3,6 @@ package com.TermProject.finema.controller;
 import com.TermProject.finema.entity.User;
 import com.TermProject.finema.dto.LoginRequest;
 import com.TermProject.finema.dto.PasswordChangeRequest;
-import com.TermProject.finema.jwt.JwtTokenProvider;
 import com.TermProject.finema.dto.AuthRequest;
 import com.TermProject.finema.dto.AuthResponse;
 import com.TermProject.finema.service.AuthService;

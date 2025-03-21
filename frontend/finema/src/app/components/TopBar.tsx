@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useToken } from '../components/useToken'
 import Button from './Button'
@@ -9,9 +9,33 @@ import finemalogo from './finemalogo.png'
 const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revist this :any later, possibly too optimistic about it
     const router = useRouter()
     const [token, setToken] = useToken('token');
+    const [email, setEmail] = useState("")
 
     async function goToWebUserHome() {
-        setToken("")
+        // fetch('http://localhost:8080/users/profile', {
+        //     method: 'GET',
+        //     headers: {
+        //       'Authorization': `Bearer ${token}`,
+        //       'Content-Type': 'application/json'
+        //     }
+        //   })
+        //   .then(response => response.json())
+        //   .then(data => {
+        //     fetch(`http://localhost:8080/users/logout`, {
+        //         method: 'POST',
+        //         headers: {
+        //           'Content-Type': 'application/json',
+        //           'Authorization': token,
+        //         },
+        //         body: JSON.stringify(data)
+        //       })
+        //       .then(() => {
+        //         setToken("")
+        //         router.push('/web-user-home')
+        //       })
+        //       .catch((error) => console.error('Error logging out:', error));
+        //   })
+        //   .catch(error => console.error('Error fetching user data:', error));
         try {
             const response = await fetch(`http://localhost:8080/users/logout`, {
                 method: 'POST',
@@ -28,6 +52,7 @@ const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revi
               } else {
                 console.log("response is ok");
               }
+              setToken("")
         } catch (error) {
             console.error('Error logging out:', error);
         }

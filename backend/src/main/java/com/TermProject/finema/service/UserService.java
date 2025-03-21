@@ -58,6 +58,10 @@ public class UserService implements UserDetailsService {
         return cardRepository.findByUser(user);
     }
 
+    public List<Card> getCards(User user) {
+        return cardRepository.findByUser(user);
+    }
+
     public User registerUser(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email is already taken");
@@ -66,9 +70,9 @@ public class UserService implements UserDetailsService {
     }
 
     public Optional<User> getUserFromToken(String token) {
-        if (token.startsWith("Bearer ")) {
-            token = token.substring(7); // Remove "Bearer " prefix
-        }
+        // if (token.startsWith("Bearer ")) {
+        //     token = token.substring(7); // Remove "Bearer " prefix
+        // }
         String email = jwtTokenProvider.extractUsername(token);
         return userRepository.findByEmail(email);
     }

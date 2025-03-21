@@ -29,8 +29,8 @@ public class UserController {
     @Autowired
     private MailService mailService;
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    // @Autowired
+    // private JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/profile")
     public ResponseEntity<User> getUserByToken(@RequestHeader("Authorization") String token) {
@@ -73,8 +73,8 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<User> updateUserToken(@RequestBody String token) {
-        Optional<User> user = userService.getUserFromToken(token);
+    public ResponseEntity<User> updateUserToken(@RequestBody String username) {
+        Optional<User> user = userService.getUserByUsername(username);
         if (user.isPresent()) {
             User updatedUser = user.get();
             updatedUser.setToken(null);
@@ -99,6 +99,18 @@ public class UserController {
             return ResponseEntity.ok(updatedUser);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @GetMapping("/cards")
+    public ResponseEntity<List<Card>> getCards(@RequestHeader("Authorization") String token) {
+        System.out.println("HEyy");
+        Optional<User> user = userService.getUserFromToken(token);
+        if (user.isPresent()) {
+            List<Card> retrievedCards = userService.getCards(user.get());
+            return ResponseEntity.ok(retrievedCards);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 

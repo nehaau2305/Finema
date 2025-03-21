@@ -44,9 +44,9 @@ public class SecurityConfig {
             .cors(withDefaults()) // Enable CORS
             .csrf(csrf -> csrf.disable()) // Disable CSRF using Lambda DSL
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/movies/**").permitAll() // Allow all requests to movie-related endpoints
-                    .requestMatchers("/users/**").permitAll() // Allow all requests to user-related endpoints
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    // .requestMatchers("/movies/**").permitAll() // Allow all requests to movie-related endpoints
+                    // .requestMatchers("/users/**").permitAll() // Allow all requests to user-related endpoints
+                    // .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .anyRequest().permitAll()
                     // .requestMatchers("/auth/register", "/auth/login", "/auth/newpassword").permitAll()
                     // .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow all OPTIONS requests
