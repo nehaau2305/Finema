@@ -43,8 +43,7 @@ public class User {
     private boolean isAdmin;
 
     @Column(nullable = true)
-    @Enumerated(EnumType.STRING)
-    private Status status = Status.Active;
+    private boolean active = false;
 
     @Column(nullable = true)
     private String token;
@@ -73,8 +72,8 @@ public class User {
     public void setBillingAddress(String billingAddress) {this.billingAddress = billingAddress;}
     public boolean getIsAdmin() {return isAdmin;}
     public void setAdmin(boolean isAdmin) {this.isAdmin = isAdmin;}
-    public Status getStatus() {return status;}
-    public void setStatus(Status status){this.status = status;}
     public String getToken() {return token;}
     public void setToken(String token){this.token = token;}
+    public boolean isActive() {return active;}
+    public void setActive(boolean active) {this.active = active;}
 }

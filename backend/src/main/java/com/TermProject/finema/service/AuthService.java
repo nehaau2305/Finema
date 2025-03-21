@@ -28,6 +28,7 @@ public class AuthService {
         if (!passwordEncoder.matches(password, user.getPassword())) {return null;}
         String token = jwtTokenProvider.generateToken(email);
         user.setToken(token);
+        user.setActive(true);
         userRepository.save(user);
         return token;
     } // Authenticate user & generate JWT token

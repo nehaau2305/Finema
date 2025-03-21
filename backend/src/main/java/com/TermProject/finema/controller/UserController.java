@@ -55,6 +55,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         user.setToken(null);
+        user.setActive(false);
         User updatedUser = userService.updateUser(user);
         return ResponseEntity.ok(updatedUser);
     }
