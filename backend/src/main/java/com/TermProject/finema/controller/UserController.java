@@ -1,6 +1,8 @@
 package com.TermProject.finema.controller;
 
 import com.TermProject.finema.entity.User;
+import com.TermProject.finema.jwt.JwtTokenProvider;
+import com.TermProject.finema.entity.Card;
 import com.TermProject.finema.service.UserService;
 import com.TermProject.finema.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.Optional;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -19,6 +23,25 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @GetMapping("/profile")
+    public ResponseEntity<User> getUserByToken(@RequestHeader("Authorization") String token) {
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7); // Remove "Bearer " prefix
+            String email = jwtTokenProvider.extractUsername(token); // Extract email from the token
+
+            if (jwtTokenProvider.validateToken(token, email)) {
+                User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         User registeredUser = userService.registerUser(user);
@@ -34,14 +57,14 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/profile")
+    /*@PostMapping("/profile")
     public ResponseEntity<User> getUserByToken(@RequestBody String token) {
         User user = userService.getUserByToken(token).orElse(null);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.ok(user);
-    }
+    }*/
 
     @PostMapping("/logout")
     public ResponseEntity<User> updateUserToken(@RequestBody String token) {
@@ -66,12 +89,19 @@ public class UserController {
         existingUser.setPhone(user.getPhone());
         existingUser.setPassword(user.getPassword());
         existingUser.setHomeAddress(user.getHomeAddress());
-        existingUser.setCardNumber(user.getCardNumber());
-        existingUser.setExpirationDate(user.getExpirationDate());
-        existingUser.setBillingAddress(user.getBillingAddress());
         existingUser.setAdmin(user.getIsAdmin());
         User updatedUser = userService.updateUser(existingUser);
         return ResponseEntity.ok(updatedUser);
+    }
+
+    @PostMapping("/addCard")
+    public ResponseEntity<List<Card>> addCard(@RequestBody Card card, @RequestHeader("Authorization") String token) {
+        User user = userService.getUserByToken(token).orElse(null);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        List<Card> updatedCards = userService.addCard(user, card);
+        return ResponseEntity.ok(updatedCards);
     }
 
     @GetMapping("/details")

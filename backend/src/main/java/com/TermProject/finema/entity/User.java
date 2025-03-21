@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
+
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.TermProject.finema.entity.Review;
 
@@ -31,15 +33,6 @@ public class User {
     private String homeAddress;
 
     @Column(nullable = true)
-    private String cardNumber;
-
-    @Column(nullable = true)
-    private String expirationDate;
-
-    @Column(nullable = true)
-    private String billingAddress;
-
-    @Column(nullable = true)
     private boolean isAdmin;
 
     @Column(nullable = true)
@@ -48,6 +41,8 @@ public class User {
 
     @Column(nullable = true)
     private String token;
+
+
 
 
     // default constructor
@@ -65,16 +60,12 @@ public class User {
     public void setPassword(String password) {this.password = password;}
     public String getHomeAddress() {return homeAddress;}
     public void setHomeAddress(String homeAddress) {this.homeAddress = homeAddress;}
-    public String getCardNumber() {return cardNumber;}
-    public void setCardNumber(String cardNumber) {this.cardNumber = cardNumber;}
-    public String getExpirationDate() {return expirationDate;}
-    public void setExpirationDate(String expirationDate) {this.expirationDate = expirationDate;}
-    public String getBillingAddress() {return billingAddress;}
-    public void setBillingAddress(String billingAddress) {this.billingAddress = billingAddress;}
     public boolean getIsAdmin() {return isAdmin;}
     public void setAdmin(boolean isAdmin) {this.isAdmin = isAdmin;}
     public Status getStatus() {return status;}
     public void setStatus(Status status){this.status = status;}
     public String getToken() {return token;}
     public void setToken(String token){this.token = token;}
+
+
 }
