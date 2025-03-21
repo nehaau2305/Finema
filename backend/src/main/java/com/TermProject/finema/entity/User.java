@@ -43,11 +43,13 @@ public class User {
     private boolean isAdmin;
 
     @Column(nullable = true)
+    private String token;
+
+    @Column(nullable = true)
     private boolean active = false;
 
     @Column(nullable = true)
-    private String token;
-
+    private boolean suspended = false;
 
     // default constructor
     public User() {}
@@ -76,4 +78,6 @@ public class User {
     public void setToken(String token){this.token = token;}
     public boolean isActive() {return active;}
     public void setActive(boolean active) {this.active = active;}
+    public boolean isSuspended() {return suspended;}
+    public void setSuspended(boolean suspended) {this.suspended = suspended;}
 }
