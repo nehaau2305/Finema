@@ -232,6 +232,10 @@ export default function EditProfile() {
               <input name="name" value={userData.name || ''} onChange={handleChange} />
             </div>
             <div className={styles.input_section}>
+              <h1>Email</h1>
+              <input name="email" value={userData.email || ''} readOnly />
+            </div>
+            <div className={styles.input_section}>
               <h1>Phone Number</h1>
               <input name="phone" value={userData.phone || ''} onChange={handleChange} />
             </div>
