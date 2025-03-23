@@ -337,6 +337,7 @@ export default function EditProfile() {
             </section>
             <section className={styles.card_list}>
               <h1 className={styles.headers}> Your Saved Cards: </h1>
+              <h4 className={styles.headers_small}> Number:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expiration Date: </h4>
               {isLoading ? (
                 <p>Loading cards...</p>
               ) : (

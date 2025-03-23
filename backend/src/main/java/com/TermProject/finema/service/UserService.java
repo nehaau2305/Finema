@@ -70,9 +70,9 @@ public class UserService implements UserDetailsService {
     }
 
     public Optional<User> getUserFromToken(String token) {
-        // if (token.startsWith("Bearer ")) {
-        //     token = token.substring(7); // Remove "Bearer " prefix
-        // }
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7); // Remove "Bearer " prefix
+        }
         String email = jwtTokenProvider.extractUsername(token);
         return userRepository.findByEmail(email);
     }

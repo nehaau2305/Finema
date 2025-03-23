@@ -11,50 +11,42 @@ const TopBar = ({loggedIn = false, showEditProfile = true}:any) => { //will revi
     const [token, setToken] = useToken('token');
 
     async function goToWebUserHome() {
-        fetch('http://localhost:8080/users/profile', {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-          })
-          .then(response => response.json())
-          .then(data => {
-            fetch(`http://localhost:8080/users/logout`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': token,
-                },
-                body: JSON.stringify(data)
-              })
-              .then(() => {
-                setToken("")
-                router.push('/web-user-home')
-              })
-              .catch((error) => console.error('Error logging out:', error));
-          })
-          .catch(error => console.error('Error fetching user data:', error));
-        try {
-            const response = await fetch(`http://localhost:8080/users/logout`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': token,
-                },
-                body: JSON.stringify(token)
-              });
-        
-              if (!response.ok) {
-                console.log(response);
-                throw new Error('Network response was not ok');
-              } else {
-                console.log("response is ok");
-              }
-        } catch (error) {
-            console.error('Error logging out:', error);
+        // fetch('http://localhost:8080/users/profile', {
+        //     method: 'GET',
+        //     headers: {
+        //       'Authorization': `Bearer ${token}`,
+        //       'Content-Type': 'application/json'
+        //     }
+        //   })
+        //   .then(response => response.json())
+        //   .then(data => {
+        //     fetch(`http://localhost:8080/users/logout`, {
+        //         method: 'POST',
+        //         headers: {
+        //           'Content-Type': 'application/json',
+        //           'Authorization': token,
+        //         },
+        //         body: JSON.stringify(token)
+        //       })
+        //       .then(() => {
+        //         setToken("")
+        //         router.push('/web-user-home')
+        //       })
+        //       .catch((error) => console.error('Error logging out:', error));
+        //   })
+        //   .catch(error => console.error('Error fetching user data:', error));
+        fetch(`http://localhost:8080/users/logout`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
         }
+        })
+        .then(() => {
+        setToken("")
         router.push('/web-user-home')
+        })
+        .catch((error) => console.error('Error logging out:', error));
     }
 
     function goToLoggedInHome() {

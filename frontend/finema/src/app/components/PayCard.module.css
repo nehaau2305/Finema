@@ -1,25 +1,21 @@
 .main_body {
     display: flex;
-    height: auto;
-    width: auto;
     justify-content: space-around;
     border: 2px solid #1449FF;
     border-radius: 10px;
-    max-width: 100%;
     margin: auto;
     padding: 10px;
     margin: 5px;
 }
 .header {
+    display: flex;
     font-weight: bold;
-    margin-right: 10px;
+    margin-right: 30px;
     font-family: var(--font-inter);
     color: white;
-    display: flex;
 }
 .headers {
     display: flex;
-    justify-content: center;
     align-items: center;
-    flex-direction: column;
+    justify-content: space-between;
 }

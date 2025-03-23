@@ -47,7 +47,7 @@ public class UserController {
         Optional<User> user = userService.getUserFromToken(token);
         if (user.isPresent()) {
             //currentUser = user.get();
-            List<Card> cards = userService.getCardsForUser(user.get());
+            List<Card> cards = userService.getCardsByUser(user.get());
             return ResponseEntity.ok(cards);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -88,11 +88,13 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<User> updateUserToken(@RequestBody String username) {
-        Optional<User> user = userService.getUserByUsername(username);
+    public ResponseEntity<User> updateUserToken(@RequestHeader("Authorization") String token) {
+
+        Optional<User> user = userService.getUserFromToken(token);
         if (user.isPresent()) {
             User updatedUser = user.get();
             updatedUser.setToken(null);
+            updatedUser.setActive(false);
             userService.updateUser(updatedUser);
             return ResponseEntity.ok(updatedUser);
         } else {
@@ -117,17 +119,17 @@ public class UserController {
         }
     }
 
-    @GetMapping("/cards")
-    public ResponseEntity<List<Card>> getCards(@RequestHeader("Authorization") String token) {
-        System.out.println("HEyy");
-        Optional<User> user = userService.getUserFromToken(token);
-        if (user.isPresent()) {
-            List<Card> retrievedCards = userService.getCards(user.get());
-            return ResponseEntity.ok(retrievedCards);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-    }
+    // @GetMapping("/cards")
+    // public ResponseEntity<List<Card>> getCards(@RequestHeader("Authorization") String token) {
+    //     System.out.println("HEyy");
+    //     Optional<User> user = userService.getUserFromToken(token);
+    //     if (user.isPresent()) {
+    //         List<Card> retrievedCards = userService.getCards(user.get());
+    //         return ResponseEntity.ok(retrievedCards);
+    //     } else {
+    //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    //     }
+    // }
 
     @PostMapping("/addCard")
     public ResponseEntity<List<Card>> addCard(@RequestBody Card card, @RequestHeader("Authorization") String token) {

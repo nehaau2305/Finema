@@ -11,6 +11,9 @@
     color: white;
 
 }
+.headers_small {
+    font-size: smaller;
+}
 .address_field {
     display: flex;
     flex-direction: column;
@@ -57,7 +60,7 @@
 }
 .card_list {
     background-color: #33B0FF;
-    width: 250px;
+    width: 340px;
     margin-top: 25px;
     margin-left: 10px;
     border-radius: 10px;
