@@ -1,7 +1,7 @@
 
 .info_box {
     width: 500px;
-    height: 815px;
+    height: auto;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -47,8 +47,19 @@
     height: 25px;
     width: 300px;
     border-radius: 10px;
-    margin: 2px;
+    margin: 5px;
 }
+
+.add_card {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+.logo {
+    padding: 5px;
+}
+
 .inputs {
     display: flex;
     justify-content: center;
@@ -61,6 +72,7 @@
     color: white;
     display: flex;
     flex-direction: column;
+    padding: 10px;
 }
 
 .submit {

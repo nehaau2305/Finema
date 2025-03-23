@@ -1,6 +1,8 @@
+
 .main_body {
     display: flex;
     background-color: #A2D8FA;
+    min-height: 100vh;
     height: 90vh;
     justify-content: center;
     align-items: center;
@@ -44,6 +46,7 @@
 .card {
     background-color: #33B0FF;
     margin-top: 25px;
+    height: 315px;
     border-radius: 10px;
     padding: 20px;
 }
@@ -73,3 +76,5 @@
 .input_section h1 {
     margin-right: 10px;
 }
+
+

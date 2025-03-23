@@ -48,11 +48,13 @@ export default function EditProfile() {
     }
   };
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if (token === '') {
       router.push('/web-user-home');
     } else {
-      // Fetch user data from the backend
+
       fetch('http://localhost:8080/users/profile', {
         method: 'GET',
         headers: {
@@ -64,7 +66,6 @@ export default function EditProfile() {
       .then(data => setUserData(data))
       .catch(error => console.error('Error fetching user data:', error));
 
-      // Fetch user's cards from the backend
       fetch('http://localhost:8080/users/cards', {
         method: 'GET',
         headers: {
@@ -72,9 +73,28 @@ export default function EditProfile() {
           'Content-Type': 'application/json'
         }
       })
-      .then(response => response.json())
-      .then(data => setCards(data))
-      .catch(error => console.error('Error fetching cards:', error));
+
+      .then(response => {
+        console.log('this is full response: ', response)
+        if (!response.ok) {
+          throw new Error('Failed to fetch cards')
+        }
+        if (response.status === 204) {
+          return []
+        }
+        return response.json()
+      })
+
+    //  .then(response => response.json())
+      .then(data => {
+        console.log('fetched card data', data)
+        setCards(data)
+        setIsLoading(false)
+     })
+      .catch(error => {
+        console.error('Error fetching cards:', error)
+        setIsLoading(false)
+      })
     }
   }, [router, token]);
 
@@ -93,6 +113,12 @@ export default function EditProfile() {
   };
 
   const addCard = (card: Card) => {
+
+    if (cards.length >= 4) {
+      console.log("You can only add up to 4 cards.")
+      return
+    }
+    
     const newCard = { ...card, id: 0 };
     fetch('http://localhost:8080/users/addCard', {
       method: 'POST',
@@ -213,6 +239,7 @@ export default function EditProfile() {
       if (response.ok) {
         alert('Password updated successfully');
       } else {
+        console.log('error with password reset: ', response)
         alert('Error updating password');
       }
     })
@@ -310,6 +337,9 @@ export default function EditProfile() {
             </section>
             <section className={styles.card_list}>
               <h1 className={styles.headers}> Your Saved Cards: </h1>
+              {isLoading ? (
+                <p>Loading cards...</p>
+              ) : (
               <ul>
                 {cards.length > 0 ? (
                   cards.map((card: Card) => (
@@ -328,6 +358,7 @@ export default function EditProfile() {
                   <p>No results found</p>
                 )}
               </ul>
+              )}
             </section>
           </div>
         </section>

@@ -1,11 +1,13 @@
 .main_body {
     display: flex;
+    height: auto;
+    width: auto;
     justify-content: space-around;
-    background-color: #4c76ff;
+    border: 2px solid #1449FF;
+    border-radius: 10px;
     max-width: 100%;
     margin: auto;
     padding: 10px;
-    border-radius: 10px;
     margin: 5px;
 }
 .header {
@@ -13,9 +15,11 @@
     margin-right: 10px;
     font-family: var(--font-inter);
     color: white;
+    display: flex;
 }
 .headers {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }

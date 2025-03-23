@@ -42,6 +42,21 @@ public class UserController {
         }
     }
 
+    @GetMapping("/cards")
+    public ResponseEntity<List<Card>> getUserCards(@RequestHeader("Authorization") String token) {
+        Optional<User> user = userService.getUserFromToken(token);
+        if (user.isPresent()) {
+            //currentUser = user.get();
+            List<Card> cards = userService.getCardsForUser(user.get());
+            return ResponseEntity.ok(cards);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+
+
+
     
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> request) {

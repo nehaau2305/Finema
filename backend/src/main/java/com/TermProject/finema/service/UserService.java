@@ -76,4 +76,9 @@ public class UserService implements UserDetailsService {
         String email = jwtTokenProvider.extractUsername(token);
         return userRepository.findByEmail(email);
     }
+
+    public List<Card> getCardsByUser(User user) {
+        return cardRepository.findByUser(user);
+    }
+
 }

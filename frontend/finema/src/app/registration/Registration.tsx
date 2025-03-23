@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "../components/Button";
 import styles from "./Registration.module.css";
+import Image from 'next/image'
+import finemalogo from './finemalogo.png'
 
 interface User {
   name: string;
@@ -18,6 +20,16 @@ interface CardInfo {
   email: string;
   cardNumber: string;
   expirationDate: string;
+  cvv: string;
+  billingAddress: string;
+}
+
+interface Card {
+  email: string;
+  cardNumber: string;
+  cardholderName: string;
+  expirationDate: string;
+  cvv: string;
   billingAddress: string;
 }
 
@@ -43,15 +55,15 @@ async function registerUser(userInfo: User) {
   }
 }
 
-async function registerCard(cardInfo: CardInfo) {
+async function registerCard(card: Card) {
   try {
-    console.log("Registering card:", cardInfo);
-    const response = await fetch(`http://localhost:8080/auth/add-card`, {
+    console.log("Registering card:", card);
+    const response = await fetch(`http://localhost:8080/auth/addCard`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(cardInfo),
+      body: JSON.stringify(card),
     });
 
     if (!response.ok) {
@@ -76,8 +88,11 @@ export default function Registration() {
   const [homeAddress, setHomeAddress] = useState("");
   const [promotions, setPromotions] = useState(false);
 
+
+  const [cardholderName, setcardholderName] = useState("");
   const [cardNumber, setCardNum] = useState("");
   const [expirationDate, setExpDate] = useState("");
+  const [cvv, setCvv] = useState("");
   const [billingAddress, setBillAddress] = useState("");
   const [showPaymentInfo, setShowPaymentInfo] = useState(false);
 
@@ -95,8 +110,8 @@ export default function Registration() {
 
     //add card second if card was added
     if (showPaymentInfo) {
-      const cardInfo: CardInfo = { email, cardNumber, expirationDate, billingAddress };
-      const cardRegistered = await registerCard(cardInfo);
+      const card: Card = { email, cardNumber, cardholderName, expirationDate, cvv, billingAddress };
+      const cardRegistered = await registerCard(card);
 
       if (!cardRegistered) {
         setMsg("Error registering payment info.");
@@ -110,6 +125,14 @@ export default function Registration() {
   return (
     <div className={styles.main_body}>
       <div className={styles.info_box}>
+        <div className={styles.logo}>
+          <Image
+            src={finemalogo}
+            width={200}
+            height={200}
+            alt="finema logo"
+            />
+        </div>
         <h1 className={styles.big_headers}> Sign Up </h1>
         <section className={styles.inputs}>
           <form onSubmit={handleSubmit}>
@@ -126,15 +149,21 @@ export default function Registration() {
               <input value={homeAddress} onChange={(e) => setHomeAddress(e.target.value)} className={styles.text_fields} />
             </div>
             {!showPaymentInfo && (
-              <Button type="button" onClick={() => setShowPaymentInfo(true)}>Add Card</Button>
+              <div className={styles.add_card}>
+                <Button type="button" onClick={() => setShowPaymentInfo(true)}>Add Card</Button>
+              </div>
             )}
             {showPaymentInfo && (
               <div>
                 <h2 className={styles.big_headers}> Payment Information</h2>
+                <h2 className={styles.headers}>Card Holder Name</h2>
+                <input value={cardholderName} onChange={(e) => setcardholderName(e.target.value)} className={styles.text_fields} required />
                 <h2 className={styles.headers}>Card Number</h2>
                 <input value={cardNumber} onChange={(e) => setCardNum(e.target.value)} className={styles.text_fields} required />
                 <h2 className={styles.headers}>Expiration Date</h2>
                 <input value={expirationDate} onChange={(e) => setExpDate(e.target.value)} className={styles.text_fields} required />
+                <h2 className={styles.headers}>CVV</h2>
+                <input value={cvv} onChange={(e) => setCvv(e.target.value)} className={styles.text_fields} required />
                 <h2 className={styles.headers}>Billing Address</h2>
                 <input value={billingAddress} onChange={(e) => setBillAddress(e.target.value)} className={styles.text_fields} required />
               </div>
@@ -161,6 +190,7 @@ export default function Registration() {
     </div>
   );
 }
+
 
 
 
