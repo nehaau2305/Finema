@@ -13,7 +13,7 @@ public class Card {
 
     private Integer userID;
 
-    @Column(name = "cardNumber", unique = true, nullable = false, length = 16)
+    @Column(name = "cardNumber", unique = true, nullable = false)
     private String cardNumber;
 
     @Column(name = "cardholderName", nullable = false, length = 255)
@@ -22,7 +22,7 @@ public class Card {
     @Column(name = "expirationDate", nullable = false, length = 5)
     private String expirationDate;
 
-    @Column(name = "cvv", length = 255)
+    @Column(name = "cvv")
     private String cvv;
 
 
