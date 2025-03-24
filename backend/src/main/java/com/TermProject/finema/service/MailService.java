@@ -14,7 +14,8 @@ public class MailService {
         try {
             String subject = "Welcome to Finema 🐟";
             String message = "Hi " + userName + ",\n\n" +
-                    "To verify your account, please type the following code into the webpage: " + code +
+                    "To verify your account, please type the following code into the webpage: \n" + 
+                    code + "\n" +
                     "Thank you for registering on Finema!\n\n" +
                     "Best Regards,\nFinema Team";
 
