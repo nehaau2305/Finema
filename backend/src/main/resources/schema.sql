@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS User (
     password VARCHAR(255) NOT NULL,
     homeAddress TEXT,
     isAdmin BOOLEAN DEFAULT FALSE,
-    status ENUM('Active', 'Inactive', 'Suspended') DEFAULT 'Active'
+    status ENUM('Active', 'Inactive', 'Suspended') DEFAULT 'Active',
+    promotions BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE IF NOT EXISTS Card (

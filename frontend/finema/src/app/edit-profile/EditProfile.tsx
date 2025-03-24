@@ -20,18 +20,13 @@ export default function EditProfile() {
   const router = useRouter();
   const [token, setToken] = useToken('token');
 
-  useEffect(() => {
-    console.log("THIS is the token");
-    console.log(token);
-  }, [token]);
-
   const [userData, setUserData] = useState({
     name: '',
     phone: '',
     email: '',
     homeAddress: '',
-    promotions: false,
   });
+  const [promotions, setPromotions] = useState(false);
   const [passwords, setPasswords] = useState({
     currentPassword: '',
     newPassword: '',
@@ -63,7 +58,10 @@ export default function EditProfile() {
         }
       })
       .then(response => response.json())
-      .then(data => setUserData(data))
+      .then(data => {
+        setUserData(data);
+        setPromotions(data.promotions);
+      })
       .catch(error => console.error('Error fetching user data:', error));
 
       fetch('http://localhost:8080/users/cards', {
@@ -183,14 +181,8 @@ export default function EditProfile() {
     }));
   };
 
-  useEffect(() => handleRadioChange(false), []);
-
   const handleRadioChange = (value: boolean) => {
-    console.log(value);
-    setUserData(prevState => ({
-      ...prevState,
-      promotions: value
-    }));
+    setPromotions(value);
   };
 
   const handleSubmit = () => {
@@ -200,6 +192,8 @@ export default function EditProfile() {
       return;
     }
 
+    const sendUserData = {...userData, promotions:promotions}
+
     // Submit updated user data to the backend
     fetch('http://localhost:8080/users/' + userData.email, {
       method: 'PUT',
@@ -207,7 +201,7 @@ export default function EditProfile() {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify(userData)
+      body: JSON.stringify(sendUserData)
     })
     .then(response => {
       if (response.ok) {
@@ -233,7 +227,7 @@ export default function EditProfile() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ password: passwords.newPassword, token: token })
+      body: JSON.stringify({ newPassword: passwords.newPassword, currentPassword: passwords.currentPassword, email: userData.email})
     })
     .then(response => {
       if (response.ok) {
@@ -245,6 +239,9 @@ export default function EditProfile() {
     })
     .catch(error => console.error('Error updating password:', error));
   };
+
+
+  
 
   return (
     <div>
@@ -278,7 +275,7 @@ export default function EditProfile() {
               <input
                 type="radio"
                 value="true"
-                checked={userData.promotions === true}
+                checked={promotions === true}
                 onChange={() => handleRadioChange(true)}
               />
             </div>
@@ -287,7 +284,7 @@ export default function EditProfile() {
               <input
                 type="radio"
                 value="false"
-                checked={userData.promotions === false}
+                checked={promotions === false}
                 onChange={() => handleRadioChange(false)}
               />
             </div>

@@ -30,16 +30,22 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User newUser) {
         try {
-            authService.registerUser(newUser);
-            return ResponseEntity.status(201).body("User registered successfully");
-        } catch (Exception e) {return ResponseEntity.status(400).body("Error registering user: " + e.getMessage());}
+            String token = authService.registerUser(newUser);
+            return ResponseEntity.status(201).body(token);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(400).body("Error registering user: " + e.getMessage());
+        }
     } // register
 
     @PutMapping("/newpassword")
     public ResponseEntity<String> setPassword(@RequestBody PasswordChangeRequest passwordChange) {
         try {
-            authService.changePassword(passwordChange.getEmail(), passwordChange.getPassword());
+            authService.changePassword(passwordChange.getEmail(), passwordChange.getNewPassword(), passwordChange.getCurrentPassword());
             return ResponseEntity.status(201).body("User registered successfully");
-        } catch (Exception e) {return ResponseEntity.status(400).body("Error changing password: " + e.getMessage());}
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(400).body("Error changing password: " + e.getMessage());
+        }
     } // register
 }

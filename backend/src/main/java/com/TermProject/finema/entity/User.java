@@ -44,6 +44,9 @@ public class User {
     @Column(nullable = true)
     private boolean suspended = false;
 
+    @Column(nullable = false)
+    private boolean promotions = false;
+
 
 
     // default constructor
@@ -71,4 +74,6 @@ public class User {
     public void setActive(boolean active) {this.active = active;}
     public boolean isSuspended() {return suspended;}
     public void setSuspended(boolean suspended) {this.suspended = suspended;}
+    public boolean isPromotions() {return promotions;}
+    public void setPromotions(boolean promotions) {this.promotions = promotions;}
 }

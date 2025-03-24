@@ -1,11 +1,11 @@
 "use client";
-
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "../components/Button";
 import styles from "./Registration.module.css";
 import Image from 'next/image'
 import finemalogo from './finemalogo.png'
+//import { console } from "inspector";
 
 interface User {
   name: string;
@@ -48,20 +48,22 @@ async function registerUser(userInfo: User) {
       throw new Error("Failed to register user");
     }
 
-    return true;
+    return response.text();
   } catch (error) {
     console.error("Error registering user:", error);
-    return false;
+    return null;
   }
 }
 
-async function registerCard(card: Card) {
+async function registerCard(card: Card, token: string) {
+
   try {
     console.log("Registering card:", card);
-    const response = await fetch(`http://localhost:8080/auth/addCard`, {
+    const response = await fetch(`http://localhost:8080/users/addCard`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(card),
     });
@@ -79,6 +81,9 @@ async function registerCard(card: Card) {
 
 export default function Registration() {
   const router = useRouter();
+  const [showCode, setShowCode] = useState(false);
+  const [code, setCode] = useState("");
+  const [enteredCode, setEnteredCode] = useState("");
   const [msg, setMsg] = useState("");
 
   const [name, setName] = useState("");
@@ -96,14 +101,23 @@ export default function Registration() {
   const [billingAddress, setBillAddress] = useState("");
   const [showPaymentInfo, setShowPaymentInfo] = useState(false);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmitCode = async (e: any) => {
     e.preventDefault();
+
+    console.log(typeof(code))
+    console.log(code)
+    console.log(Array.from(enteredCode))
+
+    if (code !== enteredCode) {
+      setMsg("Code is incorrect");
+      return;
+    }
 
     //register user first
     const userInfo: User = { name, phone, email, password, homeAddress, promotions };
     const userRegistered = await registerUser(userInfo);
 
-    if (!userRegistered) {
+    if (userRegistered === null) {
       setMsg("Error registering user.");
       return;
     }
@@ -111,7 +125,7 @@ export default function Registration() {
     //add card second if card was added
     if (showPaymentInfo) {
       const card: Card = { email, cardNumber, cardholderName, expirationDate, cvv, billingAddress };
-      const cardRegistered = await registerCard(card);
+      const cardRegistered = await registerCard(card, userRegistered);
 
       if (!cardRegistered) {
         setMsg("Error registering payment info.");
@@ -122,7 +136,36 @@ export default function Registration() {
     router.push("/registration-confirmation");
   };
 
-  return (
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const userInfo: User = { name, phone, email, password, homeAddress, promotions };
+
+    fetch('http://localhost:8080/users/sendregistercode', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userInfo)
+    })
+    .then(response => {
+      if (!response.ok) {
+        console.log(response);
+        return response.text().then(text => { throw new Error(text) });
+      }
+      return response.text();
+    })
+    .then(((response) => {
+      console.log(typeof(response))
+      setCode(response);
+      setShowCode(true);
+    }))
+    .catch(error => console.error('Error sending code:', error));
+
+
+  }
+
+  const regiseterUserPage = (
     <div className={styles.main_body}>
       <div className={styles.info_box}>
         <div className={styles.logo}>
@@ -189,6 +232,36 @@ export default function Registration() {
       </div>
     </div>
   );
+
+  const enterCodePage = (
+    <div className={styles.main_body}>
+      <div className={styles.info_box}>
+        <div className={styles.logo}>
+          <Image
+            src={finemalogo}
+            width={200}
+            height={200}
+            alt="finema logo"
+            />
+        </div>
+        <h1 className={styles.big_headers}> Sign Up </h1>
+        <section className={styles.inputs}>
+          <form onSubmit={handleSubmitCode}>
+            <div>
+              <h2 className={styles.headers}>Enter Code From Email:</h2>
+              <input value={enteredCode} onChange={(e) => setEnteredCode(e.target.value)} className={styles.text_fields} required />
+            </div>
+            <div className={styles.submit}>
+              <Button type="submit">Verify Registration</Button>
+            </div>
+          </form>
+          {msg && <p>{msg}</p>}
+        </section>
+      </div>
+    </div>
+  );
+
+  return showCode ? enterCodePage : regiseterUserPage;
 }
 
 

@@ -10,10 +10,11 @@ public class MailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public String sendConfirmationEmail(String toEmail, String userName) {
+    public boolean sendRegistrationEmail(String toEmail, String userName, String code) {
         try {
             String subject = "Welcome to Finema 🐟";
             String message = "Hi " + userName + ",\n\n" +
+                    "To verify your account, please type the following code into the webpage: " + code +
                     "Thank you for registering on Finema!\n\n" +
                     "Best Regards,\nFinema Team";
 
@@ -24,9 +25,9 @@ public class MailService {
             email.setFrom("finemateam@gmail.com");
 
             mailSender.send(email);
-            return "Confirmation email sent successfully to " + toEmail;
+            return true;
         } catch (Exception e) {
-            return "Error sending confirmation email: " + e.getMessage();
+            return false;
         }
     } // sendConfirmationEmail
 

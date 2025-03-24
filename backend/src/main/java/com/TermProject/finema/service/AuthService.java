@@ -33,7 +33,7 @@ public class AuthService {
         return token;
     } // Authenticate user & generate JWT token
 
-    public User registerUser(User newUser) {
+    public String registerUser(User newUser) {
         // check if account already exists
         if (userRepository.existsByEmail(newUser.getEmail())) {
             throw new IllegalArgumentException("This email is already associated with an account.");
@@ -41,13 +41,17 @@ public class AuthService {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         User savedUser = userRepository.save(newUser);
         // send confirmation email
-        mailService.sendConfirmationEmail(newUser.getEmail(), newUser.getName());
-        return savedUser;
+        //mailService.sendConfirmationEmail(newUser.getEmail(), newUser.getName());
+        String token = jwtTokenProvider.generateToken(savedUser.getEmail());
+        return token;
     } // register new user
 
-    public User changePassword(String email, String password) {
+    public User changePassword(String email, String newPassword, String currentPassword) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setPassword(passwordEncoder.encode(password));
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            throw new IllegalArgumentException("Current Password doesn't match!");
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
         User newUser = userRepository.save(user);
         System.out.println("4");
         mailService.sendPasswordResetConfirmationEmail(newUser.getEmail(), newUser.getName());

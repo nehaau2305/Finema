@@ -8,6 +8,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     background-color: #33B0FF;
 }
 
@@ -37,7 +39,6 @@
     align-items: center;
     margin: 0;
     padding: 0;
-    height: 100vh;
 }
 
 .text_fields {

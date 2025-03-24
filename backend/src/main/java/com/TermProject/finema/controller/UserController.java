@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.Optional;
 import java.util.List;
+import java.util.Random;
 import java.util.Map;
 
 
@@ -29,8 +30,10 @@ public class UserController {
     @Autowired
     private MailService mailService;
 
-    // @Autowired
-    // private JwtTokenProvider jwtTokenProvider;
+    Random random = new Random();
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/profile")
     public ResponseEntity<User> getUserByToken(@RequestHeader("Authorization") String token) {
@@ -72,10 +75,22 @@ public class UserController {
     }
 
 
-    @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User registeredUser = userService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
+    // @PostMapping("/register")
+    // public ResponseEntity<String> registerUser(@RequestBody User user) {
+    //     User registeredUser = userService.registerUser(user);
+    //     String token = jwtTokenProvider.generateToken(user.getEmail());
+    //     return ResponseEntity.status(HttpStatus.CREATED).body(token);
+    // }
+
+    @PostMapping("/sendregistercode")
+    public ResponseEntity<String> sendRegistrationCode(@RequestBody User user) {
+        int code = random.nextInt(100000, 1000000);
+        String codeString = String.valueOf(code);
+        boolean response = mailService.sendRegistrationEmail(user.getEmail(), user.getName(), codeString);
+        if (!response) {
+            return ResponseEntity.status(HttpStatus.SEE_OTHER).body("Error Sending email");
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(codeString);
     }
 
     @GetMapping("/{username}")
@@ -112,6 +127,7 @@ public class UserController {
             updatedUser.setPassword(user.getPassword());
             updatedUser.setHomeAddress(user.getHomeAddress());
             updatedUser.setAdmin(user.getIsAdmin());
+            updatedUser.setPromotions(user.isPromotions());
             userService.updateUser(updatedUser);
             return ResponseEntity.ok(updatedUser);
         } else {
