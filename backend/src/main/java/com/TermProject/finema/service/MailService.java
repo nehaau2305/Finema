@@ -75,4 +75,24 @@ public class MailService {
         }
     } // sendPasswordResetConfirmationEmail
 
+    public boolean sendProfileUpdatedEmail(String toEmail, String userName) {
+        try {
+            String subject = "Finema Account: Profile Updates Confirmation";
+            String message = "Hi " + userName + ",\n\n" +
+                    "Your profile was successfully updated.\n\n" +
+                    "Best Regards,\nFinema Team";
+
+            SimpleMailMessage email = new SimpleMailMessage();
+            email.setTo(toEmail);
+            email.setSubject(subject);
+            email.setText(message);
+            email.setFrom("finemateam@gmail.com");
+
+            mailSender.send(email);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    } // sendProfileUpdatedEmail
+
 }

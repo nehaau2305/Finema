@@ -129,7 +129,12 @@ public class UserController {
             updatedUser.setAdmin(user.getIsAdmin());
             updatedUser.setPromotions(user.isPromotions());
             userService.updateUser(updatedUser);
-            return ResponseEntity.ok(updatedUser);
+            boolean response = mailService.sendProfileUpdatedEmail(username, user.getName());
+            if (response == true) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
