@@ -53,6 +53,10 @@ public class UserService implements UserDetailsService {
     }
 
     public List<Card> addCard(User user, Card card) {
+        List<Card> userCards = cardRepository.findByUser(user);
+        if (userCards.size() >= 4) {
+            throw new IllegalStateException("You can only maintain a maximum of 4 cards. Please remove another card first if you would like to add this card.");
+        }
         card.setUser(user);
         cardRepository.save(card);
         return cardRepository.findByUser(user);
