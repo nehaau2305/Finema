@@ -114,9 +114,12 @@ public class UserService implements UserDetailsService {
 
     public List<Card> getCards(User user) {
         List<Card> cards = cardRepository.findByUser(user);
+        System.out.println("Entered getCards for:  " + user.getEmail());
         for (Card card : cards) {
             try {
+                System.out.println("Encrypted card#: " + card.getCardNumber());
                 card.setCardNumber(decrypt(card.getCardNumber()));
+                System.out.println("Decrypted card#: " + card.getCardNumber());
                 card.setCvv(decrypt(card.getCvv()));
             } catch (Exception e) {
                 System.out.println("Decryption failed: " + e.getMessage());
@@ -141,8 +144,8 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email);
     }
 
-    public List<Card> getCardsByUser(User user) {
-        return cardRepository.findByUser(user);
-    }
+    //public List<Card> getCardsByUser(User user) {
+        //return cardRepository.findByUser(user);
+    //}
 
 }

@@ -50,7 +50,7 @@ public class UserController {
         Optional<User> user = userService.getUserFromToken(token);
         if (user.isPresent()) {
             //currentUser = user.get();
-            List<Card> cards = userService.getCardsByUser(user.get());
+            List<Card> cards = userService.getCards(user.get());
             return ResponseEntity.ok(cards);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
