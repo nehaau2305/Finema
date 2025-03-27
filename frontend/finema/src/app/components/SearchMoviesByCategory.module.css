@@ -1,0 +1,47 @@
+/* Horizontal layout for the filter section */
+.filter_section {
+    display: flex;
+    flex-direction: row; /* Arrange buttons horizontally */
+    justify-content: center; /* Center the buttons */
+    align-items: center;
+    margin: 20px 0; /* Add spacing above and below */
+    padding: 10px;
+    background-color: #A2D8FA; /* Light blue background */
+    border-radius: 10px;
+}
+
+/* Adjust the button styles for horizontal layout */
+.button {
+    background-color: #1449ff;
+    color: white;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 0 10px; /* Add horizontal spacing between buttons */
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0d3bcc; /* Darker blue on hover */
+}
+
+/* Results section styling */
+.results_section {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.results_section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.results_section li {
+    margin: 10px 0;
+}

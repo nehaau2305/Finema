@@ -69,7 +69,7 @@ public class MovieService {
         return movieRepository.findByComingSoonTrue();
     }
 
-
+    
 
 
 

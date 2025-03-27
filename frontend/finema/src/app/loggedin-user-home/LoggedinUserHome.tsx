@@ -8,6 +8,7 @@ import ComingSoon from '../components/ComingSoon'
 import NowPlaying from '../components/NowPlaying'
 import styles from './LoggedinUserHome.module.css'
 import TopBar from '../components/TopBar';
+import SearchByCategory from '../components/SearchMoviesByCategory';
 
 export default function LoggedinUserHome() {
   const router = useRouter()
@@ -26,6 +27,7 @@ export default function LoggedinUserHome() {
         <section className={styles.movies_body}>
           <NowPlaying />
           <ComingSoon />
+          <SearchByCategory />
         </section>
       </section>
     </div>

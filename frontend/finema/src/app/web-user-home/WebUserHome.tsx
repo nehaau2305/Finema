@@ -7,6 +7,7 @@ import TopBar from '../components/TopBar'
 import SearchMovies from '../components/SearchMovies'
 import NowPlaying from '../components/NowPlaying'
 import ComingSoon from '../components/ComingSoon'
+import SearchMoviesByCategory from '../components/SearchMoviesByCategory'
 
 export default function WebUserHome() {
   const router = useRouter()
@@ -23,6 +24,7 @@ export default function WebUserHome() {
         <section className={styles.movies_body}>
           <NowPlaying />
           <ComingSoon />
+          <SearchMoviesByCategory />
         </section>
       </section>
     </div>

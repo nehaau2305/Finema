@@ -103,4 +103,13 @@ public class MovieController {
         return movieService.getComingSoonMovies();
     }
 
+    @GetMapping("/category")
+    public ResponseEntity<List<Movie>> getMoviesByCategory(@RequestParam String category) {
+        List<Movie> movies = movieService.getMoviesByCategory(category);
+        if (movies.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(movies);
+    }
+
 }

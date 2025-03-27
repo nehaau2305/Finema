@@ -19,4 +19,6 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     List<Movie> findByNowShowingTrue();
     List<Movie> findByComingSoonTrue();
+    List<Movie> findByCategory(String category);
+
 }

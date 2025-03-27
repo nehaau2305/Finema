@@ -107,19 +107,3 @@ CREATE TABLE IF NOT EXISTS Payment (
     FOREIGN KEY (userID) REFERENCES User(id) ON DELETE CASCADE
 );
 
-
--- Insert a random movie into the Movie table
-INSERT INTO Movie (title, category, director, producer, synopsis, trailer_picture, trailer_video, mpaa_rating, now_showing, coming_soon, cast)
-VALUES (
-    'Random Movie Title',
-    'Action',
-    'Random Director',
-    'Random Producer',
-    'This is a random synopsis for the movie.',
-    'http://example.com/trailer-picture.jpg',
-    'http://example.com/trailer-video.mp4',
-    'PG_13',
-    TRUE,
-    FALSE,
-    'Random Actor 1, Random Actor 2, Random Actor 3'
-);
