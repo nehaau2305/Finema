@@ -8,7 +8,7 @@ interface PayCardProps {
   expDate: string;
   cvv: string;
   billingAddress: string;
-  deleteCard: () => void;
+  deleteCard: (cardNum: string) => void;
 }
 
 export default function PayCard({ cardNum, cardholderName, expDate, cvv, billingAddress, deleteCard }: PayCardProps) {
@@ -18,6 +18,10 @@ export default function PayCard({ cardNum, cardholderName, expDate, cvv, billing
     setLast4(cardNum.slice(cardNum.length - 4));
   }, [cardNum]);
 
+  const handleDelete = () => {
+    deleteCard(cardNum)
+  }
+
   return (
     <div className={styles.main_body}>
       <div className={styles.headers}>
@@ -25,7 +29,7 @@ export default function PayCard({ cardNum, cardholderName, expDate, cvv, billing
         <h1 className={styles.header}>{expDate}</h1>
       </div>
       <div className={styles.button}>
-        <Button onClick={deleteCard}>Delete</Button>
+        <Button onClick={handleDelete}>Delete</Button>
       </div>
     </div>
   );

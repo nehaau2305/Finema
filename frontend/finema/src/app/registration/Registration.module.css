@@ -11,6 +11,9 @@
     margin-top: 30px;
     margin-bottom: 30px;
     background-color: #33B0FF;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
 }
 
 .big_headers {

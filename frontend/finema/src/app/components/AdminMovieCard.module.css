@@ -1,0 +1,24 @@
+.main_body {
+    text-align: center;
+    background-color: #1449FF;
+    max-width: 90%;
+    margin: auto;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+
+
+.movie_banner {
+    width: 140px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2px;
+    padding-bottom: 10px;
+}
+.headers {
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+}

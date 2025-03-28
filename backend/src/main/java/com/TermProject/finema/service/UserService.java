@@ -112,6 +112,19 @@ public class UserService implements UserDetailsService {
         return cardRepository.findByUser(user);
     }
 
+    public List<Card> deleteCard(User user, Card card) {
+        Set<Card> cards = user.getCards();
+        Card cardToDelete = cards.stream()
+                             .filter(c -> c.getId().equals(card.getId()))
+                             .findFirst()
+                             .orElseThrow(() -> new RuntimeException("Card not found"));
+        cards.remove(cardToDelete);
+        user.setCards(cards);
+        userRepository.save(user);
+        return new ArrayList<>(cards);
+    }
+
+
     public List<Card> getCards(User user) {
         List<Card> cards = cardRepository.findByUser(user);
         System.out.println("Entered getCards for:  " + user.getEmail());

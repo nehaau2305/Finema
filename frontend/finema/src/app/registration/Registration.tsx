@@ -182,8 +182,22 @@ export default function Registration() {
             <div>
               <h2 className={styles.headers}>Name*</h2>
               <input value={name} onChange={(e) => setName(e.target.value)} className={styles.text_fields} required />
+
               <h2 className={styles.headers}>Phone Number</h2>
-              <input value={phone} onChange={(e) => setPhone(e.target.value)} className={styles.text_fields} />
+              <input value={phone} onChange={(e) => {
+                let value = e.target.value.replace(/\D/g, "")
+                if (value.length > 10) value = value.slice(0, 10)
+                  let formattedValue = value
+                  if (formattedValue.length > 6) {
+                    formattedValue = `(${formattedValue.slice(0, 3)}) ${formattedValue.slice(3, 6)} ${formattedValue.slice(6)}`;
+                  } else if (formattedValue.length > 3) {
+                    formattedValue = `(${formattedValue.slice(0, 3)}) ${formattedValue.slice(3)}`;
+                  } else if (formattedValue.length > 0) {
+                    formattedValue = `(${formattedValue}`;
+                  }
+                setPhone(value)
+              }} className={styles.text_fields} maxLength={14} />
+
               <h2 className={styles.headers}>Email*</h2>
               <input value={email} onChange={(e) => setEmail(e.target.value)} className={styles.text_fields} required />
               <h2 className={styles.headers}>Set Password*</h2>

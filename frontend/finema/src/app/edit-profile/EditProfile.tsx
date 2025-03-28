@@ -240,8 +240,24 @@ export default function EditProfile() {
     .catch(error => console.error('Error updating password:', error));
   };
 
-
-  
+  const handlePromotionSubmit = () => {
+    fetch(`http://localhost:8080/users/${userData.email}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ ...userData, promotions })
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('Promotion preference updated successfully');
+      } else {
+        alert('Error updating promotion preference');
+      }
+    })
+    .catch(error => console.error('Error updating promotion preference:', error));
+  };
 
   return (
     <div>
@@ -274,7 +290,6 @@ export default function EditProfile() {
               <h2>Subscribe for email Promotions</h2>
               <input
                 type="radio"
-                value="true"
                 checked={promotions === true}
                 onChange={() => handleRadioChange(true)}
               />
@@ -283,11 +298,11 @@ export default function EditProfile() {
               <h2>Unsubscribe from email Promotions</h2>
               <input
                 type="radio"
-                value="false"
                 checked={promotions === false}
                 onChange={() => handleRadioChange(false)}
               />
             </div>
+            <Button onClick={handlePromotionSubmit}>Update Information</Button>
           </section>
         </section>
         <section className={styles.password_card}>

@@ -1,14 +1,26 @@
 
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'
 import { useToken } from '../components/useToken'
 import styles from './ManageMovies.module.css'
 import TopBar from '../components/TopBar';
 import Button from '../components/Button';
+import AdminMovieCard from '../components/AdminMovieCard';
 
+interface MovieCardProps {
+  title: string;
+  trailerPicture: string;
+  id: number; 
+  synopsis: string;
+  director: string;
+  producer: string;
+}
 
 export default function ManageMovies() {
+
+  const [movies, setMovies] = useState<MovieCardProps[]>([]);
+
   const router = useRouter()
 
   const [showtime, setShowtime] = useState("");
@@ -36,6 +48,19 @@ export default function ManageMovies() {
     setShowtime(event.target.value);
   };
 
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/movies/now-showing');
+        const data = await response.json();
+        setMovies(data);
+      } catch (error) {
+        console.error("Error fetching now showing movies:", error);
+      }
+    };
+
+    fetchMovies();
+  }, []);
 
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -158,6 +183,24 @@ export default function ManageMovies() {
         <h1> lists all movies in database with option to edit or delete </h1>
         <section>
           {/* TODO: Implement movie list with edit and delete options */}
+          <ul className={styles.list}>
+            {movies.length > 0 ? (
+              movies.map((movie) => (
+                <li key={movie.id}>
+                  <AdminMovieCard
+                  name={movie.title} 
+                  source={movie.trailerPicture} 
+                  movieId={movie.id} 
+                  synopsis={movie.synopsis}
+                  director={movie.director}
+                  producer={movie.producer}
+                  />
+                </li>
+               ))
+              ) : (
+                <p>No movies available at the moment.</p>
+            )}
+          </ul>
         </section>
       </section>
     </div>
