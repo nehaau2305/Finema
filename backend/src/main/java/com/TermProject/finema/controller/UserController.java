@@ -163,16 +163,16 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/deleteCard")
-    public ResponseEntity<List<Card>> deleteCard(@RequestBody Card card, @RequestHeader("Authorization") String token) {
-        Optional<User> user = userService.getUserFromToken(token);
-        if (user.isPresent()) {
-            List<Card> updatedCards = userService.deleteCard(user.get(), card);
-            return ResponseEntity.ok(updatedCards);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-    }
+   // @DeleteMapping("/deleteCard")
+   // public ResponseEntity<List<Card>> deleteCard(@RequestBody Card card, @RequestHeader("Authorization") String token) {
+   //     Optional<User> user = userService.getUserFromToken(token);
+   //     if (user.isPresent()) {
+   //         List<Card> updatedCards = userService.deleteCard(user.get(), card);
+   //         return ResponseEntity.ok(updatedCards);
+   //     } else {
+   //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+   //     }
+   // }
 
 
     @GetMapping("/details")
