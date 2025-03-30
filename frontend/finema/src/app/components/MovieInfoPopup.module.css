@@ -12,6 +12,18 @@
     border: 5px solid #1449ff;
 }
 
+#rating {
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    background-color: #33B0FF;
+    padding: 10px 20px;
+    width: 110px;
+}
+
 .trailer_name {
     text-align: center;
     height: 100%;
@@ -71,7 +83,7 @@
     font-weight: bold;
     font-family: var(--font-inter);
     color: white;
-    margin-top: 5vh;
+    margin-top: 1vh;
     margin-bottom: 5vh;
     margin-left: auto;
     margin-right: auto;
@@ -88,7 +100,21 @@
     color: white;
     background-color: #33B0FF;
     margin-top: 1vh;
-    margin-bottom: 30vh;
+    margin-bottom: 5vh;
+    margin-left: auto;
+    margin-right: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+#reviews {
+    font-size: larger;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+    background-color: #33B0FF;
+    margin-top: 1vh;
+    margin-bottom: 20vh;
     margin-left: auto;
     margin-right: auto;
     padding: 10px 20px;
@@ -96,7 +122,7 @@
 }
 
 #name {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     text-align: center;
 }
 

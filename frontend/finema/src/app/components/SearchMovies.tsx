@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './SearchMovies.module.css';
 import Button from '../components/Button';
 import MovieCard from '../components/MovieCard';
@@ -18,6 +18,11 @@ const FilterButton: React.FC<ButtonProps> = ({ type = 'button', onClick, childre
   );
 };
 
+interface Review {
+  id: number,
+  reviewText: string
+}
+
 interface Movie {
   id: number;
   title: string;
@@ -25,7 +30,11 @@ interface Movie {
   synopsis: string;
   director: string;
   producer: string;
+  mpaaRating: string;
+  cast: string;
 }
+
+const categories = ['Action', 'Drama', 'Comedy', 'Mystery', 'Kids', 'Horror', 'Documentary'];
 
 export default function SearchMovies() {
   const [query, setQuery] = useState('');
@@ -46,14 +55,67 @@ export default function SearchMovies() {
     }
   };
 
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [error, setError] = useState('');
+
+  const fetchMoviesByCategory = async (category: string) => {
+    try {
+      const response = await fetch(`http://localhost:8080/movies/category?category=${category}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch movies for the selected category.');
+      }
+      const data = await response.json();
+      setResults(data);
+      setError(''); // Clear any previous errors
+    } catch (err) {
+      console.error('Error fetching movies by category:', err);
+      setError('No movies found for this category.');
+      setResults([]);
+    }
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    fetchMoviesByCategory(category);
+  };
+
   const setFilter = () => {
     // TODO: Add filtering functionality, e.g. by category or rating
   }
 
   //console.log(query)
+  const ref = useRef<HTMLDialogElement>(null);
+  const [isOpened, setIsOpened] = useState(false);
+  useEffect(() => {
+    if (isOpened) {
+      ref.current?.showModal();
+      document.body.classList.add("modal-open");
+    } else {
+      ref.current?.close();
+      document.body.classList.remove("modal-open");
+    }
+  }, [isOpened]);
 
   return (
     <section className={styles.main_body}>
+    <dialog ref={ref} className={styles.dialog}>
+      <section className={styles.modal_body}>
+        <section className={styles.modal_button}>
+          <Button onClick={() => setIsOpened(false)}> X </Button>
+        </section>
+        <section className={styles.filter_section}>
+            {categories.map((category) => (
+              <Button
+                key={category}
+                onClick={() => handleCategoryChange(category)}
+                type="button"
+              >
+                {category}
+              </Button>
+            ))}
+          </section>
+        </section>
+    </dialog>
       <h1>Search Movies</h1>
       <section>
         <input
@@ -66,7 +128,9 @@ export default function SearchMovies() {
         <Button onClick={sendQuery}>Go</Button>
       </section>
       <section className={styles.filter_section}>
-        <h2>Search By:</h2>
+        <h2> Filter by: </h2>
+        <Button onClick={() => setIsOpened(true)}> Categories </Button>
+        <Button onClick={() => setIsOpened(true)}> ShowTimes </Button>
         <ul>
           {results.length > 0 ? (
             results.map((movie: Movie) => (
@@ -74,10 +138,12 @@ export default function SearchMovies() {
                 <MovieCard
                   name={movie.title}
                   source={movie.trailerPicture}
-                  movieId={movie.id} 
+                  mpaaRating={movie.mpaaRating}
+                  movieId={movie.id}
                   synopsis={movie.synopsis}
                   director={movie.director}
                   producer={movie.producer}
+                  cast={movie.cast}
                 />
               </li>
             ))

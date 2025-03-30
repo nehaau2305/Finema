@@ -10,6 +10,8 @@ interface MovieCardProps {
   synopsis: string;
   director: string;
   producer: string;
+  mpaaRating: string;
+  cast: string;
 }
 
 
@@ -45,9 +47,11 @@ export default function ComingSoon() {
                 name={movie.title} 
                 source={movie.trailerPicture} 
                 movieId={movie.id} 
+                mpaaRating={movie.mpaaRating}
                 synopsis={movie.synopsis}
                 director={movie.director}
                 producer={movie.producer}
+                cast={movie.cast}
                 />
               </li>
             ))

@@ -24,7 +24,6 @@ export default function WebUserHome() {
         <section className={styles.movies_body}>
           <NowPlaying />
           <ComingSoon />
-          <SearchMoviesByCategory />
         </section>
       </section>
     </div>

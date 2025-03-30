@@ -9,6 +9,28 @@
     color: white;
 }
 
+.dialog {
+    background-color: transparent;
+}
+
+.modal_body {
+    display: flex;
+    flex-direction: column;
+    height: 20vh;
+    padding: 10px;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+    text-align: center;
+    background-color: #a2d8fa;
+    border-radius: 30px;
+    border: 5px solid #1449ff;
+}
+.modal_button {
+    width: 20px;
+    margin-bottom: 20px;
+}
+
 .search_box {
     color: #33B0FF;
     margin: 10px;

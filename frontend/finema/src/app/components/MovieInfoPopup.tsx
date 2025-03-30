@@ -3,6 +3,11 @@ import Button from './Button'
 import styles from './MovieInfoPopup.module.css'
 import { useRouter } from 'next/navigation'
 
+interface Review {
+    id: number,
+    reviewText: string
+}
+
 type Props = {
         isOpened: boolean;
         onClose: () => void;
@@ -12,6 +17,9 @@ type Props = {
         synopsis: string;
         director: string;
         producer: string;
+        mpaaRating: string;
+        cast: string;
+        reviews: Review[];
     };
 
 const MovieInfoPopup = ({
@@ -20,9 +28,12 @@ const MovieInfoPopup = ({
         name,
         imageSrc,
         movieId,
+        mpaaRating,
         synopsis,
         director,
         producer,
+        cast,
+        reviews
     }: Props) => {
     const ref = useRef<HTMLDialogElement>(null);
     const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
@@ -71,6 +82,11 @@ const MovieInfoPopup = ({
                 <button onClick={onClose} className={styles.exit}>X</button>
                 <h1 className={styles.header} id={styles.name}> {name} </h1>
 
+                <section id={styles.rating}>
+                    Rating:<br/>
+                    {mpaaRating}
+                </section>
+
                 <section id={styles.synopsis}>
                     Synopsis:<br/>
                     {synopsis}
@@ -104,6 +120,20 @@ const MovieInfoPopup = ({
                 <section id={styles.director_producer}>
                     <h1> Directed by: {director} </h1>
                     <h1> Produced by: {producer} </h1>
+                    <h1> Cast: {cast} </h1>
+                </section>
+                <section id={styles.reviews}>
+                    <ul>
+                        {reviews.length > 0 ? (
+                            reviews.map((review: Review) => (
+                            <li key={review.id}>
+                                {review.reviewText}
+                            </li>
+                            ))
+                        ) : (
+                            <p>No reviews found</p>
+                        )}
+                    </ul>
                 </section>
                 <div className={styles.button}>
                     <Button onClick={goToBooking}> Book Tickets </Button>
