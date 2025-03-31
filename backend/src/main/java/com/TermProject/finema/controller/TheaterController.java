@@ -22,4 +22,10 @@ public class TheaterController {
         Theater savedTheater = theaterService.addTheater(theater);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTheater);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Theater>> getAllTheaters() {
+        List<Theater> theaters = theaterService.getAllTheaters();
+        return ResponseEntity.ok(theaters);
+    }
 }
