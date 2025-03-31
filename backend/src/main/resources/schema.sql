@@ -1,17 +1,17 @@
 CREATE TABLE IF NOT EXISTS Theater (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    location VARCHAR(255) NOT NULL UNIQUE,
+    location VARCHAR(255) NOT NULL,
     address TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Showroom (
     id INT PRIMARY KEY AUTO_INCREMENT,
     theaterID INT NOT NULL,
-    roomNumber VARCHAR(10) NOT NULL,
+    room_number VARCHAR(10) NOT NULL,
     capacity INT NOT NULL CHECK (capacity > 0),
     FOREIGN KEY (theaterID) REFERENCES Theater(id) ON DELETE CASCADE,
-    UNIQUE (theaterID, roomNumber)
+    UNIQUE (theaterID, room_number)
 );
 
 CREATE TABLE IF NOT EXISTS Seat (
