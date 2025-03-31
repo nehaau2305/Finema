@@ -17,10 +17,10 @@ CREATE TABLE IF NOT EXISTS Showroom (
 CREATE TABLE IF NOT EXISTS Seat (
     id INT PRIMARY KEY AUTO_INCREMENT,
     showroomID INT NOT NULL,
-    seatNumber INT NOT NULL,
-    isReserved BOOLEAN DEFAULT 0,
+    seat_number INT NOT NULL,
+    reserved BOOLEAN DEFAULT 0,
     FOREIGN KEY (showroomID) REFERENCES Showroom(id) ON DELETE CASCADE,
-    UNIQUE (showroomID, seatNumber) 
+    UNIQUE (showroomID, seat_number)
 );
 
 CREATE TABLE IF NOT EXISTS Movie (
