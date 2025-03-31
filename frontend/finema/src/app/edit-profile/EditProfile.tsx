@@ -8,7 +8,7 @@ import Button from '../components/Button';
 import PayCard from '../components/PayCard';
 
 interface Card {
-  id: number;
+  cardID: number;
   cardNumber: string;
   cardholderName: string;
   expirationDate: string;
@@ -71,7 +71,6 @@ export default function EditProfile() {
           'Content-Type': 'application/json'
         }
       })
-
       .then(response => {
         console.log('this is full response: ', response)
         if (!response.ok) {
@@ -82,8 +81,6 @@ export default function EditProfile() {
         }
         return response.json()
       })
-
-    //  .then(response => response.json())
       .then(data => {
         console.log('fetched card data', data)
         setCards(data)
@@ -96,35 +93,36 @@ export default function EditProfile() {
     }
   }, [router, token]);
 
-  const deleteCard = (card: Card) => {
+  const deleteCard = (cardID: number) => {
+    console.log(cardID)
     fetch('http://localhost:8080/users/deleteCard', {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(card)
+      body: JSON.stringify(cardID)
     })
     .then(response => response.json())
     .then(data => setCards(data))
     .catch(error => console.error('Error deleting card:', error));
   };
 
-  const addCard = (card: Card) => {
+  const addCard = (card: any) => {
 
     if (cards.length >= 4) {
       console.log("You can only add up to 4 cards.")
       return
     }
     
-    const newCard = { ...card, id: 0 };
+    //const newCard = { ...card};
     fetch('http://localhost:8080/users/addCard', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(newCard)
+      body: JSON.stringify(card)
     })
     .then(response => {
       if (!response.ok) {
@@ -137,7 +135,6 @@ export default function EditProfile() {
       setCards(data);
       // Reset card fields
       setCardData({
-        id: 0,
         cardNumber: '',
         cardholderName: '',
         expirationDate: '',
@@ -149,7 +146,6 @@ export default function EditProfile() {
   };
 
   const [cardData, setCardData] = useState({
-    id: 0,
     cardNumber: '',
     cardholderName: '',
     expirationDate: '',
@@ -186,11 +182,6 @@ export default function EditProfile() {
   };
 
   const handleSubmit = () => {
-    // Validate form data
-    if (passwords.newPassword !== passwords.confirmPassword) {
-      alert('New password and confirm password do not match');
-      return;
-    }
 
     const sendUserData = {...userData, promotions:promotions}
 
@@ -356,14 +347,14 @@ export default function EditProfile() {
               <ul>
                 {cards.length > 0 ? (
                   cards.map((card: Card) => (
-                    <li key={card.id}>
+                    <li key={card.cardID}>
                       <PayCard
                         cardNum={card.cardNumber}
                         cardholderName={card.cardholderName}
                         expDate={card.expirationDate}
                         cvv={card.cvv}
                         billingAddress={card.billingAddress}
-                        deleteCard={() => deleteCard(card)}
+                        deleteCard={() => deleteCard(card.cardID)}
                       />
                     </li>
                   ))

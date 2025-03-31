@@ -15,7 +15,7 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.Base64;
+
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -108,21 +108,27 @@ public class UserService implements UserDetailsService {
             //throw new RuntimeException("Encryption failed: " + e.getMessage());
         }
         card.setUser(user);
+        System.out.println(card.getCardID());
         cardRepository.save(card);
         return cardRepository.findByUser(user);
     }
 
-   // public List<Card> deleteCard(User user, Card card) {
-   //     Set<Card> cards = user.getCards();
-   //     Card cardToDelete = cards.stream()
-   //                          .filter(c -> c.getId().equals(card.getId()))
-   //                          .findFirst()
-   //                          .orElseThrow(() -> new RuntimeException("Card not found"));
-   //     cards.remove(cardToDelete);
-   //     user.setCards(cards);
-   //     userRepository.save(user);
-   //     return new ArrayList<>(cards);
-   // }
+    public List<Card> deleteCard(User user, int cardID) {
+        List<Card> cards = cardRepository.findByUser(user);
+        Card result = null;
+        for (Card c : cards) {
+            if (c.getCardID().equals(cardID)) {
+                result = c;
+            }
+        }
+        System.out.println(result);
+        if (result == null) {
+            throw new IllegalArgumentException("Card not in user's wallet");
+        }
+        cardRepository.deleteById(result.getCardID());
+        List<Card> remainingCards = cardRepository.findByUser(user);
+        return remainingCards;
+    }
 
 
     public List<Card> getCards(User user) {
@@ -138,6 +144,7 @@ public class UserService implements UserDetailsService {
                 System.out.println("Decryption failed: " + e.getMessage());
                 //throw new RuntimeException("Decryption failed: " + e.getMessage());
             }
+            System.out.println(card.getCardID());
         }
         return cards;
     }

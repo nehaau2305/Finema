@@ -44,22 +44,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
-    @GetMapping("/cards")
-    public ResponseEntity<List<Card>> getUserCards(@RequestHeader("Authorization") String token) {
-        Optional<User> user = userService.getUserFromToken(token);
-        if (user.isPresent()) {
-            //currentUser = user.get();
-            List<Card> cards = userService.getCards(user.get());
-            return ResponseEntity.ok(cards);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-    }
-
-
-
-
     
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> request) {
@@ -73,14 +57,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found");
         }
     }
-
-
-    // @PostMapping("/register")
-    // public ResponseEntity<String> registerUser(@RequestBody User user) {
-    //     User registeredUser = userService.registerUser(user);
-    //     String token = jwtTokenProvider.generateToken(user.getEmail());
-    //     return ResponseEntity.status(HttpStatus.CREATED).body(token);
-    // }
 
     @PostMapping("/sendregistercode")
     public ResponseEntity<String> sendRegistrationCode(@RequestBody User user) {
@@ -140,40 +116,40 @@ public class UserController {
         }
     }
 
-    // @GetMapping("/cards")
-    // public ResponseEntity<List<Card>> getCards(@RequestHeader("Authorization") String token) {
-    //     System.out.println("HEyy");
-    //     Optional<User> user = userService.getUserFromToken(token);
-    //     if (user.isPresent()) {
-    //         List<Card> retrievedCards = userService.getCards(user.get());
-    //         return ResponseEntity.ok(retrievedCards);
-    //     } else {
-    //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    //     }
-    // }
+    @GetMapping("/cards")
+    public ResponseEntity<List<Card>> getUserCards(@RequestHeader("Authorization") String token) {
+        Optional<User> user = userService.getUserFromToken(token);
+        if (user.isPresent()) {
+            List<Card> cards = userService.getCards(user.get());
+            return ResponseEntity.ok(cards);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 
     @PostMapping("/addCard")
     public ResponseEntity<List<Card>> addCard(@RequestBody Card card, @RequestHeader("Authorization") String token) {
         Optional<User> user = userService.getUserFromToken(token);
         if (user.isPresent()) {
-            List<Card> updatedCards = userService.addCard(user.get(), card);
+            userService.addCard(user.get(), card);
+            List<Card> updatedCards = userService.getCards(user.get());
             return ResponseEntity.ok(updatedCards);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
-   // @DeleteMapping("/deleteCard")
-   // public ResponseEntity<List<Card>> deleteCard(@RequestBody Card card, @RequestHeader("Authorization") String token) {
-   //     Optional<User> user = userService.getUserFromToken(token);
-   //     if (user.isPresent()) {
-   //         List<Card> updatedCards = userService.deleteCard(user.get(), card);
-   //         return ResponseEntity.ok(updatedCards);
-   //     } else {
-   //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-   //     }
-   // }
-
+    @DeleteMapping("/deleteCard")
+    public ResponseEntity<List<Card>> deleteCard(@RequestBody int cardID, @RequestHeader("Authorization") String token) {
+        Optional<User> user = userService.getUserFromToken(token);
+        if (user.isPresent()) {
+            userService.deleteCard(user.get(), cardID);
+            List<Card> updatedCards = userService.getCards(user.get());
+            return ResponseEntity.ok(updatedCards);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 
     @GetMapping("/details")
     public ResponseEntity<User> getUserDetails(@RequestParam String email) {

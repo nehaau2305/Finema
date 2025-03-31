@@ -27,7 +27,6 @@ export default function LoggedinUserHome() {
         <section className={styles.movies_body}>
           <NowPlaying />
           <ComingSoon />
-          <SearchByCategory />
         </section>
       </section>
     </div>
