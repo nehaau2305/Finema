@@ -2,6 +2,8 @@ package com.TermProject.finema.service;
 
 import com.TermProject.finema.entity.Movie;
 import com.TermProject.finema.repository.MovieRepository;
+import com.TermProject.finema.entity.Showtime;
+import com.TermProject.finema.repository.ShowtimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ import java.util.List;
 public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
+
+    @Autowired
+    private ShowtimeRepository showtimeRepository;
 
     public List<Movie> getAllMovies() {
         return movieRepository.findAll();
@@ -69,9 +74,17 @@ public class MovieService {
         return movieRepository.findByComingSoonTrue();
     }
 
-    
 
 
+    // SHOWTIME STUFF
+    public Showtime addShowtime(Showtime showtime) {
+        return showtimeRepository.save(showtime);
+    }
+
+    public List<Showtime> getShowtimes(Movie movie) {
+
+        return showtimeRepository.findByMovie(movie);
+    }
 
 
 }

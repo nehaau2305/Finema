@@ -2,6 +2,7 @@ package com.TermProject.finema.controller;
 
 import com.TermProject.finema.entity.Theater;
 import com.TermProject.finema.service.TheaterService;
+import com.TermProject.finema.entity.Showroom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -27,5 +28,12 @@ public class TheaterController {
     public ResponseEntity<List<Theater>> getAllTheaters() {
         List<Theater> theaters = theaterService.getAllTheaters();
         return ResponseEntity.ok(theaters);
+    }
+
+    @PostMapping("/get-showrooms")
+    public ResponseEntity<List<Showroom>> getShowroom(@RequestBody Theater theater) {
+        System.out.println("getShowroom in TheaterController entered");
+        List<Showroom> showroom = theaterService.getShowrooms(theater);
+        return ResponseEntity.status(HttpStatus.CREATED).body(showroom);
     }
 }

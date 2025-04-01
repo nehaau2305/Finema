@@ -2,6 +2,7 @@ package com.TermProject.finema.controller;
 
 import com.TermProject.finema.entity.Movie;
 import com.TermProject.finema.service.MovieService;
+import com.TermProject.finema.entity.Showtime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.List;
 public class MovieController {
     @Autowired
     private MovieService movieService;
+
 
     @PostMapping("/add")
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
@@ -110,6 +112,24 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.ok(movies);
+    }
+
+
+    // SHOWTIME STUFF
+    @PostMapping("/add-showtime")
+    public ResponseEntity<Showtime> addShowtime(@RequestBody Showtime showtime) {
+        System.out.println("addShowtime entered");
+        // need to send in Showtime with (movieId, showroomId, date, time)
+        // date: "YYYY-MM-DD"
+        // time: "HH:MM:SS"
+        Showtime savedShowtime = movieService.addShowtime(showtime);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedShowtime);
+    }
+
+    @PostMapping("/get-showtimes")
+    public List<Showtime> getShowtimes(@RequestBody Movie movie) {
+        System.out.println("getShowtimes entered");
+        return movieService.getShowtimes(movie);
     }
 
 }
