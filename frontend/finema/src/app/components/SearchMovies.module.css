@@ -1,18 +1,22 @@
+/* Main container for the search movies section */
 .main_body {
     display: flex;
-    background-color: #33B0FF;
     flex-direction: column;
+    background-color: #33B0FF;
     height: 100vh;
     padding: 10px;
     font-weight: bold;
     font-family: var(--font-inter);
     color: white;
+    overflow: hidden; /* Prevent content overflow */
 }
 
+/* Dialog styling */
 .dialog {
     background-color: transparent;
 }
 
+/* Modal body styling */
 .modal_body {
     display: flex;
     flex-direction: column;
@@ -26,36 +30,38 @@
     border-radius: 30px;
     border: 5px solid #1449ff;
 }
+
 .modal_button {
     width: 20px;
     margin-bottom: 20px;
 }
 
+/* Search box styling */
 .search_box {
     color: #33B0FF;
     margin: 10px;
     padding: 10px;
 }
 
+/* Search section styling */
 .search_section {
-    height: 70px;
-    background-color: #A2D8FA;
-    width: 210px auto;
     height: 50px;
+    background-color: #A2D8FA;
+    width: 100%; /* Full width */
     padding: 10px;
     margin: 10px auto;
     border-radius: 10px;
-}
-
+}/* Filter section styling */
 .filter_section {
-    height: 40px;
-    margin: 2px;
+    margin: 20px 0; /* Add spacing between filter and grid sections */
+    display: flex; /* Use flexbox for horizontal alignment */
+    flex-wrap: nowrap; /* Prevent buttons from wrapping to the next line */
+    gap: 10px; /* Add spacing between buttons */
+    align-items: center; /* Align buttons vertically in the center */
+    justify-content: flex-start; /* Align buttons to the left */
 }
 
-.movie_section {
-    flex: 100%;
-}
-
+/* Button styling */
 .button {
     background-color: #1449ff;
     color: white;
@@ -64,5 +70,64 @@
     font-weight: 600;
     border-radius: 10px;
     cursor: pointer;
-    margin: 5px;
+    margin: 0; /* Remove extra margins */
+    flex: 0 1 auto; /* Allow buttons to shrink or grow as needed */
+    max-width: 150px; /* Set a maximum width for the buttons */
+    text-align: center; /* Center the text inside the button */
+    white-space: nowrap; /* Prevent text from wrapping inside the button */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis for overflowing text */
+}
+/* Grid container for search results */
+.grid_container {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column layout */
+    gap: 20px; /* Spacing between grid items */
+    max-height: calc(100vh - 300px); /* Adjust height to prevent overlap */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px;
+    background-color: #ffffff; /* White background for the grid */
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+/* Individual grid items (movie cards) */
+.grid_item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5; /* Light background for individual cards */
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect for movie cards */
+.grid_item:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Scrollbar styling for the grid container */
+.grid_container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.grid_container::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 10px;
+}
+
+.grid_container::-webkit-scrollbar-thumb:hover {
+    background-color: #777;
+}
+
+/* Styling for the "No results found" message */
+.no_results {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: black; /* Change font color to black */
+    margin-top: 20px;
 }

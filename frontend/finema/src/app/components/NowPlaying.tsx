@@ -46,31 +46,27 @@ export default function NowPlaying() {
 
   return (
     <div className={styles.main_body}>
-        <h1 className={styles.header}>now playing</h1>
-        <section>
-          <ul className={styles.list}>
-            {/*<li><MovieCard name='Time Bandits' source='timebandits.png' /></li>*/}
-            {/*<li><MovieCard name='Les Miserables (1952)' source='les-mis.png' /></li>*/}
-            {nowShowingMovies.length > 0 ? (
-              nowShowingMovies.map((movie) => (
-                <li key={movie.id}>
-                  <MovieCard 
-                  name={movie.title} 
-                  source={movie.trailerPicture} 
-                  movieId={movie.id} 
-                  mpaaRating={movie.mpaaRating}
-                  synopsis={movie.synopsis}
-                  director={movie.director}
-                  producer={movie.producer}
-                  cast={movie.cast}
-                  />
-                </li>
-               ))
-              ) : (
-                <p>No coming soon movies available at the moment.</p>
-            )}
-          </ul>
-        </section>
+      <h1 className={styles.header}>Now Playing</h1>
+      <section className={styles.grid_container}>
+        {nowShowingMovies.length > 0 ? (
+          nowShowingMovies.map((movie) => (
+            <div key={movie.id} className={styles.grid_item}>
+              <MovieCard 
+                name={movie.title} 
+                source={movie.trailerPicture} 
+                movieId={movie.id} 
+                mpaaRating={movie.mpaaRating}
+                synopsis={movie.synopsis}
+                director={movie.director}
+                producer={movie.producer}
+                cast={movie.cast}
+              />
+            </div>
+          ))
+        ) : (
+          <p>No movies available at the moment.</p>
+        )}
+      </section>
     </div>
   );
 };

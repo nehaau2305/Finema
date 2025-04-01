@@ -18,11 +18,6 @@ const FilterButton: React.FC<ButtonProps> = ({ type = 'button', onClick, childre
   );
 };
 
-interface Review {
-  id: number,
-  reviewText: string
-}
-
 interface Movie {
   id: number;
   title: string;
@@ -39,6 +34,10 @@ const categories = ['Action', 'Drama', 'Comedy', 'Mystery', 'Kids', 'Horror', 'D
 export default function SearchMovies() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Movie[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [error, setError] = useState('');
+  const [isOpened, setIsOpened] = useState(false);
+  const ref = useRef<HTMLDialogElement>(null);
 
   const sendQuery = async () => {
     if (query.trim() === '') return;
@@ -49,14 +48,11 @@ export default function SearchMovies() {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      setResults(data); 
+      setResults(data);
     } catch (error) {
       console.error('Error fetching search results:', error);
     }
   };
-
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [error, setError] = useState('');
 
   const fetchMoviesByCategory = async (category: string) => {
     try {
@@ -79,31 +75,24 @@ export default function SearchMovies() {
     fetchMoviesByCategory(category);
   };
 
-  const setFilter = () => {
-    // TODO: Add filtering functionality, e.g. by category or rating
-  }
-
-  //console.log(query)
-  const ref = useRef<HTMLDialogElement>(null);
-  const [isOpened, setIsOpened] = useState(false);
   useEffect(() => {
     if (isOpened) {
       ref.current?.showModal();
-      document.body.classList.add("modal-open");
+      document.body.classList.add('modal-open');
     } else {
       ref.current?.close();
-      document.body.classList.remove("modal-open");
+      document.body.classList.remove('modal-open');
     }
   }, [isOpened]);
 
   return (
     <section className={styles.main_body}>
-    <dialog ref={ref} className={styles.dialog}>
-      <section className={styles.modal_body}>
-        <section className={styles.modal_button}>
-          <Button onClick={() => setIsOpened(false)}> X </Button>
-        </section>
-        <section className={styles.filter_section}>
+      <dialog ref={ref} className={styles.dialog}>
+        <section className={styles.modal_body}>
+          <section className={styles.modal_button}>
+            <Button onClick={() => setIsOpened(false)}> X </Button>
+          </section>
+          <section className={styles.filter_section}>
             {categories.map((category) => (
               <Button
                 key={category}
@@ -115,7 +104,7 @@ export default function SearchMovies() {
             ))}
           </section>
         </section>
-    </dialog>
+      </dialog>
       <h1>Search Movies</h1>
       <section>
         <input
@@ -131,26 +120,25 @@ export default function SearchMovies() {
         <h2> Filter by: </h2>
         <Button onClick={() => setIsOpened(true)}> Categories </Button>
         <Button onClick={() => setIsOpened(true)}> ShowTimes </Button>
-        <ul>
-          {results.length > 0 ? (
-            results.map((movie: Movie) => (
-              <li key={movie.id}>
-                <MovieCard
-                  name={movie.title}
-                  source={movie.trailerPicture}
-                  mpaaRating={movie.mpaaRating}
-                  movieId={movie.id}
-                  synopsis={movie.synopsis}
-                  director={movie.director}
-                  producer={movie.producer}
-                  cast={movie.cast}
-                />
-              </li>
-            ))
-          ) : (
-            <p>No results found</p>
-          )}
-        </ul>
+      </section>
+      <section className={styles.grid_container}>
+        {results.length > 0 ? (
+          results.map((movie: Movie) => (
+            <div key={movie.id} className={styles.grid_item}>
+              <MovieCard
+                name={movie.title}
+                source={movie.trailerPicture}
+                mpaaRating={movie.mpaaRating}
+                movieId={movie.id}
+                synopsis={movie.synopsis}
+                director={movie.director}
+                producer={movie.producer}
+                cast={movie.cast}
+              />
+            </div>
+          ))
+        ) : (
+          <p className={styles.no_results}>No results found</p>        )}
       </section>
     </section>
   );

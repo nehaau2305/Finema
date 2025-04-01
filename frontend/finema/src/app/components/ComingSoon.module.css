@@ -1,6 +1,65 @@
+/* Header styling */
 .header {
     font-size: xx-large;
     font-weight: bold;
     font-family: var(--font-inter);
-    color: white;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Main container for the "Now Playing" section */
+.main_body {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #3962eac0;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+}
+
+/* Grid container for movie cards */
+.grid_container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Fixed 2 columns */
+    gap: 20px; /* Spacing between grid items */
+    max-height: 780px; /* Limit the height of the grid */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px;
+    background-color:  #ffffff; /* Slightly lighter background for the grid */
+    border-radius: 10px;
+    border: 1px solid #171515;
+}
+
+/* Individual grid items (movie cards) */
+.grid_item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4b4a4a; /* Background for individual cards */
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect for movie cards */
+.grid_item:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Scrollbar styling for the grid container */
+.grid_container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.grid_container::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 10px;
+}
+
+.grid_container::-webkit-scrollbar-thumb:hover {
+    background-color: #777;
 }
