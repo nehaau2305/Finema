@@ -33,16 +33,6 @@ export default function EditProfile() {
     confirmPassword: '',
   });
   const [cards, setCards] = useState<Card[]>([]);
-
-  // Define setResults function
-  const setResults = (data: any) => {
-    if (Array.isArray(data)) {
-      setCards(data);
-    } else {
-      setUserData(data);
-    }
-  };
-
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

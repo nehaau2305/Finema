@@ -4,47 +4,51 @@ import fish from '../images/fish.png'
 import deadFish from '../images/deadFish.png'
 import styles from './SeatCard.module.css'
 
-interface SeatCardProps {
-  reserved:boolean;
-  seatNum: number;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
+interface Seat {
+  id:number,
+  showroomID:number,
+  seatNum:number,
+  reserved:boolean
 }
 
-export default function SeatCard({ reserved, seatNum, onClick }: SeatCardProps) {
-  const [fishImage, setFishImage] = useState((
+interface SeatCardProps {
+  seatNum:number;
+  reserved:boolean;
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+}
+
+export default function SeatCard({ seatNum, reserved, onClick }: SeatCardProps) {
+  const [isReserved, setIsReserved] = useState(reserved)
+
+  const handleClick = (e:any) => {
+    const temp = isReserved;
+    setIsReserved(false)
+    // Will have set to reserved as only option and to disable call back
+    if (!isReserved) {
+      onClick(e)
+    }
+  }
+
+  const deadImage = (
+    <Image
+      src={deadFish}
+      height={50}
+      width={50}
+      alt="fish"
+    /> 
+  )
+  const aliveImage = (
     <Image
       src={fish}
       height={50}
       width={50}
       alt="fish"
-      /> 
-    ))
-
-  useEffect(() => {
-    if (reserved) {
-      setFishImage((
-        <Image
-          src={deadFish}
-          height={50}
-          width={50}
-          alt="fish"
-          /> 
-        ))
-    } else {
-      setFishImage((
-        <Image
-          src={fish}
-          height={50}
-          width={50}
-          alt="fish"
-          /> 
-        ))
-    }
-  }, [reserved])
+    /> 
+  )
 
   return (
-    <section onClick={onClick} className={styles.main_body}>
-      {fishImage}
-    </section>
+    <div onClick={handleClick} className={styles.main_body}>
+      {isReserved ? deadImage : aliveImage}
+    </div>
   );
 }

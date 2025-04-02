@@ -12,6 +12,42 @@
     margin-left: 180px;
     margin-right: 80px;
 }
+
+/* Dialog styling */
+.dialog {
+    background-color: transparent;
+}
+
+/* Modal body styling */
+.modal_body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 40vh;
+    width: 50vh;
+    padding: 10px;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+    text-align: center;
+    background-color: #a2d8fa;
+    border-radius: 30px;
+    border: 5px solid #1449ff;
+}
+
+.filter_section {
+    margin: 20px 0; /* Add spacing between filter and grid sections */
+    display: flex; /* Use flexbox for horizontal alignment */
+    flex-wrap: nowrap; /* Prevent buttons from wrapping to the next line */
+    gap: 10px; /* Add spacing between buttons */
+    align-items: center; /* Align buttons vertically in the center */
+    justify-content: center; /* Align buttons to the left */
+}
+
+.modal_button {
+    width: 20px;
+    margin-bottom: 20px;
+}
 .summary {
     background-color: #33B0FF;
     margin-bottom: 100px;
@@ -76,13 +112,13 @@
     margin-bottom: 50px;
     border-radius: 12px;
     padding: 20px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    max-height: 50vh; /* Limit the height of the grid */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 .ticket_area h1 {
     font-size: x-large;
     text-align: center;
     margin-bottom: 30px;
-}
-.list ul {
-    margin-top: 7px;
-    margin-bottom: 7px;
 }

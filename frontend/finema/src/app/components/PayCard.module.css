@@ -1,6 +1,7 @@
 .main_body {
     display: flex;
     justify-content: space-around;
+    background-color: #33B0FF;
     border: 2px solid #1449FF;
     border-radius: 10px;
     margin: auto;

@@ -4,6 +4,7 @@ import styles from './ShowTime.module.css'
 import Button from '../components/Button'
 import ShowCard from '../components/ShowCard'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 
 interface ShowTime {
   id: number,
@@ -117,7 +118,15 @@ export default function ShowTime() {
         </section>
       </section>
       <div className={styles.btn1}>
-        <Button onClick={goToSeats}>Next </Button>
+      <Link href={{
+          pathname: '/seat-selection',
+          query: {
+            name: name,
+            adult: adult,
+            child: child,
+            senior: senior
+          },
+        }}> Book Tickets </Link>
       </div>
       <div className={styles.btn2}>
         <Button onClick={goBack}> Go Back </Button>
