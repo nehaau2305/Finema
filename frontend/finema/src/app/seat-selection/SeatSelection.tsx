@@ -1,15 +1,42 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './SeatSelection.module.css'
 import Button from '../components/Button'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
-import fish from './fish.png'
+import SeatCard from '../components/SeatCard'
+
+interface Seat {
+  id:number,
+  showroomID:number,
+  seatNum:number,
+  reserved:boolean
+}
 
 
 export default function ShowTime() {
   const router = useRouter();
-  const [clicked, setClicked] = useState(false)
+
+  var defaultSeats = []
+  for (let i = 0; i < 56; i++) {
+    const aSeat = {
+      id: i,
+      showroomID: 0,
+      seatNum: i,
+      reserved: false
+    }
+    defaultSeats.push(aSeat)
+  } 
+  const [seats, setSeats] = useState<Seat[]>(defaultSeats)
+  const [firstFourtyFive, setFirstFourtyFive] = useState<Seat[]>([])
+  const [secondSeven, setSecondSeven] = useState<Seat[]>([])
+  const [lastFour, setlastFour] = useState<Seat[]>([])
+
+  useEffect(() => {
+    setFirstFourtyFive(seats.splice(0, 45))
+    setSecondSeven(seats.splice(0, 7))
+    setlastFour(seats.splice(0, 4))
+  }, seats)
+
 
   function goToCheckout() {
     router.push('/order-summary')
@@ -18,8 +45,9 @@ export default function ShowTime() {
     router.push('/show-time')
   }
 
-  function selectSeat() {
-    setClicked(!clicked)
+  function handleSeatChange(seat:Seat) {
+    console.log("HEY")
+    seat.reserved = true;
   }
 
   const seatNum = '1';
@@ -32,103 +60,39 @@ export default function ShowTime() {
         <section className={styles.seat_box}>
           <h1> Screen </h1>
           <section className={styles.seat_selector}>
-          <button>
-                <Image
-                src={fish}
-                height={200}
-                width={200}
-                alt="fish"
-                /> 
-            </button>
-            <button>
-                <Image
-                src={fish}
-                height={200}
-                width={200}
-                alt="fish"
-                /> 
-            </button>
-            <button>
-                <Image
-                src={fish}
-                height={200}
-                width={200}
-                alt="fish"
-                /> 
-            </button>
-            <button>
-                <Image
-                src={fish}
-                height={200}
-                width={200}
-                alt="fish"
-                /> 
-            </button>
-            <button>
-                <Image
-                src={fish}
-                height={200}
-                width={200}
-                alt="fish"
-                /> 
-            </button>
-            <button>
-                <Image
-                src={fish}
-                height={200}
-                width={200}
-                alt="fish"
-                /> 
-            </button>
-            <button>
-                <Image
-                src={fish}
-                height={200}
-                width={200}
-                alt="fish"
-                /> 
-            </button>
-            <button>
-                <Image
-                src={fish}
-                height={200}
-                width={200}
-                alt="fish"
-                /> 
-            </button>
-            <button>
-                <Image
-                src={fish}
-                height={200}
-                width={200}
-                alt="fish"
-                /> 
-            </button>
-            <button>
-                <Image
-                src={fish}
-                height={200}
-                width={200}
-                alt="fish"
-                /> 
-            </button>
-            <button>
-                <Image
-                src={fish}
-                height={200}
-                width={200}
-                alt="fish"
-                /> 
-            </button>
-            <button>
-                <Image
-                src={fish}
-                height={200}
-                width={200}
-                alt="fish"
-                /> 
-            </button>
-
+            <ul className={styles.ul_fourty_five}>
+              {firstFourtyFive.length > 0 ? (
+                firstFourtyFive.map((seat: Seat) => (
+                  <li key={seat.id}>
+                    <SeatCard seatNum={seat.seatNum} reserved={seat.reserved === true} onClick={() => handleSeatChange(seat)}/>
+                  </li>
+                ))
+              ) : (
+                <p>Error</p>
+              )}
+            </ul>
+            <ul className={styles.ul_seven}>
+              {secondSeven.length > 0 ? (
+                secondSeven.map((seat: Seat) => (
+                  <li key={seat.id}>
+                    <SeatCard seatNum={seat.seatNum} reserved={seat.reserved === true} onClick={() => handleSeatChange(seat)}/>
+                  </li>
+                ))
+              ) : (
+                <p>Error</p>
+              )}
+            </ul>
+            <ul className={styles.ul_four}>
+              {lastFour.length > 0 ? (
+                lastFour.map((seat: Seat) => (
+                  <li key={seat.id}>
+                    <SeatCard seatNum={seat.seatNum} reserved={seat.reserved === true} onClick={() => handleSeatChange(seat)}/>
+                  </li>
+                ))
+              ) : (
+                <p>Error</p>
+              )}
+            </ul>
           </section>
         </section>
       </div>

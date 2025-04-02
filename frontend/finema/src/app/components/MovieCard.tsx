@@ -4,6 +4,7 @@ import styles from './MovieCard.module.css';
 import MovieInfoPopup from './MovieInfoPopup';
 import Button from './Button';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link'
 
 interface Review {
   id: number,
@@ -40,10 +41,6 @@ export default function MovieCard({ name, source, movieId, synopsis, director, p
 
   const router = useRouter();
 
-  function goToBooking() {
-    router.push('/show-time');
-  }
-
   return (
     <div className={styles.main_body}>
       <div onClick={() => setIsOpened(true)}>
@@ -53,7 +50,13 @@ export default function MovieCard({ name, source, movieId, synopsis, director, p
           <img className={styles.movie_banner} src={source} alt={name} />
         </section>
       </div>
-      <Button onClick={goToBooking}> Book Ticket </Button> {/** We need a way to send the necessary information to the booking page through the info popup or book ticket button */}
+      <Link href={{
+          pathname: '/show-time',
+          query: {
+            name: name,
+          },
+        }}> Book Tickets </Link>
+      
       <MovieInfoPopup
         isOpened={isOpened}
         onClose={() => setIsOpened(false)}

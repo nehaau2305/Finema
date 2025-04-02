@@ -34,7 +34,35 @@
     flex-wrap: wrap;
     justify-content: center;
     align-content: space-evenly;
-    gap: 100px;
+    font-size: xx-large;
+}
+
+.ul_fourty_five {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-evenly;
+    gap: 30px;
+    margin-bottom: 30px;
+    font-size: xx-large;
+}
+
+.ul_seven {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-evenly;
+    gap: 30px;
+    margin-bottom: 30px;
+    font-size: xx-large;
+}
+
+.ul_four {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-evenly;
+    gap: 30px;
     font-size: xx-large;
 }
 
@@ -47,13 +75,6 @@
     bottom:70px;
     left:70px;
     position: absolute;
-}
-
-.seat_selector button {
-
-    cursor: pointer;
-    width: 75px;
-    height: 75px;
 }
 
 .seat_num {    

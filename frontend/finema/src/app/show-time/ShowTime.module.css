@@ -46,6 +46,22 @@
     padding: 10px;
 }
 
+.list_item {
+    background-color: #1449ff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+}
+
+.list_item:hover {
+    background-color: #1140e0;
+}
+
 .list div {
     display: flex;
 }
