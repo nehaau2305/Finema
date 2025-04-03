@@ -1,0 +1,32 @@
+.main_body {
+    display: flex;
+    background-color: #A2D8FA;
+    height: 90vh;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    gap: 100px;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+}
+
+.showroom_box {
+    display: flex;
+    background-color: #14a4ff;
+    flex-direction: column;   
+    justify-content: space-evenly; 
+    align-items: center;      
+    height: 300px;            
+    width: 40%;               
+    padding: 20px;             
+    border-radius: 10px;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+}
+
+.input_box {
+    color: black;
+}
+
