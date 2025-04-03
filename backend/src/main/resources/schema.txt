@@ -42,8 +42,7 @@ CREATE TABLE IF NOT EXISTS Showtime (
     id INT PRIMARY KEY AUTO_INCREMENT,
     movieID INT NOT NULL,
     date DATE NOT NULL,
-    --time TIME NOT NULL,
-
+    time TIME NOT NULL,
     showroomID INT NOT NULL UNIQUE,  -- Ensures only one showtime per showroom
     FOREIGN KEY (movieID) REFERENCES Movie(id) ON DELETE CASCADE,
     FOREIGN KEY (showroomID) REFERENCES Showroom(id) ON DELETE CASCADE
