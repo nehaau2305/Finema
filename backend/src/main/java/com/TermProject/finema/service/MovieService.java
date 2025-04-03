@@ -81,8 +81,8 @@ public class MovieService {
         return showtimeRepository.save(showtime);
     }
 
-    public List<Showtime> getShowtimes(Movie movie) {
-        return showtimeRepository.findByMovie(movie);
+    public List<Showtime> getShowtimes(int movieId) {
+        return showtimeRepository.findByMovieId(movieId);
     }
 
 
