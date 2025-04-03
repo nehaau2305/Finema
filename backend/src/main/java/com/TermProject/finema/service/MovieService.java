@@ -82,7 +82,6 @@ public class MovieService {
     }
 
     public List<Showtime> getShowtimes(Movie movie) {
-
         return showtimeRepository.findByMovie(movie);
     }
 

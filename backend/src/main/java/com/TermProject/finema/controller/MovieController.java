@@ -126,7 +126,7 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedShowtime);
     }
 
-    @PostMapping("/get-showtimes")
+    @PostMapping("/get-movie-showtimes")
     public List<Showtime> getShowtimes(@RequestBody Movie movie) {
         System.out.println("getShowtimes entered");
         return movieService.getShowtimes(movie);
