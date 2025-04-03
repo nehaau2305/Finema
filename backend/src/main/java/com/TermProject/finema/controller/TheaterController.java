@@ -30,10 +30,11 @@ public class TheaterController {
         return ResponseEntity.ok(theaters);
     }
 
-    @PostMapping("/get-showrooms")
-    public ResponseEntity<List<Showroom>> getShowroom(@RequestBody Theater theater) {
+    @GetMapping("/get-showrooms")
+    public ResponseEntity<List<Showroom>> getShowrooms(@RequestParam int theaterId) {
         System.out.println("getShowroom in TheaterController entered");
-        List<Showroom> showroom = theaterService.getShowrooms(theater);
-        return ResponseEntity.status(HttpStatus.CREATED).body(showroom);
+        List<Showroom> showrooms = theaterService.getShowrooms(theaterId);
+        return ResponseEntity.ok(showrooms);
     }
+
 }

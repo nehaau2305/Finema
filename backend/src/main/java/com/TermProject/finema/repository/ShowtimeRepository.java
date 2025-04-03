@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface ShowtimeRepository extends JpaRepository<Showtime, Integer> {
     List<Showtime> findByMovie(Movie movie);
+    List<Showtime> findByShowroom(Showroom showroom);
 }

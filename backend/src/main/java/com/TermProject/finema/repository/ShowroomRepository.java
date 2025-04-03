@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface ShowroomRepository extends JpaRepository<Showroom, Integer> {
+    List<Showroom> findByTheaterId(int theaterId);
     List<Showroom> findByTheater(Theater theater);
 }

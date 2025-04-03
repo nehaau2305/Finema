@@ -62,7 +62,7 @@ public class TheaterService {
         return showroomRepository.findByTheater(theater);
     }
 
-    public List<Showroom> getShowrooms(Theater theater) {
-        return showroomRepository.findByTheater(theater);
+    public List<Showroom> getShowrooms(int theaterId) {
+        return showroomRepository.findByTheaterId(theaterId);
     }
 }

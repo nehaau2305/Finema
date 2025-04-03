@@ -16,7 +16,7 @@ public class Showtime {
     private int movieId;
 
     @ManyToOne
-    @JoinColumn(name = "movie", nullable = false)
+    @JoinColumn(name = "movie")
     private Movie movie;
 
     @Column(name = "showroomID")
@@ -30,9 +30,12 @@ public class Showtime {
     private LocalDate date;
     // date: "YYYY-MM-DD"
 
-    @Column(name = "time", nullable = false)
-    private LocalTime time;
+    //@Column(name = "time", nullable = false)
+    //private LocalTime time;
     // time: "HH:MM:SS"
+
+    @Enumerated(EnumType.STRING)
+    private ConsecutiveTimes time;
 
     public Showtime() {}
 
@@ -48,7 +51,9 @@ public class Showtime {
     public void setShowroom(Showroom showroom) {this.showroom = showroom;}
     public LocalDate getDate() {return date;}
     public void setDate(LocalDate date) {this.date = date;}
-    public LocalTime getTime() {return time;}
-    public void setTime(LocalTime time) {this.time = time;}
+    //public LocalTime getTime() {return time;}
+    //public void setTime(LocalTime time) {this.time = time;}
+    public ConsecutiveTimes getTime() {return time;}
+    public void setTime(ConsecutiveTimes time) {this.time = time;}
 
 }
