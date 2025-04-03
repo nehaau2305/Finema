@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.time.LocalDate;
 import com.TermProject.finema.dto.AddShowtimeRequest;
+import com.TermProject.finema.dto.GetShowtimeRequest;
 
 import java.util.List;
 
@@ -48,5 +49,21 @@ public class TheaterController {
         List<Showtime> showtimes = theaterService.addShowtimesByDate(theater, date);
         return ResponseEntity.status(HttpStatus.CREATED).body(showtimes);
     }
+
+    // lists all showtimes for given theater and date (for admin side to add movies)
+    @GetMapping("/get-theater-date-showtimes")
+    public ResponseEntity<List<Showtime>> getShowtimes(@RequestBody GetShowtimeRequest request) {
+        System.out.println("getShowtimes entered");
+        List<Showtime> showtimes = theaterService.getShowtimes(request.getTheaterId(), request.getDate());
+        return ResponseEntity.ok(showtimes);
+    }
+
+    /**
+    @GetMapping("/showrooms/no-movie")
+    public ResponseEntity<List<Showroom>> getShowroomsWithNoMovie(@RequestBody GetShowtimeRequest request) {
+        List<Showroom> showrooms = theaterService.getShowroomsWithNoMovie(request.getTheaterId(), request.getDate());
+        return ResponseEntity.ok(showrooms);
+    }
+    */
 
 }

@@ -91,5 +91,16 @@ public class TheaterService {
         return addedShowtimes;
     }
 
+    public List<Showtime> getShowtimes(int theaterId, LocalDate date) {
+        return showtimeRepository.findByShowroom_Theater_IdAndDate(theaterId, date);
+    }
+
+    // checks showtime repo for times where movie is null and returns those showrooms
+    /**
+    public List<Showroom> getShowroomsWithNoMovie(int theaterId, LocalDate date) {
+        return showtimeRepository.findDistinctShowroomByShowroom_Theater_IdAndDateAndMovieIsNull(theaterId, date);
+    }
+     */
+
 
 }
