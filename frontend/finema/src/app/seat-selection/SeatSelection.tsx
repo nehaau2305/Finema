@@ -4,9 +4,6 @@ import styles from './SeatSelection.module.css'
 import Button from '../components/Button'
 import { useRouter, useSearchParams } from 'next/navigation'
 import SeatCard from '../components/SeatCard'
-import fish from '../images/fish.png'
-import Image from 'next/image'
-import deadFish from '../images/deadFish.png'
 
 
 interface Seat {

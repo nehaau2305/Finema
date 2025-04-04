@@ -14,14 +14,9 @@ interface Theater {
 const TopBar = ({ loggedIn = false, showEditProfile = true }: any) => {
   const router = useRouter();
   const [token, setToken] = useToken('token');
-  const [theaters, setTheaters] = useState<Theater[]>([]);
-  const [selectedTheater, setSelectedTheater] = useState<number | null>(
-    () => {
-      // Retrieve the previously selected theater from localStorage (if available)
-      const storedTheater = localStorage.getItem('selectedTheater');
-      return storedTheater ? parseInt(storedTheater) : null;
-    }
-  );
+  // const [storedTheater, setStoredTheater] = useToken('selectedTheater');
+  // const [theaters, setTheaters] = useState<Theater[]>([]);
+  // const [selectedTheater, setSelectedTheater] = useState<number | null>(parseInt(storedTheater));
 
   //commenting this out cuz i think we only need one theater
 
@@ -57,7 +52,7 @@ const TopBar = ({ loggedIn = false, showEditProfile = true }: any) => {
   const handleTheaterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const theaterId = parseInt(event.target.value);
     setSelectedTheater(theaterId);
-    localStorage.setItem('selectedTheater', theaterId.toString()); // Save the selected theater to localStorage
+    setStoredTheater(theaterId.toString()) // Save the selected theater to localStorage
   };
 
   */

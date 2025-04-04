@@ -3,6 +3,7 @@ import Image from 'next/image'
 import fish from '../images/fish.png'
 import deadFish from '../images/deadFish.png'
 import styles from './SeatCard.module.css'
+import { motion } from "motion/react"
 
 interface Seat {
   id:number,
@@ -32,7 +33,7 @@ export default function SeatCard({ seatNum, reserved, onClick }: SeatCardProps) 
   const deadImage = (
     <Image
       src={deadFish}
-      height={50}
+      height={10}
       width={50}
       alt="fish"
     /> 
@@ -40,15 +41,34 @@ export default function SeatCard({ seatNum, reserved, onClick }: SeatCardProps) 
   const aliveImage = (
     <Image
       src={fish}
-      height={50}
+      height={10}
       width={50}
       alt="fish"
     /> 
   )
 
   return (
-    <div onClick={handleClick} className={styles.main_body}>
+    <motion.div 
+      onClick={handleClick} 
+      className={styles.main_body}
+      animate={{
+        scale: 1,
+        x: 0,
+        y: 0,
+      }}
+      whileHover={{
+        scale: [1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5],
+        x: [0,  5,  2, -5,  1, 1, -3, 0],
+        y: [0, -5, -3, -4, -4, 4, -3, 0],
+        transition:{
+          time: [0, .1, .3, .5, .6, .8, .9, 1],
+          duration: 4,
+          ease: ["easeIn", "easeOut"],
+          repeat: Infinity,
+        }
+      }}
+    >
       {isReserved ? deadImage : aliveImage}
-    </div>
+    </motion.div>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Button from './Button'
 import styles from './MovieInfoPopup.module.css'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 interface Review {
     id: number,
@@ -136,7 +137,13 @@ const MovieInfoPopup = ({
                     </ul>
                 </section>
                 <div className={styles.button}>
-                    <Button onClick={goToBooking}> Book Tickets </Button>
+                    <Link href={{
+                        pathname: '/show-time',
+                        query: {
+                            name: name,
+                        },
+                        }}> Book Tickets 
+                    </Link>
                 </div>
             </section>
         </section>
