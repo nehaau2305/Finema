@@ -4,6 +4,7 @@ import com.TermProject.finema.entity.Showroom;
 import com.TermProject.finema.repository.ShowroomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import jakarta.annotation.PostConstruct;
 
 import java.util.List;
 
@@ -12,6 +13,24 @@ public class ShowroomService {
 
     @Autowired
     private ShowroomRepository showroomRepository;
+
+
+    // automatically create 6 showrooms
+    @PostConstruct
+    public void createDefaultShowrooms() {
+        boolean showroomExists = showroomRepository.existsById(1);
+        if(showroomExists == false) {
+            for (int i = 1; i <= 6; i++) {
+                Showroom showroom = new Showroom();
+                showroom.setRoomNumber("Room " + i);
+                showroom.setCapacity(56);
+                showroomRepository.save(showroom);
+                System.out.println("Default showrooms have been created.");
+            }
+        } else {
+            System.out.println("Default showrooms already exist.");
+        }
+    }
 
     // Add a new showroom
     public Showroom addShowroom(Showroom showroom) {
@@ -23,18 +42,12 @@ public class ShowroomService {
         return showroomRepository.findAll();
     }
 
-    // Get showrooms by theater ID
-    public List<Showroom> getShowroomsByTheater(int theaterId) {
-        return showroomRepository.findByTheaterId(theaterId);
-    }
-
     // Update an existing showroom
     public Showroom updateShowroom(int id, Showroom showroom) {
         Showroom existingShowroom = showroomRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Showroom not found with id: " + id));
         existingShowroom.setCapacity(showroom.getCapacity());
         existingShowroom.setRoomNumber(showroom.getRoomNumber());
-        existingShowroom.setTheater(showroom.getTheater());
         return showroomRepository.save(existingShowroom);
     }
 

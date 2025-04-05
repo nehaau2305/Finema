@@ -1,10 +1,7 @@
 package com.TermProject.finema.controller;
 
 import com.TermProject.finema.entity.Showtime;
-import com.TermProject.finema.entity.Theater;
 import com.TermProject.finema.service.ShowtimeService;
-import com.TermProject.finema.dto.AddShowtimeRequest;
-import com.TermProject.finema.dto.GetShowtimeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,23 +18,19 @@ public class ShowtimeController {
     @Autowired
     private ShowtimeService showtimeService;
 
-    // Add showtimes for a specific theater and date
+    // Add showtimes for a specific date
     @PostMapping("/add")
-    public ResponseEntity<List<Showtime>> addShowtimesByDate(@RequestBody AddShowtimeRequest request) {
+    public ResponseEntity<List<Showtime>> addShowtimesByDate(@RequestBody LocalDate date) {
         System.out.println("addShowtimesByDate in ShowtimeController entered");
-        Theater theater = request.getTheater();
-        LocalDate date = request.getDate();
-        List<Showtime> showtimes = showtimeService.addShowtimesByDate(theater, date);
+        List<Showtime> showtimes = showtimeService.addShowtimesByDate(date);
         return ResponseEntity.status(HttpStatus.CREATED).body(showtimes);
     }
 
-    // Get showtimes for a specific theater and date
-    @GetMapping("/get-by-theater-and-date")
-    public ResponseEntity<List<Showtime>> getShowtimes(@RequestBody GetShowtimeRequest request) {
+    // Get showtimes for a specific date
+    @GetMapping("/get-by-date")
+    public ResponseEntity<List<Showtime>> getShowtimes(@RequestBody LocalDate date) {
         System.out.println("getShowtimes in ShowtimeController entered");
-        List<Showtime> showtimes = showtimeService.getShowtimes(request.getTheaterId(), request.getDate());
+        List<Showtime> showtimes = showtimeService.getShowtimes(date);
         return ResponseEntity.ok(showtimes);
     }
-
-
 }

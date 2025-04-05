@@ -31,13 +31,6 @@ public class ShowroomController {
         return ResponseEntity.ok(showrooms);
     }
 
-    // Get showrooms by theater ID
-    @GetMapping("/by-theater")
-    public ResponseEntity<List<Showroom>> getShowroomsByTheater(@RequestParam int theaterId) {
-        List<Showroom> showrooms = showroomService.getShowroomsByTheater(theaterId);
-        return ResponseEntity.ok(showrooms);
-    }
-
     // Update a showroom
     @PutMapping("/update/{id}")
     public ResponseEntity<Showroom> updateShowroom(@PathVariable int id, @RequestBody Showroom showroom) {
