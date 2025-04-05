@@ -8,6 +8,7 @@ import com.TermProject.finema.repository.ShowtimeRepository;
 import com.TermProject.finema.repository.ShowroomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import jakarta.annotation.PostConstruct;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,10 +23,18 @@ public class ShowtimeService {
     @Autowired
     private ShowroomRepository showroomRepository;
 
-    // Add showtimes for a specific theater and date
-    //public List<Showtime> addShowtimesByDate(Theater theater, LocalDate date) {
+    // default showtimes for current date
+    @PostConstruct
+    public void createDefaultShowrooms() {
+        boolean showtimesExists = showtimeRepository.existsById(1);
+        if (showtimesExists == false) {
+            addShowtimesByDate(LocalDate.now());
+            addShowtimesByDate(LocalDate.now().plusDays(1));
+        }
+    }
+
+    // Add showtimes for a specific date
     public List<Showtime> addShowtimesByDate(LocalDate date) {
-        //List<Showroom> showrooms = showroomRepository.findByTheater(theater);
         List<Showroom> showrooms = showroomRepository.findAll();
         List<Showtime> addedShowtimes = new ArrayList<>();
         for (Showroom showroom : showrooms) {
