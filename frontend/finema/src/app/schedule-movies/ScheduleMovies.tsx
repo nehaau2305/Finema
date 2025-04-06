@@ -24,7 +24,6 @@ export default function ScheduleMovies() {
 
     useEffect(() => {
         const savedDateString = localStorage.getItem("selectedDate");
-        console.log('Selected Date before else', localStorage.getItem("selectedDate"));
         if (savedDateString) {
             setSelectedDate(new Date(savedDateString));
             console.log('saved date string: ', savedDateString);
