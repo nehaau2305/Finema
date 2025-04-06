@@ -20,10 +20,10 @@ export default function ScheduleMovies() {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const router = useRouter();
     const [token, setToken] = useToken('token');
+    const [savedDateString, setSavedDateString] = useToken('selectedDate');
     const [showtimes, setShowtimes] = useState<Showtime[]>([]);
 
     useEffect(() => {
-        const savedDateString = localStorage.getItem("selectedDate");
         if (savedDateString) {
             setSelectedDate(new Date(savedDateString));
             console.log('saved date string: ', savedDateString);
@@ -48,11 +48,17 @@ export default function ScheduleMovies() {
               })
               .then(response => response.json())
               .then(data => {
+                console.log(data)
                 setShowtimes(data);
               })
               .catch(error => console.error('Error fetching showtimes:', error));
         }
-    }, [selectedDate, token]);
+    }, [token, selectedDate]);
+
+    useEffect(() => {
+      console.log(showtimes)
+      console.log(typeof(showtimes[1]))
+    }, [showtimes])
 
     return (
         <div>

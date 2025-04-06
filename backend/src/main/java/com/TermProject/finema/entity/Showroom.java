@@ -11,7 +11,7 @@ public class Showroom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "room_number")
+    @Column(name = "roomNumber")
     private String room;
 
     @Column(nullable = false)

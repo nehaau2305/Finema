@@ -11,14 +11,18 @@ import { useToken } from '../components/useToken'
 export default function PickDate() {
     const router = useRouter();
     const [date, setDate] = useState(new Date());
+    const [savedDate, setSavedDate] = useToken("selectedDate")
 
     const handleDate = (selectedDate: Date) => {
         setDate(selectedDate)
         console.log(selectedDate)
-        localStorage.setItem("selectedDate", selectedDate.toISOString());
+        setSavedDate(selectedDate.toISOString())
+        //localStorage.setItem("selectedDate", selectedDate.toISOString());
     }
 
     const handleSelectDate = () => {
+        console.log(date)
+        setSavedDate(date.toISOString())
         router.push('./schedule-movies')
     }
 
