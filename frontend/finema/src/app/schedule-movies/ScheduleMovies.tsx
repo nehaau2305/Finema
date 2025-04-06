@@ -24,15 +24,23 @@ export default function ScheduleMovies() {
 
     useEffect(() => {
         const savedDateString = localStorage.getItem("selectedDate");
+        console.log('Selected Date before else', localStorage.getItem("selectedDate"));
         if (savedDateString) {
             setSelectedDate(new Date(savedDateString));
-            console.log(savedDateString)
+            console.log('saved date string: ', savedDateString);
         }
         if (token === '') {
             router.push('/web-user-home');
-        } else {
-        
-            fetch('http://localhost:8080/showtimes/get-by-theater-and-date', {
+        } 
+    }, [token, router]);
+
+
+    useEffect(() => {
+        if (selectedDate) {
+          console.log('Selected Date before fetch:', selectedDate);
+          const formattedDate = selectedDate.toISOString().split('T')[0];  // Convert to proper format
+          console.log('Formatted date: ', formattedDate);
+          fetch(`http://localhost:8080/showtimes/available-showrooms?date=${formattedDate}`, {
                 method: 'GET',
                 headers: {
                   'Authorization': `Bearer ${token}`,
@@ -44,8 +52,8 @@ export default function ScheduleMovies() {
                 setShowtimes(data);
               })
               .catch(error => console.error('Error fetching showtimes:', error));
-            }
-    }, [router, token]);
+        }
+    }, [selectedDate, token]);
 
     return (
         <div>

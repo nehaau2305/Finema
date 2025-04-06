@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.List;
 import java.time.LocalDate;
+import com.TermProject.finema.entity.ConsecutiveTimes;
 
 @Repository
 public interface ShowtimeRepository extends JpaRepository<Showtime, Integer> {
@@ -15,4 +16,5 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, Integer> {
     List<Showtime> findByMovieId(int movieId);
     List<Showtime> findByShowroom(Showroom showroom);
     List<Showtime> findByDate(LocalDate date);
+    List<Showtime> findByDateAndTime(LocalDate date, ConsecutiveTimes time);
 }
