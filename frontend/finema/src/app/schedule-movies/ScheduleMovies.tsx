@@ -16,7 +16,7 @@ interface Showtime {
   }
 
   interface Showroom {
-    showroomID: number;
+    id: number;
   }
 
   type ConsecutiveTimes =
@@ -124,8 +124,8 @@ export default function ScheduleMovies() {
               {showrooms && showrooms.length > 0 ? (
                 <ul>
                   {showrooms.map((showroom) => (
-                    <li key={showroom.showroomID}>
-                      Showroom ID: {showroom.showroomID}
+                    <li key={showroom.id}>
+                      Showroom ID: {showroom.id}
                     </li>
                   ))}
                 </ul>
