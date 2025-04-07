@@ -15,6 +15,35 @@ interface Showtime {
 
   }
 
+  interface Showroom {
+    showroomID: number;
+  }
+
+  type ConsecutiveTimes =
+  | 'TWELVE_AM'
+  | 'THREE_AM'
+  | 'SIX_AM'
+  | 'NINE_AM'
+  | 'TWELVE_PM'
+  | 'THREE_PM'
+  | 'SIX_PM'
+  | 'NINE_PM';
+
+type AvailableShowroomsMap = {
+  [key in ConsecutiveTimes]?: Showroom[];
+};
+
+  const timeLabels: { [key in ConsecutiveTimes]: string } = {
+    TWELVE_AM: '12:00 AM',
+    THREE_AM: '3:00 AM',
+    SIX_AM: '6:00 AM',
+    NINE_AM: '9:00 AM',
+    TWELVE_PM: '12:00 PM',
+    THREE_PM: '3:00 PM',
+    SIX_PM: '6:00 PM',
+    NINE_PM: '9:00 PM',
+  };
+  
 export default function ScheduleMovies() {
 
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -22,6 +51,7 @@ export default function ScheduleMovies() {
     const [token, setToken] = useToken('token');
     const [savedDateString, setSavedDateString] = useToken('selectedDate');
     const [showtimes, setShowtimes] = useState<Showtime[]>([]);
+    const [availableShowrooms, setAvailableShowrooms] = useState<AvailableShowroomsMap>({});
 
     useEffect(() => {
         if (savedDateString) {
@@ -49,7 +79,8 @@ export default function ScheduleMovies() {
               .then(response => response.json())
               .then(data => {
                 console.log(data)
-                setShowtimes(data);
+                //setShowtimes(data);
+                setAvailableShowrooms(data);
               })
               .catch(error => console.error('Error fetching showtimes:', error));
         }
@@ -70,6 +101,7 @@ export default function ScheduleMovies() {
             <div className={styles.showroom_box}>
             <section>
               <ul>
+              {/*
                 {showtimes.length > 0 ? (
                   showtimes.map((showtime) => (
                     <li key={showtime.showtimeID}>
@@ -84,6 +116,24 @@ export default function ScheduleMovies() {
                 ) : (
                   <p>No showtimes found</p>
                 )}
+                  */}
+                  {Object.entries(availableShowrooms).map(([time, showrooms]) => (
+            <div key={time} className={styles.time_slot}>
+              <h2>{timeLabels[time as ConsecutiveTimes]}</h2>
+
+              {showrooms && showrooms.length > 0 ? (
+                <ul>
+                  {showrooms.map((showroom) => (
+                    <li key={showroom.showroomID}>
+                      Showroom ID: {showroom.showroomID}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No available showrooms for this time.</p>
+              )}
+            </div>
+          ))}
               </ul>
             </section>
             </div>
