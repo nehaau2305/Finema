@@ -37,6 +37,15 @@ public class ShowtimeController {
         return ResponseEntity.ok(showtimes);
     }
 
+    // Get upcoming showtimes for a specific movie ID
+    @GetMapping("/get-upcoming-by-movie/{movieId}")
+    public ResponseEntity<List<Showtime>> getUpcomingShowtimesByMovieId(
+            @PathVariable int movieId,
+            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        List<Showtime> showtimes = showtimeService.getUpcomingShowtimesByMovieId(movieId, date);
+        return ResponseEntity.ok(showtimes);
+    }
+
     // for admin to see available showrooms to schedule movies
     @GetMapping("/available-showrooms")
     public ResponseEntity<Map<ConsecutiveTimes, List<Showroom>>> getAvailableShowrooms(

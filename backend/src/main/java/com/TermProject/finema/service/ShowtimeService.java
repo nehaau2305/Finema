@@ -58,6 +58,10 @@ public class ShowtimeService {
     public List<Showtime> getShowtimes(LocalDate date) {
         return showtimeRepository.findByDate(date);
     }
+    //showtime by movie id and date
+    public List<Showtime> getUpcomingShowtimesByMovieId(int movieId, LocalDate date) {
+        return showtimeRepository.findByMovieIdAndDateGreaterThanEqual(movieId, date);
+    }
 
     // to return only the showrooms available for each time for the provided date
     public Map<ConsecutiveTimes, List<Showroom>> getAvailableShowroomsByTime(LocalDate date) {

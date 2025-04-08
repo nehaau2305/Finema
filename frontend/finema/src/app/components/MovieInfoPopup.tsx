@@ -23,6 +23,13 @@ type Props = {
         reviews: Review[];
     };
 
+    
+interface ShowTime {
+    id: number;
+    date: string;
+    time: string;
+}
+
 const MovieInfoPopup = ({
         isOpened,
         onClose,
@@ -38,6 +45,8 @@ const MovieInfoPopup = ({
     }: Props) => {
     const ref = useRef<HTMLDialogElement>(null);
     const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
+    const [showTimes, setShowTimes] = useState<ShowTime[]>([]);
+
 
     useEffect(() => {
         if (isOpened) {
@@ -58,6 +67,24 @@ const MovieInfoPopup = ({
                     console.error(error)
                 }
             }
+
+            // Fetch showtimes for the movie
+            const fetchShowTimes = async () => {
+                try {
+                    const currentDate = new Date().toISOString().split('T')[0]; // Get current date in "YYYY-MM-DD" format
+                    const response = await fetch(`http://localhost:8080/showtimes/get-upcoming-by-movie/${movieId}?date=${currentDate}`);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch showtimes');
+                    }
+                    const data: ShowTime[] = await response.json();
+                    setShowTimes(data);
+                    console.log('Showtimes fetched:', data);
+                } catch (error) {
+                    console.error('Error fetching showtimes:', error);
+                }
+            };
+
+            fetchShowTimes();
             fetchMovieTrailer();
         } else {
             ref.current?.close();
@@ -110,12 +137,15 @@ const MovieInfoPopup = ({
                 <section className={styles.showtimes}>
                     <h1 className={styles.header}> Showtimes </h1>
                     <ul className={styles.list}>
-                        <li> 4:15 </li>
-                        <li> 4:15 </li>
-                        <li> 4:15 </li>
-                        <li> 4:15 </li>
-                        <li> 4:15 </li>
-                        <li> 4:15 </li>
+                        {showTimes.length > 0 ? (
+                            showTimes.map((showTime) => (
+                                <li key={showTime.id}>
+                                    {showTime.date} - {showTime.time}
+                                </li>
+                            ))
+                        ) : (
+                            <p>No showtimes available</p>
+                        )}
                     </ul>
                 </section>
                 <section id={styles.director_producer}>

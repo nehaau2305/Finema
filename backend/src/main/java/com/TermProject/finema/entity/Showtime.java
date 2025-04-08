@@ -42,7 +42,7 @@ public class Showtime {
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
     public int getMovieId() {return movieId;}
-    public void setMoiveId(int movieId) {this.movieId = movieId;}
+    public void setMovieId(int movieId) {this.movieId = movieId;}
     public Movie getMovie() {return movie;}
     public void setMoive(Movie movie) {this.movie = movie;}
     public int getShowroomId() {return showroomId;}
