@@ -126,6 +126,7 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedShowtime);
     }
 
+    // showtimes to be displayed in movie card for users to book tickets
     @GetMapping("/get-movie-showtimes")
     public List<Showtime> getShowtimes(@RequestBody int movieId) {
         System.out.println("getShowtimes entered");

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MovieCard.module.css';
 import MovieInfoPopup from './MovieInfoPopup';
-import Button from './Button';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link'
 

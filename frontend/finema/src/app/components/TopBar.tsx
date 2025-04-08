@@ -14,14 +14,13 @@ interface Theater {
 const TopBar = ({ loggedIn = false, showEditProfile = true }: any) => {
   const router = useRouter();
   const [token, setToken] = useToken('token');
-  const [theaters, setTheaters] = useState<Theater[]>([]);
-  const [selectedTheater, setSelectedTheater] = useState<number | null>(
-    () => {
-      // Retrieve the previously selected theater from localStorage (if available)
-      const storedTheater = localStorage.getItem('selectedTheater');
-      return storedTheater ? parseInt(storedTheater) : null;
-    }
-  );
+  // const [storedTheater, setStoredTheater] = useToken('selectedTheater');
+  // const [theaters, setTheaters] = useState<Theater[]>([]);
+  // const [selectedTheater, setSelectedTheater] = useState<number | null>(parseInt(storedTheater));
+
+  //commenting this out cuz i think we only need one theater
+
+  /*
 
   // Fetch theaters from the backend
   useEffect(() => {
@@ -49,11 +48,14 @@ const TopBar = ({ loggedIn = false, showEditProfile = true }: any) => {
   }, []);
 
   // Handle theater selection
+
   const handleTheaterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const theaterId = parseInt(event.target.value);
     setSelectedTheater(theaterId);
-    localStorage.setItem('selectedTheater', theaterId.toString()); // Save the selected theater to localStorage
+    setStoredTheater(theaterId.toString()) // Save the selected theater to localStorage
   };
+
+  */
 
   async function goToWebUserHome() {
     fetch(`http://localhost:8080/users/logout`, {
@@ -96,11 +98,14 @@ const TopBar = ({ loggedIn = false, showEditProfile = true }: any) => {
           alt="finemalogo home button"
         />
       </button>
+
+      {/*
       <div className={styles.dropdown}>
+         
         <select onChange={handleTheaterChange} value={selectedTheater || ''}>
           <option value="" disabled>
             Select a Theater
-          </option>
+          </option> 
           {theaters.map((theater) => (
             <option key={theater.id} value={theater.id}>
               {theater.name}
@@ -108,6 +113,8 @@ const TopBar = ({ loggedIn = false, showEditProfile = true }: any) => {
           ))}
         </select>
       </div>
+      */}
+
       <div className={styles.buttons}>
         <div>
           {showEditProfile ? (
@@ -133,6 +140,8 @@ const TopBar = ({ loggedIn = false, showEditProfile = true }: any) => {
           alt="finemalogo home button"
         />
       </button>
+
+      {/*
       <div className={styles.dropdown}>
         <select onChange={handleTheaterChange} value={selectedTheater || ''}>
           <option value="" disabled>
@@ -145,6 +154,8 @@ const TopBar = ({ loggedIn = false, showEditProfile = true }: any) => {
           ))}
         </select>
       </div>
+      */}
+      
       <div className={styles.buttons}>
         <div>
           <Button onClick={goToLogin}>Log In</Button>

@@ -28,36 +28,19 @@ export default function ShowTime() {
   const [showTimes, setShowTimes] = useState<ShowTime[]>([]);
   const [currID, setCurrID] = useState(0);
 
-  // Fetch showtimes from the backend
-  useEffect(() => {
-    const retrieveShowtimes = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/showtimes/get-by-theater-and-date', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            theaterId: parseInt(theaterId || '0'), // Convert theaterId to a number
-            date: date || '', // Use the date from query parameters
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch showtimes');
-        }
-
-        const data: ShowTime[] = await response.json();
-        setShowTimes(data);
-      } catch (error) {
-        console.error('Error fetching showtimes:', error);
+  const retrieveShowtimes = () => {
+    fetch('http://localhost:8080/', { // Add showtimes path for a movie given movie name or ID(require query change)
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
       }
-    };
-
-    if (theaterId && date) {
-      retrieveShowtimes();
-    }
-  }, [theaterId, date]);
+    })
+    .then(response => response.json())
+    .then(data => {
+      setShowTimes(showTimes);
+    })
+    .catch(error => console.error('Error fetching user data:', error));
+  }
 
   function goToSeats() {
     router.push('/seat-selection');
@@ -66,6 +49,7 @@ export default function ShowTime() {
   function goBack() {
     router.push('/web-user-home');
   }
+  const handleShowTime = (time:ShowTime) => {
 
   const handleShowTime = (time: ShowTime) => {
     console.log('Selected Showtime:', time);
@@ -81,6 +65,15 @@ export default function ShowTime() {
           <section className={styles.box}>
             <h1 className={styles.headers}> Showtimes </h1>
             <ul>
+              {showTimes.length > 0 ? (
+                showTimes.map((time: ShowTime) => (
+                  <li key={time.id}>
+                    <ShowCard date={time.date} time={time.time} checked={currID === time.id} onClick={() => handleShowTime(time)} />
+                  </li>
+                ))
+              ) : (
+                <p>No results found</p>
+              )}
               {showTimes.length > 0 ? (
                 showTimes.map((time: ShowTime) => (
                   <li key={time.id}>
@@ -134,18 +127,19 @@ export default function ShowTime() {
         </section>
       </section>
       <div className={styles.btn1}>
-        <Link
+          <Link
           href={{
-            pathname: '/seat-selection',
-            query: {
-              name: name,
-              adult: adult,
-              child: child,
-              senior: senior,
-            },
-          }}
+              pathname: '/seat-selection',
+              query: {
+                name: name,
+                adult: adult,
+                child: child,
+                senior: senior,
+              },
+            }}
         >
           Book Tickets
+        
         </Link>
       </div>
       <div className={styles.btn2}>

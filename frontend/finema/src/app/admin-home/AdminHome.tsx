@@ -19,6 +19,10 @@ export default function AdminHome() {
     router.push('/manage-movies')
   }
 
+  const handleScheduleMovies = () => {
+    router.push('/pick-date')
+  }
+
   const handleManageUsers = () => {
     router.push('/manage-users')
   }
@@ -33,6 +37,7 @@ export default function AdminHome() {
       <section className={styles.main_body}>
         <section className={styles.buttons_container}>
           <Button onClick={handleManageMovies}>Manage Movies</Button>
+          <Button onClick={handleScheduleMovies}>Schedule Movies</Button>
           <Button onClick={handleManageUsers}>Manage Users</Button>
           <Button onClick={handleManagePromotions}>Manage Promotions</Button>
         </section>

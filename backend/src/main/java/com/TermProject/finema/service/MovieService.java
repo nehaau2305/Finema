@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import java.util.List;
 
@@ -81,8 +84,10 @@ public class MovieService {
         return showtimeRepository.save(showtime);
     }
 
+    // for user to book tickets for future showtimes
     public List<Showtime> getShowtimes(int movieId) {
-        return showtimeRepository.findByMovieId(movieId);
+        LocalDate now = LocalDate.now();  // Get the current date and time
+        return showtimeRepository.findByMovieIdAndDateGreaterThanEqual(movieId, now);
     }
 
 

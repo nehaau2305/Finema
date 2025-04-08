@@ -1,0 +1,208 @@
+.main_body {
+    display: flex;
+    background-color: #A2D8FA;
+    height: 90vh;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+}
+
+.showroom_box {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    background-color: #14a4ff; 
+    height: 600px;            
+    width: 60%;               
+    padding: 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+    overflow-y: auto;
+    margin-bottom: 30px;
+}
+
+/* Scrollbar styling for the grid container */
+.showroom_box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.showroom_box::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 10px;
+}
+
+.showroom_box::-webkit-scrollbar-thumb:hover {
+    background-color: #777;
+}
+
+.time_slot {
+    border: 2px solid #1449FF;
+    border-radius: 9px;
+    max-width: 90%;
+    margin-bottom: 20px;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    padding: 10px;
+    text-align: center;
+    min-height: 45%;
+}
+
+.movie_card {
+    text-align: center;
+    background-color: #1449FF;
+    margin: auto;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    max-height: 180px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.movie_card:hover {
+    background-color: #1140e0;
+    transform: scale(1.05); /* Slight zoom effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Dialog styling */
+.dialog {
+    background-color: transparent;
+}
+
+/* Search box styling */
+.search_box {
+    color: #33B0FF;
+    margin: 10px;
+    padding: 10px;
+}
+
+.movie_banner {
+    width: 140px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2px;
+    padding-bottom: 10px;
+}
+
+/* Search section styling */
+.search_section {
+    height: 50px;
+    background-color: #A2D8FA;
+    width: 80%; /* Full width */
+    margin-right: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #1449FF;
+}
+
+/* Modal body styling */
+.modal_body {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    width: 80vh;
+    padding: 10px;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+    text-align: center;
+    background-color: #a2d8fa;
+    border-radius: 30px;
+    border: 5px solid #1449ff;
+}
+
+.headers {
+    background-color: #14a4ff;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 10px;
+    width: 60%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
+    font-size: larger;
+}
+
+/* Grid container for search results */
+.grid_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Single column layout */
+    width: 90%;
+    gap: 20px; /* Spacing between grid items */
+    max-height: 70%;
+    height: 70%;
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px;
+    background-color: #ffffff; /* White background for the grid */
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Scrollbar styling for the grid container */
+.grid_container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.grid_container::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 10px;
+}
+
+.grid_container::-webkit-scrollbar-thumb:hover {
+    background-color: #777;
+}
+
+/* Styling for the "No results found" message */
+.no_results {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: black; /* Change font color to black */
+    margin-top: 20px;
+}
+
+.button {
+    background-color: #1449ff;
+    color: white;
+    padding: 2.5px 5px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+    margin-bottom: 5px;
+}
+.button:hover {
+    background-color: #1140e0;
+}
+
+.date_header {
+    background-color: #14a4ff;
+    padding: 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: larger;
+}
+
+.time_header {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.input_box {
+    color: black;
+}
+
