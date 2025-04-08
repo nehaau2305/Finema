@@ -52,4 +52,11 @@ public class ShowtimeController {
         // });
         return ResponseEntity.ok(availableShowrooms);
     }
+
+    // schedule a movie to a selected showtime and showroom
+    @PostMapping ("/schedule-movie")
+    public ResponseEntity<Showtime> scheduleMovie(@RequestBody Showtime showtime) {
+        Showtime scheduledShowtime = showtimeService.scheduleMovie(showtime);
+        return ResponseEntity.ok(scheduledShowtime);
+    }
 }

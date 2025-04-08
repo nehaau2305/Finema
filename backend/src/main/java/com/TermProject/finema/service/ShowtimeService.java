@@ -83,4 +83,7 @@ public class ShowtimeService {
         return result;
     }
 
+
+    public Showtime scheduleMovie(Showtime showtime) {return showtimeRepository.save(showtime);}
+
 }
