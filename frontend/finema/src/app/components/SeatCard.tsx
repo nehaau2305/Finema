@@ -31,23 +31,19 @@ export default function SeatCard({ seatNum, reserved, onClick }: SeatCardProps) 
   }
 
   const deadImage = (
-    <Image
-      src={deadFish}
-      height={10}
-      width={50}
-      alt="fish"
-    /> 
+    <div 
+      onClick={handleClick} 
+      className={styles.main_body}
+    >
+      <Image
+        src={deadFish}
+        height={10}
+        width={50}
+        alt="fish"
+      /> 
+    </div>
   )
   const aliveImage = (
-    <Image
-      src={fish}
-      height={10}
-      width={50}
-      alt="fish"
-    /> 
-  )
-
-  return (
     <motion.div 
       onClick={handleClick} 
       className={styles.main_body}
@@ -68,7 +64,14 @@ export default function SeatCard({ seatNum, reserved, onClick }: SeatCardProps) 
         }
       }}
     >
-      {isReserved ? deadImage : aliveImage}
-    </motion.div>
-  );
+      <Image
+        src={fish}
+        height={10}
+        width={50}
+        alt="fish"
+      />
+    </motion.div> 
+  )
+
+  return isReserved ? deadImage : aliveImage;
 }
