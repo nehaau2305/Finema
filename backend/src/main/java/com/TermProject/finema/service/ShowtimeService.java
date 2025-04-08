@@ -27,11 +27,11 @@ public class ShowtimeService {
 
     // default showtimes for current date & tomorrow
     @PostConstruct
-    public void createDefaultShowrooms() {
-        boolean showtimesExists = showtimeRepository.existsById(1);
-        if (showtimesExists == false) {
-            addShowtimesByDate(LocalDate.now());
-            addShowtimesByDate(LocalDate.now().plusDays(1));
+    public void createDefaultShowtimes() {
+        if (!showtimeRepository.existsByDate(LocalDate.now())) {
+            for (int i = 0; i < 7; i++) {
+                addShowtimesByDate(LocalDate.now().plusDays(i));
+            }
         }
     }
 
