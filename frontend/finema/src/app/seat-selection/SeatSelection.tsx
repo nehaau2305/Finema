@@ -107,9 +107,15 @@ export default function ShowTime() {
   }
 
   const endAndSend = () => {
-    //Then send to database, maybe have some pending order id returned that can be added to the URL
-    setTimeout(() => router.push('/order-summary'), 100)
-  }
+    setTimeout(() => {
+          const query = new URLSearchParams({
+            name: name || '',
+            tickets: JSON.stringify(tickets),
+            totalSeats: totalSeats.toString(),
+          }).toString();
+          router.push(`/order-summary?${query}`);
+        }, 100);
+  };
 
   function handleSeatChange(seat: Seat) {
     if ((adult == 0) && (child == 0) && (senior == 0)) {

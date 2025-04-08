@@ -171,6 +171,8 @@ const MovieInfoPopup = ({
                         pathname: '/show-time',
                         query: {
                             name: name,
+                            movieId: movieId,
+                            date: showTimes[0]?.date,
                         },
                         }}> Book Tickets 
                     </Link>

@@ -3,7 +3,7 @@ import Image from 'next/image'
 import fish from '../images/fish.png'
 import deadFish from '../images/deadFish.png'
 import styles from './SeatCard.module.css'
-import { motion } from "motion/react"
+import { motion } from "framer-motion";
 
 interface Seat {
   id:number,

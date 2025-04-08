@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useEffect, useState } from 'react';
 import styles from './ShowTime.module.css';
 import Button from '../components/Button';
@@ -18,8 +18,8 @@ export default function ShowTime() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const name = searchParams.get('name');
-  const theaterId = searchParams.get('theaterId'); // Assuming theaterId is passed as a query parameter
-  const date = searchParams.get('date'); // Assuming date is passed as a query parameter
+  const movieId = searchParams.get('movieId'); // Use movieId to fetch showtimes
+  const date = searchParams.get('date');
 
   const [adult, setAdult] = useState('0');
   const [child, setChild] = useState('0');
@@ -29,33 +29,50 @@ export default function ShowTime() {
   const [currID, setCurrID] = useState(0);
 
   const retrieveShowtimes = () => {
-    fetch('http://localhost:8080/', { // Add showtimes path for a movie given movie name or ID(require query change)
+    if (!movieId || !date) {
+      console.error('Movie ID or date is missing');
+      return;
+    }
+
+    const currentDate = new Date();
+    fetch(`http://localhost:8080/showtimes/get-upcoming-by-movie/${movieId}?date=${date}`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
-    .then(response => response.json())
-    .then(data => {
-      setShowTimes(showTimes);
-    })
-    .catch(error => console.error('Error fetching user data:', error));
-  }
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch showtimes');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setShowTimes(data);
+      })
+      .catch((error) => console.error('Error fetching showtimes:', error));
+  };
 
-  function goToSeats() {
-    router.push('/seat-selection');
-  }
-
-  function goBack() {
-    router.push('/web-user-home');
-  }
-  const handleShowTime = (time:ShowTime) => {
+  useEffect(() => {
+    retrieveShowtimes();
+  }, [movieId, date]);
 
   const handleShowTime = (time: ShowTime) => {
     console.log('Selected Showtime:', time);
     setCurrID(time.id);
     setSelectedTime(time);
   };
+
+  const handleTicketInput = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setter(value);
+    }
+  };
+
+  function goBack() {
+    router.push('/web-user-home');
+  }
 
   return (
     <div className={styles.main_body}>
@@ -65,15 +82,6 @@ export default function ShowTime() {
           <section className={styles.box}>
             <h1 className={styles.headers}> Showtimes </h1>
             <ul>
-              {showTimes.length > 0 ? (
-                showTimes.map((time: ShowTime) => (
-                  <li key={time.id}>
-                    <ShowCard date={time.date} time={time.time} checked={currID === time.id} onClick={() => handleShowTime(time)} />
-                  </li>
-                ))
-              ) : (
-                <p>No results found</p>
-              )}
               {showTimes.length > 0 ? (
                 showTimes.map((time: ShowTime) => (
                   <li key={time.id}>
@@ -100,7 +108,7 @@ export default function ShowTime() {
                 <input
                   name="adult"
                   value={adult}
-                  onChange={(e) => setAdult(e.target.value)}
+                  onChange={handleTicketInput(setAdult)}
                   type="text"
                 />
               </div>
@@ -109,7 +117,7 @@ export default function ShowTime() {
                 <input
                   name="child"
                   value={child}
-                  onChange={(e) => setChild(e.target.value)}
+                  onChange={handleTicketInput(setChild)}
                   type="text"
                 />
               </div>
@@ -118,7 +126,7 @@ export default function ShowTime() {
                 <input
                   name="senior"
                   value={senior}
-                  onChange={(e) => setSenior(e.target.value)}
+                  onChange={handleTicketInput(setSenior)}
                   type="text"
                 />
               </div>
@@ -127,19 +135,22 @@ export default function ShowTime() {
         </section>
       </section>
       <div className={styles.btn1}>
-          <Link
+        <Link
           href={{
-              pathname: '/seat-selection',
-              query: {
-                name: name,
-                adult: adult,
-                child: child,
-                senior: senior,
-              },
-            }}
+            pathname: '/seat-selection',
+            query: {
+              name: name,
+              adult: adult,
+              child: child,
+              senior: senior,
+              movieId: movieId, // Pass movieId to the next page
+              date: date,
+              time: selectedTime?.time,
+              showtimeId: selectedTime?.id,
+              showroomId: selectedTime?.showroomID           },
+          }}
         >
           Book Tickets
-        
         </Link>
       </div>
       <div className={styles.btn2}>
@@ -147,5 +158,4 @@ export default function ShowTime() {
       </div>
     </div>
   );
-  }
 }

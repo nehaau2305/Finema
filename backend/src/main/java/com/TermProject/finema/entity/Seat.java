@@ -10,12 +10,12 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "showroomID", nullable = false)
-    private int showroomID;
+    @Column(name = "showtimeID", nullable = false)
+    private int showtimeID;
 
     @ManyToOne
-    @JoinColumn(name = "showroom", nullable = false) // Foreign key for Showroom
-    private Showroom showroom;
+    @JoinColumn(name = "showtime", nullable = false) // Foreign key for Showtime
+    private Showtime showtime;
 
     @Column(name = "seat_number", nullable = false)
     private int seatNum;
@@ -25,10 +25,10 @@ public class Seat {
 
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
-    public int getShowroomID() {return showroomID;}
-    public void setShowroomID(int showroomID) {this.showroomID = showroomID;}
-    public Showroom getShowroom() {return showroom;}
-    public void setShowroom(Showroom showroom) {this.showroom = showroom;}
+    public int getShowtimeID() {return showtimeID;}
+    public void setShowtimeID(int showtimeID) {this.showtimeID = showtimeID;}
+    public Showtime getShowtime() {return showtime;}
+    public void setShowtime(Showtime showtime) {this.showtime = showtime;}
     public int getSeatNum() {return seatNum;}
     public void setSeatNum(int seatNum) {this.seatNum = seatNum;}
     public boolean getReserved() {return reserved;}
