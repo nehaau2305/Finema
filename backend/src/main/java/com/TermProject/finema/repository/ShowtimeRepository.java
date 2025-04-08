@@ -17,4 +17,5 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, Integer> {
     List<Showtime> findByShowroom(Showroom showroom);
     List<Showtime> findByDate(LocalDate date);
     List<Showtime> findByDateAndTime(LocalDate date, ConsecutiveTimes time);
+    List<Showtime> findByMovieIdAndDateGreaterThanEqual(int movieId, LocalDate now);
 }
