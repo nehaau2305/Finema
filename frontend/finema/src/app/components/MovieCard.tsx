@@ -10,6 +10,12 @@ interface Review {
   reviewText: string
 }
 
+interface ShowTime {
+  id: number;
+  date: string;
+  time: string;
+}
+
 interface MovieCardProps {
   name: string;
   source: string;
@@ -24,6 +30,7 @@ interface MovieCardProps {
 export default function MovieCard({ name, source, movieId, synopsis, director, producer, mpaaRating, cast}: MovieCardProps) {
   const [isOpened, setIsOpened] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([])
+  const [showTimes, setShowTimes] = useState<ShowTime[]>([]);
 
   useEffect(() => {
     fetch('http://localhost:8080/review/movie/' + movieId, {
@@ -37,6 +44,25 @@ export default function MovieCard({ name, source, movieId, synopsis, director, p
       .then(data => setReviews(data))
       .catch(error => console.error('Error fetching reviews:', error));
   }, [])
+
+  useEffect(() => {
+    // Fetch showtimes for the movie
+    const fetchShowTimes = async () => {
+      try {
+          const currentDate = new Date().toISOString().split('T')[0]; // Get current date in "YYYY-MM-DD" format
+          const response = await fetch(`http://localhost:8080/showtimes/get-upcoming-by-movie/${movieId}?date=${currentDate}`);
+          if (!response.ok) {
+              throw new Error('Failed to fetch showtimes');
+          }
+          const data: ShowTime[] = await response.json();
+          setShowTimes(data);
+          console.log('Showtimes fetched:', data);
+      } catch (error) {
+          console.error('Error fetching showtimes:', error);
+      }
+    };
+    fetchShowTimes();
+  }, [movieId])
 
   const router = useRouter();
 
@@ -53,8 +79,11 @@ export default function MovieCard({ name, source, movieId, synopsis, director, p
           pathname: '/show-time',
           query: {
             name: name,
-          },
-        }}> Book Tickets </Link>
+            movieId: movieId,
+            date: showTimes[0]?.date,
+        },
+        }}> Book Tickets 
+      </Link>
       
       <MovieInfoPopup
         isOpened={isOpened}
