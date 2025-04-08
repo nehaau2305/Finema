@@ -63,14 +63,10 @@ export default function ShowTime() {
     .catch(error => console.error('Error fetching user data:', error));
   }
 
-  function goToSeats() {
-    router.push('/seat-selection')
-  }
   function goBack() {
     router.push('/web-user-home')
   }
   const handleShowTime = (time:ShowTime) => {
-    console.log("HEY")
     setCurrID(time.id);
     setSelectedTime(time)
   }
@@ -80,24 +76,22 @@ export default function ShowTime() {
       <h1 className={styles.title}> {name} </h1>
       <section className={styles.selectors}>
         <section>
-          
           <section className={styles.box}>
             <h1 className={styles.headers}> Showtimes </h1>
             <ul>
-                {showTimes.length > 0 ? (
-                  showTimes.map((time: ShowTime) => (
-                    <li key={time.id}>
-                      <ShowCard date={time.date} time={time.time} checked={currID === time.id} onClick={() => handleShowTime(time)} />
-                    </li>
-                  ))
-                ) : (
-                  <p>No results found</p>
-                )}
+              {showTimes.length > 0 ? (
+                showTimes.map((time: ShowTime) => (
+                  <li key={time.id}>
+                    <ShowCard date={time.date} time={time.time} checked={currID === time.id} onClick={() => handleShowTime(time)} />
+                  </li>
+                ))
+              ) : (
+                <p>No results found</p>
+              )}
             </ul>
           </section>
         </section>
         <section>
-          
           <section className={styles.box}>
             <h1 className={styles.headers}> Ticket Type </h1>
             <section className={styles.list}>
@@ -118,15 +112,16 @@ export default function ShowTime() {
         </section>
       </section>
       <div className={styles.btn1}>
-      <Link href={{
-          pathname: '/seat-selection',
-          query: {
-            name: name,
-            adult: adult,
-            child: child,
-            senior: senior
-          },
-        }}> Book Tickets </Link>
+        <Link href={{
+            pathname: '/seat-selection',
+            query: {
+              name: name,
+              adult: adult,
+              child: child,
+              senior: senior
+            },
+          }}> Book Tickets 
+        </Link>
       </div>
       <div className={styles.btn2}>
         <Button onClick={goBack}> Go Back </Button>

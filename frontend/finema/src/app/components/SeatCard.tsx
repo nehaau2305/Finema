@@ -23,7 +23,7 @@ export default function SeatCard({ seatNum, reserved, onClick }: SeatCardProps) 
 
   const handleClick = (e:any) => {
     const temp = isReserved;
-    setIsReserved(false)
+    setIsReserved(true)
     // Will have set to reserved as only option and to disable call back
     if (!isReserved) {
       onClick(e)

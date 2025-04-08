@@ -41,15 +41,15 @@ public class ShowtimeController {
     @GetMapping("/available-showrooms")
     public ResponseEntity<Map<ConsecutiveTimes, List<Showroom>>> getAvailableShowrooms(
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        System.out.println("available showrooms entered");
+        //System.out.println("available showrooms entered");
         Map<ConsecutiveTimes, List<Showroom>> availableShowrooms = showtimeService.getAvailableShowroomsByTime(date);
-        System.out.println("Available Showrooms by Time:");
-        availableShowrooms.forEach((time, showrooms) -> {
-            System.out.println("Time: " + time);
-            showrooms.forEach(showroom -> {
-                System.out.println("Showroom ID: " + showroom.getId());
-            });
-        });
+        // System.out.println("Available Showrooms by Time:");
+        // availableShowrooms.forEach((time, showrooms) -> {
+        //     System.out.println("Time: " + time);
+        //     showrooms.forEach(showroom -> {
+        //         System.out.println("Showroom ID: " + showroom.getId());
+        //     });
+        // });
         return ResponseEntity.ok(availableShowrooms);
     }
 }

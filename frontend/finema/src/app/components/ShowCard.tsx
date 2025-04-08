@@ -8,7 +8,7 @@ interface ShowCardProps {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-export default function PayCard({ date, time, checked, onClick }: ShowCardProps) {
+export default function ShowCard({ date, time, checked, onClick }: ShowCardProps) {
     const [style, setStyle] = useState(styles.not_clicked)
     useEffect(() => {
         if (checked) {

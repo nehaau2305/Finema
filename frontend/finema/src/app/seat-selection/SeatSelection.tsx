@@ -48,6 +48,18 @@ export default function ShowTime() {
 
   const [curSeatType, setCurSeatType] = useState<number>(0); // 0 adult, 1 child, 2 senior
 
+  useEffect(() => {
+    if (adult == 0) {
+      if (child == 0) {
+        setCurSeatType(2);
+      } else {
+        setCurSeatType(1);
+      }
+    } else {
+      setCurSeatType(0);
+    }
+  }, [adult, child, senior])
+
 
   var defaultSeats:Seat[] = []
   for (let i = 0; i < 56; i++) {
@@ -95,9 +107,8 @@ export default function ShowTime() {
   }
 
   const endAndSend = () => {
-    console.log(tickets)
     //Then send to database, maybe have some pending order id returned that can be added to the URL
-    setTimeout(() => router.push('/order-summary'), 1000)
+    setTimeout(() => router.push('/order-summary'), 100)
   }
 
   function handleSeatChange(seat: Seat) {
