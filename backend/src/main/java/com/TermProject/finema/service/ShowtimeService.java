@@ -95,6 +95,10 @@ public class ShowtimeService {
     }
 
 
-    public Showtime scheduleMovie(Showtime showtime) {return showtimeRepository.save(showtime);}
+    public Showtime scheduleMovie(Showtime showtime) {
+        showtime.setMovieId(showtime.getMovie().getId());
+        showtime.setShowroomId(showtime.getShowroom().getId());
+        return showtimeRepository.save(showtime);
+    }
 
 }
