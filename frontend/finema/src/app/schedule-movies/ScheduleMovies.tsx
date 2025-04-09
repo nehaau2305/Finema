@@ -139,8 +139,8 @@ export default function ScheduleMovies() {
 
     const handleSelectMovie = (movieID:number) => {
       const reservation = {time: currentTime, showroom: currentShowroom, movie: movieID}
-      fetch(`http://localhost:8080`, {
-        method: 'PUT',
+      fetch(`http://localhost:8080/showtimes/schedule-movie`, {
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

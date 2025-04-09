@@ -116,19 +116,10 @@ public class MovieController {
 
 
     // SHOWTIME STUFF
-    @PostMapping("/add-showtime")
-    public ResponseEntity<Showtime> addShowtime(@RequestBody Showtime showtime) {
-        System.out.println("addShowtime entered");
-        // need to send in Showtime with (movieId, showroomId, date, time)
-        // date: "YYYY-MM-DD"
-        // time: "HH:MM:SS"
-        Showtime savedShowtime = movieService.addShowtime(showtime);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedShowtime);
-    }
 
     // showtimes to be displayed in movie card for users to book tickets
     @GetMapping("/get-movie-showtimes")
-    public List<Showtime> getShowtimes(@RequestBody int movieId) {
+    public List<Showtime> getShowtimes(@RequestParam int movieId) {
         System.out.println("getShowtimes entered");
         return movieService.getShowtimes(movieId);
     }

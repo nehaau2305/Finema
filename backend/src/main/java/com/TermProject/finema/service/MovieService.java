@@ -80,9 +80,6 @@ public class MovieService {
 
 
     // SHOWTIME STUFF
-    public Showtime addShowtime(Showtime showtime) {
-        return showtimeRepository.save(showtime);
-    }
 
     // for user to book tickets for future showtimes
     public List<Showtime> getShowtimes(int movieId) {
