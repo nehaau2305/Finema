@@ -9,6 +9,27 @@ interface Review {
     reviewText: string
 }
 
+type ConsecutiveTimes =
+  | 'TWELVE_AM'
+  | 'THREE_AM'
+  | 'SIX_AM'
+  | 'NINE_AM'
+  | 'TWELVE_PM'
+  | 'THREE_PM'
+  | 'SIX_PM'
+  | 'NINE_PM';
+
+const timeLabels: { [key in ConsecutiveTimes]: string } = {
+    TWELVE_AM: '12:00 AM',
+    THREE_AM: '3:00 AM',
+    SIX_AM: '6:00 AM',
+    NINE_AM: '9:00 AM',
+    TWELVE_PM: '12:00 PM',
+    THREE_PM: '3:00 PM',
+    SIX_PM: '6:00 PM',
+    NINE_PM: '9:00 PM'
+};
+
 type Props = {
         isOpened: boolean;
         onClose: () => void;
@@ -94,93 +115,89 @@ const MovieInfoPopup = ({
 
     const router = useRouter()
 
-    function goToBooking() {
-        router.push('/show-time')
-    }
 
 
-  return (
-    <dialog
-      ref={ref}
-      onCancel={onClose}
-      className={styles.dialog}
-    >
-        <section className={styles.main_body}>
-            <section className={styles.trailer_name}>
-                <button onClick={onClose} className={styles.exit}>X</button>
-                <h1 className={styles.header} id={styles.name}> {name} </h1>
+    return (
+        <dialog
+        ref={ref}
+        onCancel={onClose}
+        className={styles.dialog}
+        >
+            <section className={styles.main_body}>
+                <section className={styles.trailer_name}>
+                    <button onClick={onClose} className={styles.exit}>X</button>
+                    <h1 className={styles.header} id={styles.name}> {name} </h1>
 
-                <section id={styles.rating}>
-                    Rating:<br/>
-                    {mpaaRating}
+                    <section id={styles.rating}>
+                        Rating:<br/>
+                        {mpaaRating}
+                    </section>
+
+                    <section id={styles.synopsis}>
+                        Synopsis:<br/>
+                        {synopsis}
+                    </section>
+                    
+                    <section id={styles.trailer_border}>
+                        {trailerUrl && (
+                            <iframe 
+                                width="420" 
+                                height="315" 
+                                src={`https://www.youtube.com/embed/${trailerUrl.split('v=')[1]}`}
+                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            />
+                        )}
+                    </section>
                 </section>
-
-                <section id={styles.synopsis}>
-                    Synopsis:<br/>
-                    {synopsis}
-                </section>
-                
-                <section id={styles.trailer_border}>
-                    {trailerUrl && (
-                        <iframe 
-                            width="420" 
-                            height="315" 
-                            src={`https://www.youtube.com/embed/${trailerUrl.split('v=')[1]}`}
-                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                        />
-                    )}
-                   {/* <img src={imageSrc} className={styles.trailer} />*/}
-                </section>
-            </section>
-            <section className={styles.showtimes_book}>
-                <section className={styles.showtimes}>
-                    <h1 className={styles.header}> Showtimes </h1>
-                    <ul className={styles.list}>
-                        {showTimes.length > 0 ? (
-                            showTimes.map((showTime) => (
-                                <li key={showTime.id}>
-                                    {showTime.date} - {showTime.time}
+                <section className={styles.showtimes_book}>
+                    <section className={styles.showtimes}>
+                        <h1 className={styles.header}> Showtimes </h1>
+                        <ul className={styles.list}>
+                            {showTimes.length > 0 ? (
+                                showTimes.map((showTime) => (
+                                    <li key={showTime.id} className={styles.showtime}>
+                                        {showTime.date} - {timeLabels[showTime.time as ConsecutiveTimes]}
+                                    </li>
+                                ))
+                            ) : (
+                                <p> No showtimes available </p>
+                            )}
+                        </ul>
+                    </section>
+                    <section id={styles.director_producer}>
+                        <h1> Directed by: {director} </h1>
+                        <h1> Produced by: {producer} </h1>
+                        <h1> Cast: {cast} </h1>
+                    </section>
+                    <section id={styles.reviews}>
+                        <ul>
+                            {reviews.length > 0 ? (
+                                reviews.map((review: Review) => (
+                                <li key={review.id}>
+                                    {review.reviewText}
                                 </li>
-                            ))
-                        ) : (
-                            <p>No showtimes available</p>
-                        )}
-                    </ul>
+                                ))
+                            ) : (
+                                <p>No reviews found</p>
+                            )}
+                        </ul>
+                    </section>
+                    <div className={styles.button}>
+                        <Link href={{
+                            pathname: '/show-time',
+                            query: {
+                                name: name,
+                                movieId: movieId,
+                                date: showTimes[0]?.date,
+                            },
+                            }}> Book Tickets 
+                        </Link>
+                    </div>
                 </section>
-                <section id={styles.director_producer}>
-                    <h1> Directed by: {director} </h1>
-                    <h1> Produced by: {producer} </h1>
-                    <h1> Cast: {cast} </h1>
-                </section>
-                <section id={styles.reviews}>
-                    <ul>
-                        {reviews.length > 0 ? (
-                            reviews.map((review: Review) => (
-                            <li key={review.id}>
-                                {review.reviewText}
-                            </li>
-                            ))
-                        ) : (
-                            <p>No reviews found</p>
-                        )}
-                    </ul>
-                </section>
-                <div className={styles.button}>
-                    <Link href={{
-                        pathname: '/show-time',
-                        query: {
-                            name: name,
-                            movieId: movieId,
-                            date: showTimes[0]?.date,
-                        },
-                        }}> Book Tickets 
-                    </Link>
-                </div>
             </section>
-        </section>
-    </dialog>
-  );
+        </dialog>
+    );
 };
 
 export default MovieInfoPopup;

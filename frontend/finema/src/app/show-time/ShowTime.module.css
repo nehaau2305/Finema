@@ -23,7 +23,8 @@
     justify-content: space-between;
     align-items: center;
     text-align: center;
-    width: 500px;
+    gap: 40px;
+    width: 600px;
     height: 500px;
 }
 
@@ -35,6 +36,7 @@
     align-items: center;
     border-radius: 10px;
     padding: 20px;
+    width: 60%;
 }
 
 .headers {
@@ -42,8 +44,14 @@
     font-size: x-large;
 }
 
+.showtimes {
+    overflow-y: auto;
+    max-height: 70vh;
+}
+
 .list {
     padding: 10px;
+    font-size: x-large;
 }
 
 .list_item {

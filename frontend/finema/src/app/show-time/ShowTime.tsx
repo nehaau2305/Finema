@@ -14,6 +14,27 @@ interface ShowTime {
   showroomID: number;
 }
 
+type ConsecutiveTimes =
+  | 'TWELVE_AM'
+  | 'THREE_AM'
+  | 'SIX_AM'
+  | 'NINE_AM'
+  | 'TWELVE_PM'
+  | 'THREE_PM'
+  | 'SIX_PM'
+  | 'NINE_PM';
+
+const timeLabels: { [key in ConsecutiveTimes]: string } = {
+    TWELVE_AM: '12:00 AM',
+    THREE_AM: '3:00 AM',
+    SIX_AM: '6:00 AM',
+    NINE_AM: '9:00 AM',
+    TWELVE_PM: '12:00 PM',
+    THREE_PM: '3:00 PM',
+    SIX_PM: '6:00 PM',
+    NINE_PM: '9:00 PM'
+};
+
 export default function ShowTime() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -21,9 +42,9 @@ export default function ShowTime() {
   const movieId = searchParams.get('movieId'); // Use movieId to fetch showtimes
   const date = searchParams.get('date');
 
-  const [adult, setAdult] = useState('0');
-  const [child, setChild] = useState('0');
-  const [senior, setSenior] = useState('0');
+  const [adult, setAdult] = useState<string>("0");
+  const [child, setChild] = useState<string>("0");
+  const [senior, setSenior] = useState<string>("0");
   const [selectedTime, setSelectedTime] = useState<ShowTime>();
   const [showTimes, setShowTimes] = useState<ShowTime[]>([]);
   const [currID, setCurrID] = useState(0);
@@ -78,59 +99,58 @@ export default function ShowTime() {
     <div className={styles.main_body}>
       <h1 className={styles.title}> {name} </h1>
       <section className={styles.selectors}>
-        <section>
-          <section className={styles.box}>
-            <h1 className={styles.headers}> Showtimes </h1>
-            <ul>
-              {showTimes.length > 0 ? (
-                showTimes.map((time: ShowTime) => (
-                  <li key={time.id}>
-                    <ShowCard
-                      date={time.date}
-                      time={time.time}
-                      checked={currID === time.id}
-                      onClick={() => handleShowTime(time)}
-                    />
-                  </li>
-                ))
-              ) : (
-                <p>No results found</p>
-              )}
-            </ul>
-          </section>
+        <section className={styles.box}>
+          <h1 className={styles.headers}> Showtimes </h1>
+          <ul className={styles.showtimes}>
+            {showTimes.length > 0 ? (
+              showTimes.map((time: ShowTime) => (
+                <li key={time.id}>
+                  <ShowCard
+                    date={time.date}
+                    time={timeLabels[time.time as ConsecutiveTimes]}
+                    checked={currID === time.id}
+                    onClick={() => handleShowTime(time)}
+                  />
+                </li>
+              ))
+            ) : (
+              <p>No results found</p>
+            )}
+          </ul>
         </section>
-        <section>
-          <section className={styles.box}>
-            <h1 className={styles.headers}> Ticket Type </h1>
-            <section className={styles.list}>
-              <div>
-                <h2> Adult: </h2>
-                <input
-                  name="adult"
-                  value={adult}
-                  onChange={handleTicketInput(setAdult)}
-                  type="text"
-                />
-              </div>
-              <div>
-                <h2> Child: </h2>
-                <input
-                  name="child"
-                  value={child}
-                  onChange={handleTicketInput(setChild)}
-                  type="text"
-                />
-              </div>
-              <div>
-                <h2> Senior: </h2>
-                <input
-                  name="senior"
-                  value={senior}
-                  onChange={handleTicketInput(setSenior)}
-                  type="text"
-                />
-              </div>
-            </section>
+        <section className={styles.box}>
+          <h1 className={styles.headers}> Ticket Type </h1>
+          <section className={styles.list}>
+            <div>
+              <h2> Adult: </h2>
+              <input
+                name="adult"
+                value={adult}
+                defaultValue={"0"}
+                onChange={handleTicketInput(setAdult)}
+                type="text"
+              />
+            </div>
+            <div>
+              <h2> Child: </h2>
+              <input
+                name="child"
+                value={child}
+                defaultValue={"0"}
+                onChange={handleTicketInput(setChild)}
+                type="text"
+              />
+            </div>
+            <div>
+              <h2> Senior: </h2>
+              <input
+                name="senior"
+                value={senior}
+                defaultValue={"0"}
+                onChange={handleTicketInput(setSenior)}
+                type="text"
+              />
+            </div>
           </section>
         </section>
       </section>
