@@ -138,13 +138,23 @@ export default function ScheduleMovies() {
     const [results, setResults] = useState<Movie[]>([]);
 
     const handleSelectMovie = (movieID:number) => {
-      const reservation = {time: currentTime, showroom: currentShowroom, movie: movieID}
+      if (!selectedDate || !currentTime || !currentShowroom) {
+        console.error("Missing required fields to create showtime.");
+        return;
+      }      
+      const showtime = {
+        date: selectedDate.toLocaleDateString('en-CA'), 
+        time: currentTime, 
+        showroom: { id: currentShowroom }, 
+        movie: { id: movieID }
+      }
       fetch(`http://localhost:8080/showtimes/schedule-movie`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify(showtime)
       })
       .then(response => response.json())
       .then(data => {
