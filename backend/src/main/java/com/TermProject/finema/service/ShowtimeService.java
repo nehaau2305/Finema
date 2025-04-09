@@ -65,26 +65,33 @@ public class ShowtimeService {
 
     // to return only the showrooms available for each time for the provided date
     public Map<ConsecutiveTimes, List<Showroom>> getAvailableShowroomsByTime(LocalDate date) {
-        List<Showroom> allShowrooms = showroomRepository.findAll();
-        Map<ConsecutiveTimes, List<Showroom>> result = new LinkedHashMap<>();
-        for (ConsecutiveTimes time : ConsecutiveTimes.values()) {
-            List<Showtime> showtimesAtThisTime = showtimeRepository.findByDateAndTime(date, time);
-            // if movie has a non null value, the showroom is booked and unavilable
-            // can do manually using for loop & parsing through whole list instead
-            // of stream * collectors if this doesnt work
-            Set<Integer> unavailableShowroomIds = showtimesAtThisTime.stream()
-                    .filter(st -> st.getMovie() != null)
-                    .map(st -> st.getShowroom().getId())
-                    .collect(Collectors.toSet());
-            // only include the showtimes where movie is null
-            List<Showroom> available = allShowrooms.stream()
-                    .filter(sr -> !unavailableShowroomIds.contains(sr.getId()))
-                    .collect(Collectors.toList());
+        if (showtimeRepository.existsByDate(date)) {
+            List<Showroom> allShowrooms = showroomRepository.findAll();
+            Map<ConsecutiveTimes, List<Showroom>> result = new LinkedHashMap<>();
+            for (ConsecutiveTimes time : ConsecutiveTimes.values()) {
+                List<Showtime> showtimesAtThisTime = showtimeRepository.findByDateAndTime(date, time);
+                // if movie has a non null value, the showroom is booked and unavilable
+                // can do manually using for loop & parsing through whole list instead
+                // of stream * collectors if this doesnt work
+                Set<Integer> unavailableShowroomIds = showtimesAtThisTime.stream()
+                        .filter(st -> st.getMovie() != null)
+                        .map(st -> st.getShowroom().getId())
+                        .collect(Collectors.toSet());
+                // only include the showtimes where movie is null
+                System.out.println("Unavailable Showroom IDs at " + time + ": " + unavailableShowroomIds);
 
-            result.put(time, available);
+                List<Showroom> available = allShowrooms.stream()
+                        .filter(sr -> !unavailableShowroomIds.contains(sr.getId()))
+                        .collect(Collectors.toList());
+
+                result.put(time, available);
+            }
+            // will return times and showrooms
+            return result;
+        } else {
+            return new LinkedHashMap<>();
         }
-        // will return times and showrooms
-        return result;
+
     }
 
 

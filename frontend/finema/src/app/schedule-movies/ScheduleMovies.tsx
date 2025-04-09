@@ -78,7 +78,7 @@ export default function ScheduleMovies() {
     useEffect(() => {
         if (selectedDate) {
           console.log('Selected Date before fetch:', selectedDate);
-          const formattedDate = selectedDate.toISOString().split('T')[0];  // Convert to proper format
+          const formattedDate = selectedDate.toLocaleDateString('en-CA');  // Convert to proper format
           console.log('Formatted date: ', formattedDate);
           fetch(`http://localhost:8080/showtimes/available-showrooms?date=${formattedDate}`, {
                 method: 'GET',
