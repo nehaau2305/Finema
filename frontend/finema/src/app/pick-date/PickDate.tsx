@@ -12,6 +12,7 @@ export default function PickDate() {
     const router = useRouter();
     const [date, setDate] = useState(new Date());
     const [savedDate, setSavedDate] = useToken("selectedDate")
+    const today = new Date();
 
     const handleDate = (selectedDate: Date) => {
         setDate(selectedDate)
@@ -39,7 +40,7 @@ export default function PickDate() {
               <div className={styles.input_date}>
                 <h1> Select Date </h1>
                 <div className={styles.input_box}>
-                    <DatePicker selected={date} onChange={(date) => handleDate(date!)} />
+                    <DatePicker selected={date} onChange={(date) => handleDate(date!)} minDate={today} />
                 </div>
         
                 <Button onClick={handleSelectDate}> Select Date </Button>
