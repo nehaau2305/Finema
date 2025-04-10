@@ -66,7 +66,7 @@ public class PromotionService {
                     + "<p>Cheers,<br>The Finema Team 🐬</p>"
                     + "</div>";
 
-                helper.setText(emailContent, true); // Set the email content as HTML
+                helper.setText(emailContent, true); // Set the  email content as HTML
                 mailSender.send(message);
             } catch (MessagingException e) {
                 System.err.println("Failed to send email to " + email + ": " + e.getMessage());
