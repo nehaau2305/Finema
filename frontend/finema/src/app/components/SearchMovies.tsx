@@ -29,7 +29,7 @@ interface Movie {
   cast: string;
 }
 
-const categories = ['Action', 'Drama', 'Comedy', 'Mystery', 'Kids', 'Horror', 'Documentary'];
+const categories = ['Action', 'Drama', 'Comedy', 'Mystery', 'Kids', 'Horror', 'Documentary', 'Romance'];
 
 export default function SearchMovies() {
   const [query, setQuery] = useState('');

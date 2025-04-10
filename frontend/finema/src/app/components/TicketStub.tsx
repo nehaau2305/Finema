@@ -12,7 +12,7 @@ interface Ticket {
   type:string
 }
 
-export default function OrderSummary({ticket, changeTicketType} : {ticket:Ticket, changeTicketType:({ticket, type} : any)=>void}) {
+export default function OrderSummary({ticket, changeTicketType, deleteTicket} : {ticket:Ticket, changeTicketType:({ticket, type} : any)=>void, deleteTicket:(ticket : Ticket)=>void}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [ticketType, setTicketType] = useState(ticket.type)
@@ -24,11 +24,12 @@ export default function OrderSummary({ticket, changeTicketType} : {ticket:Ticket
     );
   }
 
-  function goType() {
-    router.push('/show-time')
-  }
-  function deleteTicket() {
-    console.log('ERRRRR, not implemented')
+  const [showSelf, setShowSelf] = useState(true)
+
+  function handleDeleteTicket() {
+    console.log("Inside ticket " + ticket.seatID)
+    deleteTicket(ticket)
+    setShowSelf(false)
   }
 
   const [isOpened, setIsOpened] = useState(false);
@@ -46,10 +47,6 @@ export default function OrderSummary({ticket, changeTicketType} : {ticket:Ticket
 
   const [changeToTicketType, setChangeToTicketType] = useState(ticket.type)
 
-  useEffect(() => {
-    console.log(changeToTicketType)
-  }, [changeToTicketType])
-
   const handleChange = () => {
     setTicketType(changeToTicketType)
     changeTicketType({ticket, changeToTicketType})
@@ -57,32 +54,38 @@ export default function OrderSummary({ticket, changeTicketType} : {ticket:Ticket
 
 
   return (
-    <section className={styles.main_body}>
-      <dialog ref={ref} className={styles.dialog}>
-        <section className={styles.modal_body}>
-          <section className={styles.modal_button}>
-            <Button onClick={() => setIsOpened(false)}> X </Button>
+    <section>
+      {showSelf ? (
+      <section className={styles.main_body}>
+        <dialog ref={ref} className={styles.dialog}>
+          <section className={styles.modal_body}>
+            <section className={styles.modal_button}>
+              <Button onClick={() => setIsOpened(false)}> X </Button>
+            </section>
+            <h1 className={styles.headers}> Change Type </h1>
+            <select defaultValue={ticketType} onChange={e => setChangeToTicketType(e.target.value)}>
+              <option value="child">child</option>
+              <option value="adult">adult</option>
+              <option value="senior">senior</option>
+            </select>
+            <Button onClick={handleChange}> Change </Button>
           </section>
-          <h1 className={styles.headers}> Change Type </h1>
-          <select defaultValue={ticketType} onChange={e => setChangeToTicketType(e.target.value)}>
-            <option value="child">child</option>
-            <option value="adult">adult</option>
-            <option value="senior">senior</option>
-          </select>
-          <Button onClick={handleChange}> Change </Button>
-        </section>
-      </dialog>
-      <h1> Type: {ticketType} </h1> 
-      <h1> Seat: {ticket.seatNum} </h1>
-      <div className={styles.button}>
-        <Button onClick={() => setIsOpened(true)}> Edit Type </Button>
-      </div>
-      <div className={styles.button}>
-        <Button onClick={goSeat}> Edit Seat </Button>
-      </div>
-      <div className={styles.button}>
-        <Button onClick={deleteTicket}> Delete </Button>
-      </div>
+        </dialog>
+        <h1> Type: {ticketType} </h1> 
+        <h1> Seat: {ticket.seatNum} </h1>
+        <div className={styles.button}>
+          <Button onClick={() => setIsOpened(true)}> Edit Type </Button>
+        </div>
+        <div className={styles.button}>
+          <Button onClick={goSeat}> Edit Seat </Button>
+        </div>
+        <div className={styles.button}>
+          <Button onClick={handleDeleteTicket}> Delete </Button>
+        </div>
+      </section>
+    ) : 
+    (<div></div>)}
+      
     </section>
   );
 };

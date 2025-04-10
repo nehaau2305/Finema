@@ -196,9 +196,52 @@ export default function OrderSummary() {
     for (let i = 0 ; i < tickets.length ; i++) {
       if (tickets[i].seatID == ticket.seatID) {
         tickets[i].type = type
+        i += tickets.length
       }
     }
   }
+
+  const removeTicket = (ticket :Ticket) => {
+    console.log("outside ticket")
+    for (let i = 0; i < tickets.length ; i++) {
+      console.log(tickets[i].seatID)
+      if (tickets[i].seatID == ticket.seatID) {
+        console.log("tickets[i].seatID")
+        tickets.splice(i, 1)
+        console.log(tickets)
+        i += tickets.length + 3
+      }
+    }
+  }
+
+  // const ticketList = (
+  //   tickets.map((ticket: Ticket) => (
+  //     <li key={ticket.id}>
+  //       <TicketStub ticket={ticket} changeTicketType={changeType} deleteTicket={removeTicket} />
+  //     </li>
+  //   ))
+  // )
+  let ticketListDisplay = tickets.length > 0 ? (
+    tickets.map((ticket: Ticket) => (
+      <li key={ticket.id}>
+        <TicketStub ticket={ticket} changeTicketType={changeType} deleteTicket={removeTicket} />
+      </li>
+    ))
+  ) : (
+    <p>No Tickets found</p>
+  )
+
+  useEffect(() => {
+    ticketListDisplay = tickets.length > 0 ? (
+      tickets.map((ticket: Ticket) => (
+        <li key={ticket.id}>
+          <TicketStub ticket={ticket} changeTicketType={changeType} deleteTicket={removeTicket} />
+        </li>
+      ))
+    ) : (
+      <p>No Tickets found</p>
+    )
+  }, [tickets])
 
   return (
     <section className={styles.main_body}>
@@ -244,15 +287,7 @@ export default function OrderSummary() {
         <section className={styles.ticket_area}>
           <h1> Tickets: </h1>
           <ul className={styles.list}>
-            {tickets.length > 0 ? (
-              tickets.map((ticket: Ticket) => (
-                <li key={ticket.id}>
-                  <TicketStub ticket={ticket} changeTicketType={changeType} />
-                </li>
-              ))
-            ) : (
-              <p>No Tickets found</p>
-            )}
+            {ticketListDisplay}
           </ul>
         </section>
         <section className={styles.button_area}>
