@@ -52,9 +52,25 @@ export default function ShowTime() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
   const showtimeId = searchParams.get('showtimeId') || 'Unknown showtimeId';
-  const showroomId = searchParams.get('showroomId') || 'Unknown showtimeId';
+  const showroomId = searchParams.get('showroomId') || 'Unknown showroomId';
   const [date, setDate] = useState<string>("");
   const [time, setTime] = useState<string>("");
+
+  const saveToLocalStorage = () => {
+    const dataToSave = {
+      name,
+      adult,
+      child,
+      senior,
+      tickets,
+      totalSeats,
+      date,
+      time,
+      showtimeId,
+      showroomId
+    };
+    localStorage.setItem('seatSelectionData', JSON.stringify(dataToSave));
+  }
 
   useEffect(() => {
     setName(searchParams.get('name'))
@@ -140,6 +156,7 @@ export default function ShowTime() {
     router.push('/order-summary')
   }
   function goBack() {
+    localStorage.removeItem('seatSelectionData');
     router.push('/show-time')
   }
 
@@ -155,7 +172,31 @@ export default function ShowTime() {
     setTickets(newTickets)
   }
 
+  useEffect(() => {
+    const savedData = localStorage.getItem('seatSelectionData');
+
+    console.log('The data saved in local storage: ' + savedData)
+
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+
+      const showtimeIdFromStorage = parsedData.showtimeId || 'Unknown showtimeId';
+      const showroomIdFromStorage = parsedData.showroomId || 'Unknown showroomId';
+      
+      setName(parsedData.name);
+      setAdult(parsedData.adult);
+      setChild(parsedData.child);
+      setSenior(parsedData.senior);
+      setTickets(parsedData.tickets);
+      setTotalSeats(parsedData.totalSeats);
+      setDate(parsedData.date);
+      setTime(parsedData.time);
+
+    }
+  }, []);
+
   const endAndSend = () => {
+    saveToLocalStorage();
     setTimeout(() => {
           const query = new URLSearchParams({
             name: name || '',
@@ -212,6 +253,7 @@ export default function ShowTime() {
       setSeatType("Senior")
     }
   }, [curSeatType])
+
 
   return (
     <div className={styles.main_body}>

@@ -36,3 +36,23 @@
 .input_section h1 {
     margin-right: 10px;
 }
+
+.current_promotions {
+    background-color: #33b0ff;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    padding: 20px;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+}
+
+.promotions_list {
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+    border: 2px solid #1449ff;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+}

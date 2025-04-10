@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import java.util.List;
+import com.TermProject.finema.entity.User;
+
 
 @Service
 public class MailService {
@@ -94,5 +97,33 @@ public class MailService {
             return false;
         }
     } // sendProfileUpdatedEmail
+
+/*
+        public String sendPromotionEmail(String promotionText) {
+        try {
+            //need to get only users that are registered
+            List<User> users = userRepository.findByPromotionsTrue();
+
+            for (User user : users) {
+                String subject = "New Promotion Available!";
+                String message = "Hi " + user.getName() + ",\n\n" +
+                                 "Check out our new promotion: " + promotionText + "\n\n" +
+                                 "Best Regards,\nFinema Team";
+
+                SimpleMailMessage email = new SimpleMailMessage();
+                email.setTo(user.getEmail());
+                email.setSubject(subject);
+                email.setText(message);
+                email.setFrom("finemateam@gmail.com");
+
+                mailSender.send(email);
+            }
+
+            return "promotion email sent";
+        } catch (Exception e) {
+            return "rrror sending promotion email: " + e.getMessage();
+        }
+    }
+    */
 
 }

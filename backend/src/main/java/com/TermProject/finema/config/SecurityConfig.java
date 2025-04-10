@@ -47,6 +47,7 @@ public class SecurityConfig {
                     // .requestMatchers("/movies/**").permitAll() // Allow all requests to movie-related endpoints
                     // .requestMatchers("/users/**").permitAll() // Allow all requests to user-related endpoints
                     // .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
                     .anyRequest().permitAll()
                     // .requestMatchers("/auth/register", "/auth/login", "/auth/newpassword").permitAll()
                     // .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow all OPTIONS requests
