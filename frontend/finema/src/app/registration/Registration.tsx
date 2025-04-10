@@ -139,6 +139,11 @@ export default function Registration() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
+    if (phone.length !== 10) {
+      alert("Phone number must be 10 digits.");
+      return;
+    }
+
     const userInfo: User = { name, phone, email, password, homeAddress, promotions };
 
     fetch('http://localhost:8080/users/sendregistercode', {

@@ -28,14 +28,14 @@ export default function ManageMovies() {
   const [date, setDate] = useState("");
   const [msg, setMsg] = useState("");
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('Action');
   const [cast, setCast] = useState('');
   const [director, setDirector] = useState('');
   const [producer, setProducer] = useState('');
   const [trailerVideo, setTrailerVideo] = useState('');
   const [trailerPicture, setTrailerPicture] = useState('');
   const [synopsis, setSynopsis] = useState('');
-  const [mpaaRating, setMpaaRating] = useState('');
+  const [mpaaRating, setMpaaRating] = useState('G');
   const [nowShowing, setNowShowing] = useState(false);
   const [comingSoon, setComingSoon] = useState(false);
 
@@ -135,7 +135,16 @@ export default function ManageMovies() {
             </div>
             <div className={styles.input_section}>
               <h1> Category </h1>
-              <input value={category} onChange={(e) => setCategory(e.target.value)} required />
+              <select defaultValue={category} onChange={e => setCategory(e.target.value)}>
+                <option value="Action">Action</option>
+                <option value="Drama">Drama</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Mystery">Mystery</option>
+                <option value="Kids">Kids</option>
+                <option value="Horror">Horror</option>
+                <option value="Documentary">Documentary</option>
+                <option value="Romance">Romance</option>
+              </select>
             </div>
             <div className={styles.input_section}>
               <h1> Synopsis </h1>
@@ -159,7 +168,13 @@ export default function ManageMovies() {
             </div>
             <div className={styles.input_section}>
               <h1> MPAA-US film rating code </h1>
-              <input value={mpaaRating} onChange={(e) => setMpaaRating(e.target.value)} required />
+              <select defaultValue={mpaaRating} onChange={e => setMpaaRating(e.target.value)}>
+                <option value="G">G</option>
+                <option value="PG">PG</option>
+                <option value="PG_13">PG13</option>
+                <option value="R">R</option>
+                <option value="NC_17">NC17</option>
+              </select>
             </div>
             <div className={styles.input_section}>
               <h1> Trailer Picture (image link) </h1>
