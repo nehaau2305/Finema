@@ -119,9 +119,10 @@ export default function ShowTime() {
           date: selectedTime?.date,
           time: selectedTime?.time,
           showtimeId: selectedTime?.id,
-          showroomId: selectedTime?.showroomID           
+          showroomId: selectedTime?.showroomID,  
         },
       }}
+      className={styles.link}
     >
       Book Tickets
     </Link>

@@ -192,6 +192,14 @@ export default function OrderSummary() {
     });
   };
 
+  const changeType = ({ticket, type} : any) => {
+    for (let i = 0 ; i < tickets.length ; i++) {
+      if (tickets[i].seatID == ticket.seatID) {
+        tickets[i].type = type
+      }
+    }
+  }
+
   return (
     <section className={styles.main_body}>
       <dialog ref={ref} className={styles.dialog}>
@@ -239,7 +247,7 @@ export default function OrderSummary() {
             {tickets.length > 0 ? (
               tickets.map((ticket: Ticket) => (
                 <li key={ticket.id}>
-                  <TicketStub ticket={ticket} />
+                  <TicketStub ticket={ticket} changeTicketType={changeType} />
                 </li>
               ))
             ) : (

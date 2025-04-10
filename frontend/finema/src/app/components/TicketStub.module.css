@@ -5,3 +5,29 @@
     max-height: 50px;
     text-wrap: nowrap;
 }
+
+/* Dialog styling */
+.dialog {
+    background-color: transparent;
+}
+
+/* Modal body styling */
+.modal_body {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    height: 30vh;
+    width: 40vh;
+    padding: 10px;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+    text-align: center;
+    background-color: #a2d8fa;
+    border-radius: 30px;
+    border: 5px solid #1449ff;
+}
+
+.modal_body select {
+    color: black;
+}

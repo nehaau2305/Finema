@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Button from '../components/Button';
 import styles from './TicketStub.module.css'
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -12,9 +12,10 @@ interface Ticket {
   type:string
 }
 
-export default function OrderSummary({ticket} : {ticket:Ticket}) {
+export default function OrderSummary({ticket, changeTicketType} : {ticket:Ticket, changeTicketType:({ticket, type} : any)=>void}) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [ticketType, setTicketType] = useState(ticket.type)
 
 
   function goSeat() {
@@ -30,13 +31,51 @@ export default function OrderSummary({ticket} : {ticket:Ticket}) {
     console.log('ERRRRR, not implemented')
   }
 
+  const [isOpened, setIsOpened] = useState(false);
+  const ref = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    if (isOpened) {
+      ref.current?.showModal();
+      document.body.classList.add('modal-open');
+    } else {
+      ref.current?.close();
+      document.body.classList.remove('modal-open');
+    }
+  }, [isOpened]);
+
+  const [changeToTicketType, setChangeToTicketType] = useState(ticket.type)
+
+  useEffect(() => {
+    console.log(changeToTicketType)
+  }, [changeToTicketType])
+
+  const handleChange = () => {
+    setTicketType(changeToTicketType)
+    changeTicketType({ticket, changeToTicketType})
+  }
+
 
   return (
     <section className={styles.main_body}>
-      <h1> Type: {ticket.type} </h1> 
+      <dialog ref={ref} className={styles.dialog}>
+        <section className={styles.modal_body}>
+          <section className={styles.modal_button}>
+            <Button onClick={() => setIsOpened(false)}> X </Button>
+          </section>
+          <h1 className={styles.headers}> Change Type </h1>
+          <select defaultValue={ticketType} onChange={e => setChangeToTicketType(e.target.value)}>
+            <option value="child">child</option>
+            <option value="adult">adult</option>
+            <option value="senior">senior</option>
+          </select>
+          <Button onClick={handleChange}> Change </Button>
+        </section>
+      </dialog>
+      <h1> Type: {ticketType} </h1> 
       <h1> Seat: {ticket.seatNum} </h1>
       <div className={styles.button}>
-        <Button onClick={goType}> Edit Type </Button>
+        <Button onClick={() => setIsOpened(true)}> Edit Type </Button>
       </div>
       <div className={styles.button}>
         <Button onClick={goSeat}> Edit Seat </Button>
