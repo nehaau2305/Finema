@@ -36,3 +36,11 @@
 .input_section h1 {
     margin-right: 10px;
 }
+
+.textarea {
+    color: black; /* Set text color to black */
+    background-color: white; /* Ensure the background is white */
+    border: 1px solid #ccc; /* Optional: Add a border for better visibility */
+    padding: 8px; /* Optional: Add padding for better usability */
+    font-size: 16px; /* Optional: Adjust font size */
+  }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 //for card encyption
 import javax.crypto.Cipher;
@@ -162,6 +163,13 @@ public class UserService implements UserDetailsService {
         }
         String email = jwtTokenProvider.extractUsername(token);
         return userRepository.findByEmail(email);
+    }
+
+    public List<String> getSubscribedEmails() {
+        return userRepository.findByPromotionsTrue()
+                .stream()
+                .map(User::getEmail)
+                .collect(Collectors.toList());
     }
 
     //public List<Card> getCardsByUser(User user) {
