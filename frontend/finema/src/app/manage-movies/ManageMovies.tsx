@@ -15,6 +15,7 @@ interface MovieCardProps {
   synopsis: string;
   director: string;
   producer: string;
+  cast: string;
 }
 
 export default function ManageMovies() {
@@ -71,6 +72,7 @@ export default function ManageMovies() {
       category,
       director,
       producer,
+      cast,
       trailerVideo,
       mpaaRating,
       trailerPicture,
@@ -106,6 +108,7 @@ export default function ManageMovies() {
       setCategory('');
       setDirector('');
       setProducer('');
+      setCast('');
       setTrailerVideo('');
       setTrailerPicture('');
       setSynopsis('');
@@ -145,6 +148,10 @@ export default function ManageMovies() {
             <div className={styles.input_section}>
               <h1> Producer </h1>
               <input value={producer} onChange={(e) => setProducer(e.target.value)} required />
+            </div>
+            <div className={styles.input_section}>
+              <h1> Cast </h1>
+              <input value={cast} onChange={(e) => setCast(e.target.value)} required />
             </div>
             <div className={styles.input_section}>
               <h1> Trailer Video (video link) </h1>
@@ -194,6 +201,7 @@ export default function ManageMovies() {
                   synopsis={movie.synopsis}
                   director={movie.director}
                   producer={movie.producer}
+                  cast={movie.cast}
                   />
                 </li>
                ))

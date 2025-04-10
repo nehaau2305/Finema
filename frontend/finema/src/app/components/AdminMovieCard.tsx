@@ -12,9 +12,10 @@ interface AdminMovieCardProps {
   synopsis: string;
   director: string;
   producer: string;
+  cast: string;
 }
 
-export default function AdminMovieCard({ name, source, movieId, synopsis, director, producer }: AdminMovieCardProps) {
+export default function AdminMovieCard({ name, source, movieId, synopsis, director, producer, cast }: AdminMovieCardProps) {
   const [isOpened, setIsOpened] = useState(false);
 
   const router = useRouter();
@@ -46,6 +47,7 @@ export default function AdminMovieCard({ name, source, movieId, synopsis, direct
         synopsis={synopsis}
         director={director}
         producer={producer}
+        cast={cast}
       />
 
     </div>

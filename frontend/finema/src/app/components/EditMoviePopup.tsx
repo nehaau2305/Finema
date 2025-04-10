@@ -12,6 +12,7 @@ type Props = {
         synopsis: string;
         director: string;
         producer: string;
+        cast: string;
     };
 
 const EditMovieInfoPopup = ({
@@ -23,6 +24,7 @@ const EditMovieInfoPopup = ({
         synopsis,
         director,
         producer,
+        cast,
     }: Props) => {
     const ref = useRef<HTMLDialogElement>(null);
     const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
