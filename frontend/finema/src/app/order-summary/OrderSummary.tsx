@@ -71,13 +71,16 @@ export default function OrderSummary() {
   }
 
   function goBack() {
-    router.push('/seat-selection');
+    router.push(
+      `/seat-selection?name=${movieTitle}&adult=${searchParams.get('adult')}&child=${searchParams.get('child')}&senior=${searchParams.get('senior')}&totalSeats=${searchParams.get('totalSeats')}&movieId=${searchParams.get('movieId')}&date=${searchParams.get('date')}&time=${searchParams.get('time')}&showtimeId=${searchParams.get('showtimeId')}&showroomId=${searchParams.get('showroomId')}`
+    );
   }
+
   function goHome() {
     router.push('/web-user-home');
   }
 
-  const [isOpened, setIsOpened] = useState(false);
+  const [isOpened, setIsOpened] = useState(false); 
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {

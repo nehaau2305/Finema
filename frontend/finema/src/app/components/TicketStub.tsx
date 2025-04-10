@@ -2,7 +2,8 @@
 import React from 'react';
 import Button from '../components/Button';
 import styles from './TicketStub.module.css'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation';
+
 
 interface Ticket {
   id: number,
@@ -13,10 +14,15 @@ interface Ticket {
 
 export default function OrderSummary({ticket} : {ticket:Ticket}) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
 
   function goSeat() {
-    router.push('/seat-selection')
+    router.push(
+      `/seat-selection?name=${searchParams.get('name')}&adult=${searchParams.get('adult')}&child=${searchParams.get('child')}&senior=${searchParams.get('senior')}&totalSeats=${searchParams.get('totalSeats')}&movieId=${searchParams.get('movieId')}&date=${searchParams.get('date')}&time=${searchParams.get('time')}&showtimeId=${searchParams.get('showtimeId')}&showroomId=${searchParams.get('showroomId')}`
+    );
   }
+
   function goType() {
     router.push('/show-time')
   }

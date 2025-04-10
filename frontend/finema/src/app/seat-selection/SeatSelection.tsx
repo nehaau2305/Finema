@@ -51,6 +51,15 @@ export default function ShowTime() {
   const [senior, setSenior] = useState<number>(0);
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
+  const initialAdultCount = parseInt(searchParams.get('adult') || '0');
+  const initialChildCount = parseInt(searchParams.get('child') || '0');
+  const initialSeniorCount = parseInt(searchParams.get('senior') || '0');
+
+  const initialTotalSeats = React.useMemo(() => {
+    return initialAdultCount + initialChildCount + initialSeniorCount;
+  }, [initialAdultCount, initialChildCount, initialSeniorCount]);
+
+
   const showtimeId = searchParams.get('showtimeId') || 'Unknown showtimeId';
   const showroomId = searchParams.get('showroomId') || 'Unknown showtimeId';
   const [date, setDate] = useState<string>("");
@@ -76,6 +85,8 @@ export default function ShowTime() {
   useEffect(() => {
     setTotalSeats(adult+child+senior)
   }, [adult, child, senior])
+
+
 
   const [curSeatType, setCurSeatType] = useState<number>(0); // 0 adult, 1 child, 2 senior
 
@@ -160,11 +171,14 @@ export default function ShowTime() {
           const query = new URLSearchParams({
             name: name || '',
             tickets: JSON.stringify(tickets),
-            totalSeats: totalSeats.toString(),
+            totalSeats: initialTotalSeats.toString(), // Total number of tickets selected
             date: date,
             time: time,
             showtimeId: showtimeId,
-            showroomId: showroomId  
+            showroomId: showroomId,
+            adult: initialAdultCount.toString(), // Remaining adult tickets
+            child: initialChildCount.toString(), // Remaining child tickets
+            senior: initialSeniorCount.toString() // Remaining senior tickets
           }).toString();
           router.push(`/order-summary?${query}`);
         }, 100);
