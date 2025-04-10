@@ -17,6 +17,7 @@ import java.util.Map;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ShowtimeService {
@@ -123,6 +124,14 @@ public class ShowtimeService {
     public Showtime scheduleMovie(Showtime showtime) {
         showtime.setMovieId(showtime.getMovie().getId());
         showtime.setShowroomId(showtime.getShowroom().getId());
+        Optional<Showtime> existingShowtime = showtimeRepository.findByShowroomIdAndDateAndTime(
+                showtime.getShowroomId(),
+                showtime.getDate(),
+                showtime.getTime()
+        );
+        if (existingShowtime.isPresent() && existingShowtime.get().getMovieId() != 0) {
+            return existingShowtime.get();
+        }
         Showtime ret = showtimeRepository.save(showtime);
         for (int i = 0; i < 55; i++) {
             Seat newSeat = new Seat();
