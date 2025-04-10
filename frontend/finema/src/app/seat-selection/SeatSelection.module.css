@@ -77,6 +77,11 @@
     bottom:70px;
     left:70px;
     position: absolute;
+    color: #1449ff;
+}
+
+.btn2:hover {
+    color: #1140e0;
 }
 
 .seat_num {    

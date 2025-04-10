@@ -4,6 +4,7 @@ import styles from './SeatSelection.module.css'
 import Button from '../components/Button'
 import { useRouter, useSearchParams } from 'next/navigation'
 import SeatCard from '../components/SeatCard'
+import Link from 'next/link'
 
 type ConsecutiveTimes =
   | 'TWELVE_AM'
@@ -44,6 +45,8 @@ interface Ticket {
 export default function ShowTime() {
   const router = useRouter();
   const searchParams = useSearchParams()
+
+  const movieId = searchParams.get('movieId') || "";
 
   const [name, setName] = useState<string|null>("");
   const [adult, setAdult] = useState<number>(0);
@@ -178,7 +181,8 @@ export default function ShowTime() {
             showroomId: showroomId,
             adult: initialAdultCount.toString(), // Remaining adult tickets
             child: initialChildCount.toString(), // Remaining child tickets
-            senior: initialSeniorCount.toString() // Remaining senior tickets
+            senior: initialSeniorCount.toString(), // Remaining senior tickets
+            movieId: movieId
           }).toString();
           router.push(`/order-summary?${query}`);
         }, 100);
@@ -271,9 +275,16 @@ export default function ShowTime() {
           </section>
         </section>
       </div>
-      <div className={styles.btn2}>
-        <Button onClick={goBack}> Go Back </Button>
-      </div>
+      <section className={styles.btn2}>
+        <Link href={{
+            pathname: '/show-time',
+            query: {
+            name: name,
+            movieId: movieId
+          },
+          }}> Go Back
+        </Link>
+      </section>
     </div>
   );
 };

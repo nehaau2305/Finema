@@ -93,3 +93,10 @@
     left:70px;
     position: absolute;
 }
+.link {
+    color: #1449ff;
+}
+
+.link:hover {
+    color: #1140e0;
+}
