@@ -92,7 +92,7 @@ const MovieInfoPopup = ({
             // Fetch showtimes for the movie
             const fetchShowTimes = async () => {
                 try {
-                    const currentDate = new Date().toISOString().split('T')[0]; // Get current date in "YYYY-MM-DD" format
+                    const currentDate = new Date().toLocaleString('fr-CA', { timeZone: 'America/New_York' }).split(' ')[0]; // Get current date in "YYYY-MM-DD" format
                     const response = await fetch(`http://localhost:8080/showtimes/get-upcoming-by-movie/${movieId}?date=${currentDate}`);
                     if (!response.ok) {
                         throw new Error('Failed to fetch showtimes');

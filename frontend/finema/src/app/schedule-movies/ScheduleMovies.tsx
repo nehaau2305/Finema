@@ -74,27 +74,29 @@ export default function ScheduleMovies() {
         } 
     }, [token, router]);
 
+    const loadAvailableShowtimes = () => {
+      if (selectedDate) {
+        console.log('Selected Date before fetch:', selectedDate);
+        const formattedDate = selectedDate.toLocaleDateString('en-CA');  // Convert to proper format
+        console.log('Formatted date: ', formattedDate);
+        fetch(`http://localhost:8080/showtimes/available-showrooms?date=${formattedDate}`, {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              }
+            })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data)
+              setAvailableShowrooms(data);
+            })
+            .catch(error => console.error('Error fetching showtimes:', error));
+      }
+    }
 
     useEffect(() => {
-        if (selectedDate) {
-          console.log('Selected Date before fetch:', selectedDate);
-          const formattedDate = selectedDate.toLocaleDateString('en-CA');  // Convert to proper format
-          console.log('Formatted date: ', formattedDate);
-          fetch(`http://localhost:8080/showtimes/available-showrooms?date=${formattedDate}`, {
-                method: 'GET',
-                headers: {
-                  'Authorization': `Bearer ${token}`,
-                  'Content-Type': 'application/json'
-                }
-              })
-              .then(response => response.json())
-              .then(data => {
-                console.log(data)
-                //setShowtimes(data);
-                setAvailableShowrooms(data);
-              })
-              .catch(error => console.error('Error fetching showtimes:', error));
-        }
+        loadAvailableShowtimes();
     }, [token, selectedDate]);
 
     const [isOpened, setIsOpened] = useState(false);
@@ -159,8 +161,11 @@ export default function ScheduleMovies() {
       .then(response => response.json())
       .then(data => {
         console.log(data)
+        setIsOpened(false);
+        loadAvailableShowtimes()
       })
       .catch(error => console.error('Error fetching showtimes:', error));
+
     }
 
     return (
@@ -193,7 +198,8 @@ export default function ScheduleMovies() {
                   </div>
                 ))
               ) : (
-                <p className={styles.no_results}>No results found</p>        )}
+                <p className={styles.no_results}>No results found</p>        
+              )}
             </section>
           </section>
         </dialog>

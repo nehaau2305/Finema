@@ -2,6 +2,7 @@ package com.TermProject.finema.controller;
 
 import com.TermProject.finema.entity.Showtime;
 import com.TermProject.finema.entity.Showroom;
+import com.TermProject.finema.entity.Seat;
 import com.TermProject.finema.service.ShowtimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,16 +51,24 @@ public class ShowtimeController {
     @GetMapping("/available-showrooms")
     public ResponseEntity<Map<ConsecutiveTimes, List<Showroom>>> getAvailableShowrooms(
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        //System.out.println("available showrooms entered");
         Map<ConsecutiveTimes, List<Showroom>> availableShowrooms = showtimeService.getAvailableShowroomsByTime(date);
-        // System.out.println("Available Showrooms by Time:");
-        // availableShowrooms.forEach((time, showrooms) -> {
-        //     System.out.println("Time: " + time);
-        //     showrooms.forEach(showroom -> {
-        //         System.out.println("Showroom ID: " + showroom.getId());
-        //     });
-        // });
         return ResponseEntity.ok(availableShowrooms);
+    }
+
+    // get current seats for a showtime
+    @GetMapping("/showtime-seats/{showtimeId}")
+    public ResponseEntity<List<Seat>> getSeats(@PathVariable int showtimeId) {
+        List<Seat> seats = showtimeService.getSeatByShowroomId(showtimeId);
+        System.out.println(showtimeId);
+        return ResponseEntity.ok(seats);
+    }
+
+    // reserve seats for a showtime
+    @PutMapping("/reserve-seats/{showtimeId}")
+    public ResponseEntity<List<Seat>> reserveSeats(@PathVariable int showtimeId, @RequestBody Seat[] seats) {
+        showtimeService.reserveSeatsForShowtime(showtimeId, seats);
+        List<Seat> newSeats = showtimeService.getSeatByShowroomId(showtimeId);
+        return ResponseEntity.ok(newSeats);
     }
 
     // schedule a movie to a selected showtime and showroom

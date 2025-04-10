@@ -40,7 +40,6 @@ export default function ShowTime() {
   const searchParams = useSearchParams();
   const name = searchParams.get('name');
   const movieId = searchParams.get('movieId'); // Use movieId to fetch showtimes
-  const date = searchParams.get('date');
 
   const [adult, setAdult] = useState<string>("0");
   const [child, setChild] = useState<string>("0");
@@ -48,15 +47,16 @@ export default function ShowTime() {
   const [selectedTime, setSelectedTime] = useState<ShowTime>();
   const [showTimes, setShowTimes] = useState<ShowTime[]>([]);
   const [currID, setCurrID] = useState(0);
+  const [date, setDate] = useState();
 
   const retrieveShowtimes = () => {
-    if (!movieId || !date) {
+    if (!movieId) {
       console.error('Movie ID or date is missing');
       return;
     }
+    const currentDate = new Date().toLocaleString('fr-CA', { timeZone: 'America/New_York' }).split(' ')[0]; // Get current date in "YYYY-MM-DD" format
 
-    const currentDate = new Date();
-    fetch(`http://localhost:8080/showtimes/get-upcoming-by-movie/${movieId}?date=${date}`, {
+    fetch(`http://localhost:8080/showtimes/get-upcoming-by-movie/${movieId}?date=${currentDate}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -94,6 +94,42 @@ export default function ShowTime() {
   function goBack() {
     router.push('/web-user-home');
   }
+
+  // Following is logic to make sure user selects required fields.
+  const [ticketsSelected, setTicketsSelected] = useState(false);
+  useEffect(() => {
+    setTicketsSelected(
+      (parseInt(adult) + parseInt(child) + parseInt(senior) != 0) &&
+      (!Number.isNaN(parseInt(adult))) &&
+      (!Number.isNaN(parseInt(child))) &&
+      (!Number.isNaN(parseInt(senior))) &&
+      (selectedTime != undefined)
+    )
+  }, [adult, child, senior, selectedTime]);
+  const link = (
+    <Link
+      href={{
+        pathname: '/seat-selection',
+        query: {
+          name: name,
+          adult: adult,
+          child: child,
+          senior: senior,
+          movieId: movieId, // Pass movieId to the next page
+          date: selectedTime?.date,
+          time: selectedTime?.time,
+          showtimeId: selectedTime?.id,
+          showroomId: selectedTime?.showroomID           
+        },
+      }}
+    >
+      Book Tickets
+    </Link>
+  );
+  const noShowtimes = (<div> No showtimes available! </div>);
+  const noTickets = (<div> Select Tickets and a Showtime </div>);
+  const noLink = showTimes.length == 0 ? noShowtimes : noTickets;
+  
 
   return (
     <div className={styles.main_body}>
@@ -155,23 +191,7 @@ export default function ShowTime() {
         </section>
       </section>
       <div className={styles.btn1}>
-        <Link
-          href={{
-            pathname: '/seat-selection',
-            query: {
-              name: name,
-              adult: adult,
-              child: child,
-              senior: senior,
-              movieId: movieId, // Pass movieId to the next page
-              date: date,
-              time: selectedTime?.time,
-              showtimeId: selectedTime?.id,
-              showroomId: selectedTime?.showroomID           },
-          }}
-        >
-          Book Tickets
-        </Link>
+        {(ticketsSelected && (showTimes.length != 0)) ? link : noLink}
       </div>
       <div className={styles.btn2}>
         <Button onClick={goBack}> Go Back </Button>

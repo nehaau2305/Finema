@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Integer> {
     List<Seat> findByShowtime(Showtime showtime);
+    List<Seat> findByShowtimeId(int showtimeId);
 }

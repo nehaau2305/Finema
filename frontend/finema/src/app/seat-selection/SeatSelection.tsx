@@ -5,6 +5,27 @@ import Button from '../components/Button'
 import { useRouter, useSearchParams } from 'next/navigation'
 import SeatCard from '../components/SeatCard'
 
+type ConsecutiveTimes =
+  | 'TWELVE_AM'
+  | 'THREE_AM'
+  | 'SIX_AM'
+  | 'NINE_AM'
+  | 'TWELVE_PM'
+  | 'THREE_PM'
+  | 'SIX_PM'
+  | 'NINE_PM';
+
+const timeLabels: { [key in ConsecutiveTimes]: string } = {
+    TWELVE_AM: '12:00 AM',
+    THREE_AM: '3:00 AM',
+    SIX_AM: '6:00 AM',
+    NINE_AM: '9:00 AM',
+    TWELVE_PM: '12:00 PM',
+    THREE_PM: '3:00 PM',
+    SIX_PM: '6:00 PM',
+    NINE_PM: '9:00 PM'
+};
+
 
 interface Seat {
   id:number,
@@ -30,6 +51,11 @@ export default function ShowTime() {
   const [senior, setSenior] = useState<number>(0);
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
+  const showtimeId = searchParams.get('showtimeId') || 'Unknown showtimeId';
+  const showroomId = searchParams.get('showroomId') || 'Unknown showtimeId';
+  const [date, setDate] = useState<string>("");
+  const [time, setTime] = useState<string>("");
+
   useEffect(() => {
     setName(searchParams.get('name'))
     var temp = searchParams.get('adult')
@@ -38,6 +64,11 @@ export default function ShowTime() {
     temp != null ? setChild(parseInt(temp)) : setChild(0)
     temp = searchParams.get('senior')
     temp != null ? setSenior(parseInt(temp)) : setSenior(0)
+
+    temp = searchParams.get('date')
+    temp != null ? setDate(temp) : setDate("")
+    temp = searchParams.get('time')
+    temp != null ? setTime(temp) : setTime("")
   }, [searchParams])
 
   const [totalSeats, setTotalSeats] = useState<number>(-1);
@@ -77,7 +108,25 @@ export default function ShowTime() {
   const [lastFour, setlastFour] = useState<Seat[]>([])
 
   useEffect(() => {
-    setSeats(defaultSeats)
+    console.log(showtimeId)
+    fetch('http://localhost:8080/showtimes/showtime-seats/' + showtimeId, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch seats');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setSeats(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching seats:', error);
+      });
   }, [])
 
   useEffect(() => {
@@ -112,6 +161,10 @@ export default function ShowTime() {
             name: name || '',
             tickets: JSON.stringify(tickets),
             totalSeats: totalSeats.toString(),
+            date: date,
+            time: time,
+            showtimeId: showtimeId,
+            showroomId: showroomId  
           }).toString();
           router.push(`/order-summary?${query}`);
         }, 100);
@@ -162,7 +215,7 @@ export default function ShowTime() {
 
   return (
     <div className={styles.main_body}>
-      <h1 className={styles.title}> Select Seat </h1>
+      <h1 className={styles.title}> Select Seat for: {name} </h1>
       <div>
         <h2 className={styles.seat_num}> Current Seat Type: {seatType}, Seats Remaining: {totalSeats} </h2>
         <section className={styles.seat_box}>
@@ -172,7 +225,7 @@ export default function ShowTime() {
               {firstFourtyFive.length > 0 ? (
                 firstFourtyFive.map((seat: Seat, index: number) => (
                   <li key={seat.id}>
-                    <SeatCard seatNum={seat.seatNum} reserved={false} onClick={() => handleSeatChange(seat)}/>
+                    <SeatCard seatNum={seat.seatNum} reserved={seat.reserved} onClick={() => handleSeatChange(seat)}/>
                   </li>
                 ))
               ) : (
@@ -183,7 +236,7 @@ export default function ShowTime() {
               {secondSeven.length > 0 ? (
                 secondSeven.map((seat: Seat, index: number) => (
                   <li key={seat.id}>
-                    <SeatCard seatNum={seat.seatNum} reserved={false} onClick={() => handleSeatChange(seat)}/>
+                    <SeatCard seatNum={seat.seatNum} reserved={seat.reserved} onClick={() => handleSeatChange(seat)}/>
                   </li>
                 ))
               ) : (
@@ -194,7 +247,7 @@ export default function ShowTime() {
               {lastFour.length > 0 ? (
                 lastFour.map((seat: Seat, index: number) => (
                   <li key={seat.id}>
-                    <SeatCard seatNum={seat.seatNum} reserved={false} onClick={() => handleSeatChange(seat)}/>
+                    <SeatCard seatNum={seat.seatNum} reserved={seat.reserved} onClick={() => handleSeatChange(seat)}/>
                   </li>
                 ))
               ) : (

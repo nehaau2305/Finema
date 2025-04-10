@@ -2,8 +2,10 @@ package com.TermProject.finema.service;
 
 import com.TermProject.finema.entity.Showtime;
 import com.TermProject.finema.entity.Showroom;
+import com.TermProject.finema.entity.Seat;
 import com.TermProject.finema.entity.ConsecutiveTimes;
 import com.TermProject.finema.repository.ShowtimeRepository;
+import com.TermProject.finema.repository.SeatRepository;
 import com.TermProject.finema.repository.ShowroomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class ShowtimeService {
 
     @Autowired
     private ShowroomRepository showroomRepository;
+
+    @Autowired
+    private SeatRepository seatRepository;
 
     // default showtimes for current date & tomorrow
     @PostConstruct
@@ -47,6 +52,14 @@ public class ShowtimeService {
                 showtime.setDate(date);
                 showtime.setTime(time);
                 showtimeRepository.save(showtime);
+                // for (int i = 0; i < 55; i++) {
+                //     Seat newSeat = new Seat();
+                //     newSeat.setSeatNum(i);
+                //     newSeat.setReserved(false);
+                //     newSeat.setShowtimeID(showtime.getId());
+                //     newSeat.setShowtime(showtime);
+                //     seatRepository.save(newSeat);
+                // }
                 addedShowtimes.add(showtime);
             }
         }
@@ -61,6 +74,18 @@ public class ShowtimeService {
     //showtime by movie id and date
     public List<Showtime> getUpcomingShowtimesByMovieId(int movieId, LocalDate date) {
         return showtimeRepository.findByMovieIdAndDateGreaterThanEqual(movieId, date);
+    }
+    public List<Seat> getSeatByShowroomId(int showtimeID) {
+        return seatRepository.findByShowtimeId(showtimeID);
+    }
+    public void reserveSeatsForShowtime(int showtimeId, Seat[] seats) {
+        Showtime showtime = showtimeRepository.findById(showtimeId).get();
+        for (Seat seat : seats) {
+            System.out.println("Current Seat Id");
+            System.out.println(seat.getId());
+            seat.setShowtime(showtime);
+            seatRepository.save(seat);
+        };
     }
 
     // to return only the showrooms available for each time for the provided date
@@ -98,7 +123,16 @@ public class ShowtimeService {
     public Showtime scheduleMovie(Showtime showtime) {
         showtime.setMovieId(showtime.getMovie().getId());
         showtime.setShowroomId(showtime.getShowroom().getId());
-        return showtimeRepository.save(showtime);
+        Showtime ret = showtimeRepository.save(showtime);
+        for (int i = 0; i < 55; i++) {
+            Seat newSeat = new Seat();
+            newSeat.setSeatNum(i);
+            newSeat.setReserved(false);
+            newSeat.setShowtimeID(showtime.getId());
+            newSeat.setShowtime(showtime);
+            seatRepository.save(newSeat);
+        }
+        return ret;
     }
 
 }

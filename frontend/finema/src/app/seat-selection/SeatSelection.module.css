@@ -16,7 +16,8 @@
     font-size: xx-large;
     font-weight: bold;
     font-family: var(--font-inter);
-
+    width: 233px;
+    text-wrap: wrap;
 }
 
 .seat_box {

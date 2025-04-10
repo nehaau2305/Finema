@@ -7,6 +7,27 @@ import { useToken } from '../components/useToken';
 import TicketStub from '../components/TicketStub';
 import PayCard from '../components/PayCard';
 
+type ConsecutiveTimes =
+  | 'TWELVE_AM'
+  | 'THREE_AM'
+  | 'SIX_AM'
+  | 'NINE_AM'
+  | 'TWELVE_PM'
+  | 'THREE_PM'
+  | 'SIX_PM'
+  | 'NINE_PM';
+
+const timeLabels: { [key in ConsecutiveTimes]: string } = {
+    TWELVE_AM: '12:00 AM',
+    THREE_AM: '3:00 AM',
+    SIX_AM: '6:00 AM',
+    NINE_AM: '9:00 AM',
+    TWELVE_PM: '12:00 PM',
+    THREE_PM: '3:00 PM',
+    SIX_PM: '6:00 PM',
+    NINE_PM: '9:00 PM'
+};
+
 interface Card {
   cardID: number;
   cardNumber: string;
@@ -14,6 +35,13 @@ interface Card {
   expirationDate: string;
   cvv: string;
   billingAddress: string;
+}
+
+interface Seat {
+  id:number,
+  showroomId:number,
+  seatNum:number,
+  reserved:boolean
 }
 
 interface Ticket {
@@ -29,7 +57,11 @@ export default function OrderSummary() {
 
   // Retrieve data from query parameters
   const movieTitle = searchParams.get('name') || 'Unknown Movie';
-  const showTime = searchParams.get('showTime') || 'Unknown Showtime';
+  const date = searchParams.get('date') || 'Unknown Date';
+  const time = searchParams.get('time') || 'Unknown Time';
+  const showtimeId = searchParams.get('showtimeId') || 'Unknown showtimeId';
+  const showroomId = searchParams.get('showroomId') || 'Unknown showtimeId';
+
   const total = searchParams.get('total') || '0.00';
   const tickets = JSON.parse(searchParams.get('tickets') || '[]');
 
@@ -105,6 +137,37 @@ export default function OrderSummary() {
     }));
   };
 
+  const reserveSeats = () => {
+    const seats = [];
+    let temp;
+    for (let i = 0; i < tickets.length ; i++) {
+      temp = {
+        id:tickets[i].seatID,
+        showtimeId:showtimeId,
+        seatNum:tickets[i].seatNum,
+        reserved:true
+      }
+      seats.push(temp)
+    }
+    fetch('http://localhost:8080/showtimes/reserve-seats/' + showtimeId, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(seats)
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to reserve seats');
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching cards:', error);
+        setIsLoading(false);
+      });
+  }
+
   const handlePayment = (card: {
     cardNumber: string;
     cardholderName: string;
@@ -112,6 +175,7 @@ export default function OrderSummary() {
     cvv: string;
     billingAddress: string;
   }) => {
+    reserveSeats()
     router.push('/order-confirmation');
   };
 
@@ -163,7 +227,7 @@ export default function OrderSummary() {
           <h1> Order Summary </h1>
           <ul>
             <li> Movie Name: {movieTitle} </li>
-            <li> Showtime: {showTime} </li>
+            <li> Showtime: {date + " " + timeLabels[time as ConsecutiveTimes]} </li>
           </ul>
         </section>
         <section className={styles.ticket_area}>
