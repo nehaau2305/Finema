@@ -6,17 +6,16 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 
 interface Ticket {
-  id: number,
   seatID:number,
   seatNum:number,
   type:string
 }
 
-export default function OrderSummary({ticket, changeTicketType, deleteTicket} : {ticket:Ticket, changeTicketType:({ticket, type} : any)=>void, deleteTicket:(ticket : Ticket)=>void}) {
+export default function OrderSummary({ticket, changeTicketType, deleteTicket} : {ticket:Ticket, changeTicketType:({ticket, type} : {ticket:Ticket, type:string})=>void, deleteTicket:(ticket : Ticket)=>void}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [ticketType, setTicketType] = useState(ticket.type)
-
+  console.log(ticket)
 
   function goSeat() {
     router.push(
@@ -27,9 +26,7 @@ export default function OrderSummary({ticket, changeTicketType, deleteTicket} : 
   const [showSelf, setShowSelf] = useState(true)
 
   function handleDeleteTicket() {
-    console.log("Inside ticket " + ticket.seatID)
     deleteTicket(ticket)
-    setShowSelf(false)
   }
 
   const [isOpened, setIsOpened] = useState(false);
@@ -49,7 +46,7 @@ export default function OrderSummary({ticket, changeTicketType, deleteTicket} : 
 
   const handleChange = () => {
     setTicketType(changeToTicketType)
-    changeTicketType({ticket, changeToTicketType})
+    changeTicketType({ticket:ticket, type:changeToTicketType})
   }
 
 
@@ -64,9 +61,9 @@ export default function OrderSummary({ticket, changeTicketType, deleteTicket} : 
             </section>
             <h1 className={styles.headers}> Change Type </h1>
             <select defaultValue={ticketType} onChange={e => setChangeToTicketType(e.target.value)}>
-              <option value="child">child</option>
-              <option value="adult">adult</option>
-              <option value="senior">senior</option>
+              <option value='child'>child</option>
+              <option value='adult'>adult</option>
+              <option value='senior'>senior</option>
             </select>
             <Button onClick={handleChange}> Change </Button>
           </section>

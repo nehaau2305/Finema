@@ -35,6 +35,17 @@ const timeLabels: { [key in ConsecutiveTimes]: string } = {
     NINE_PM: '9:00 PM'
 };
 
+type TicketTypes = 
+| 'child'
+| 'adult'
+| 'senior'
+
+const typeLabels: { [key in TicketTypes] : number} = {
+child: 8.00,
+adult: 15.00,
+senior: 11.00,
+}
+
 export default function ShowTime() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -167,6 +178,7 @@ export default function ShowTime() {
                 onChange={handleTicketInput(setAdult)}
                 type="text"
               />
+              <h2 className={styles.price}> - {'$' + typeLabels['adult' as TicketTypes].toFixed(2)} per </h2>
             </div>
             <div>
               <h2> Child: </h2>
@@ -177,6 +189,7 @@ export default function ShowTime() {
                 onChange={handleTicketInput(setChild)}
                 type="text"
               />
+              <h2 className={styles.price}> - {'$' + typeLabels['child' as TicketTypes].toFixed(2)} per </h2>
             </div>
             <div>
               <h2> Senior: </h2>
@@ -187,6 +200,7 @@ export default function ShowTime() {
                 onChange={handleTicketInput(setSenior)}
                 type="text"
               />
+              <h2 className={styles.price}> - {'$' + typeLabels['senior' as TicketTypes].toFixed(2)} per </h2>
             </div>
           </section>
         </section>

@@ -149,14 +149,6 @@ export default function ShowTime() {
     setlastFour(seats.splice(0, 4));
   }, [seats])
 
-
-  function goToCheckout() {
-    router.push('/order-summary')
-  }
-  function goBack() {
-    router.push('/show-time')
-  }
-
   const createAndAddTicket = (seat:Seat, type:string) => {
     // This could optionally also send the tickets to the database one at a time, so the seats get reserved
     const newTicket = {

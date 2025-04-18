@@ -18,15 +18,26 @@ type ConsecutiveTimes =
   | 'NINE_PM';
 
 const timeLabels: { [key in ConsecutiveTimes]: string } = {
-    TWELVE_AM: '12:00 AM',
-    THREE_AM: '3:00 AM',
-    SIX_AM: '6:00 AM',
-    NINE_AM: '9:00 AM',
-    TWELVE_PM: '12:00 PM',
-    THREE_PM: '3:00 PM',
-    SIX_PM: '6:00 PM',
-    NINE_PM: '9:00 PM'
+  TWELVE_AM: '12:00 AM',
+  THREE_AM: '3:00 AM',
+  SIX_AM: '6:00 AM',
+  NINE_AM: '9:00 AM',
+  TWELVE_PM: '12:00 PM',
+  THREE_PM: '3:00 PM',
+  SIX_PM: '6:00 PM',
+  NINE_PM: '9:00 PM'
 };
+
+type TicketTypes = 
+  | 'child'
+  | 'adult'
+  | 'senior'
+
+const typeLabels: { [key in TicketTypes] : number} = {
+  child: 8.00,
+  adult: 15.00,
+  senior: 11.00,
+}
 
 interface Card {
   cardID: number;
@@ -45,7 +56,6 @@ interface Seat {
 }
 
 interface Ticket {
-  id: number;
   seatID: number;
   seatNum: number;
   type: string;
@@ -62,8 +72,8 @@ export default function OrderSummary() {
   const showtimeId = searchParams.get('showtimeId') || 'Unknown showtimeId';
   const showroomId = searchParams.get('showroomId') || 'Unknown showtimeId';
 
-  const total = searchParams.get('total') || '0.00';
-  const tickets = JSON.parse(searchParams.get('tickets') || '[]');
+  const searchParamTickets = JSON.parse(searchParams.get('tickets') || "[]");
+  const [tickets, setTickets] = useState(searchParamTickets)
 
   const [token, setToken] = useToken('token');
   if (token === '') {
@@ -140,6 +150,12 @@ export default function OrderSummary() {
     }));
   };
 
+  const [costTotal, setCostTotal] = useState(0)
+  const [savings, setSavings] = useState(0)
+  const [fees, setFees] = useState(0)
+  const [taxes, setTaxes] = useState(0)
+  const [totalAfterAddOns, setTotalAfterAddOns] = useState(0)
+
   const reserveSeats = () => {
     const seats = [];
     let temp;
@@ -192,56 +208,61 @@ export default function OrderSummary() {
     });
   };
 
-  const changeType = ({ticket, type} : any) => {
+  const changeType = ({ticket, type} : {ticket:Ticket, type:string}) => {
+    let newTickets = []
     for (let i = 0 ; i < tickets.length ; i++) {
       if (tickets[i].seatID == ticket.seatID) {
-        tickets[i].type = type
-        i += tickets.length
+        newTickets.push(
+          {
+            seatID: ticket.seatID,
+            seatNum: ticket.seatNum,
+            type: type
+          }
+        )
+      } else {
+        newTickets.push(tickets[i])
       }
     }
+    setTickets(newTickets)
   }
 
   const removeTicket = (ticket :Ticket) => {
-    console.log("outside ticket")
+    const tempTickets = []
     for (let i = 0; i < tickets.length ; i++) {
-      console.log(tickets[i].seatID)
-      if (tickets[i].seatID == ticket.seatID) {
-        console.log("tickets[i].seatID")
-        tickets.splice(i, 1)
-        console.log(tickets)
-        i += tickets.length + 3
+      if (tickets[i].seatID != ticket.seatID) {
+        tempTickets.push(tickets[i])
       }
     }
+    setTickets(tempTickets)
   }
 
-  // const ticketList = (
-  //   tickets.map((ticket: Ticket) => (
-  //     <li key={ticket.id}>
-  //       <TicketStub ticket={ticket} changeTicketType={changeType} deleteTicket={removeTicket} />
-  //     </li>
-  //   ))
-  // )
-  let ticketListDisplay = tickets.length > 0 ? (
-    tickets.map((ticket: Ticket) => (
-      <li key={ticket.id}>
-        <TicketStub ticket={ticket} changeTicketType={changeType} deleteTicket={removeTicket} />
-      </li>
-    ))
-  ) : (
-    <p>No Tickets found</p>
-  )
+  const [promotionCode, setPromotionCode] = useState('')
+
+  const addPromotion = () => {
+    /**
+     * Send code to backend to verify promotion
+     * Send back the discount for each ticket type
+     */
+    console.log(promotionCode)
+  }
 
   useEffect(() => {
-    ticketListDisplay = tickets.length > 0 ? (
-      tickets.map((ticket: Ticket) => (
-        <li key={ticket.id}>
-          <TicketStub ticket={ticket} changeTicketType={changeType} deleteTicket={removeTicket} />
-        </li>
-      ))
-    ) : (
-      <p>No Tickets found</p>
-    )
-  }, [tickets])
+    let tempTotal = 0
+    let tempSavings = 0
+    for (let i = 0; i < tickets.length ; i++) {
+      tempTotal += typeLabels[tickets[i].type as TicketTypes]
+      /**
+       * Add promotion stuff here
+       * Have it add up the savings it applies
+       */
+    }
+    setCostTotal(tempTotal)
+    setSavings(tempSavings)
+    setFees(0)
+    setTaxes(tempTotal * .04) // As far as I can tell it would be a 4% tax, I think depending on physical location of theater this may change
+    setTotalAfterAddOns(tempTotal - tempSavings + fees + tempTotal * .04)
+
+  }, [tickets/*, promotions*/])
 
   return (
     <section className={styles.main_body}>
@@ -287,7 +308,15 @@ export default function OrderSummary() {
         <section className={styles.ticket_area}>
           <h1> Tickets: </h1>
           <ul className={styles.list}>
-            {ticketListDisplay}
+            {tickets.length > 0 ? (
+              tickets.map((ticket: Ticket) => (
+                <li key={ticket.seatID}>
+                  <TicketStub ticket={ticket} changeTicketType={changeType} deleteTicket={removeTicket} />
+                </li>
+              ))
+            ) : (
+              <p>No Tickets found</p>
+            )}
           </ul>
         </section>
         <section className={styles.button_area}>
@@ -300,14 +329,31 @@ export default function OrderSummary() {
         </section>
       </section>
       <section className={styles.checkout}>
-        <div className={styles.saved_card}>
-          <h2> Order Total: {total} </h2>
-          <div className={styles.button}>
-            <Button onClick={loadCards}> Use Saved Card </Button>
-          </div>
+        <h2 id={styles.payment_title}> Order Total </h2>
+        <div className={styles.reciept}>
+          <h2> Ticket Price: {'$' + costTotal.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} </h2>
+          <h2> Savings: {'$' + savings.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} </h2>
+          <h2> Fees: {'$' + fees.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} </h2>
+          <h2> Taxes: {'$' + taxes.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} </h2>
+          <h2> Total: {'$' + totalAfterAddOns.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} </h2> 
+          {/** Significantly over complicated this (copied from online), I hope they dont spend more than 999 dollars but if they do it will display correctly lol */}
         </div>
+        <section className={styles.promotions}>
+          <div id={styles.promotion_code}>
+            <h2>Enter Promotion Code</h2>
+            <input
+              name="promotionCode"
+              value={promotionCode || ''}
+              onChange={e => setPromotionCode(e.target.value)}
+              className={styles.text_fields}
+            />
+          </div>
+          <div className={styles.button}>
+            <Button onClick={addPromotion}> Add Promotion </Button>
+          </div>
+        </section>
+        <h2 id={styles.payment_title}>Payment Information</h2>
         <section className={styles.payment}>
-          <h2>Payment Information</h2>
           <div className={styles.input_section}>
             <h1>Cardholder Name</h1>
             <input
@@ -354,9 +400,12 @@ export default function OrderSummary() {
             />
           </div>
           <div className={styles.button}>
-            <Button onClick={() => handlePayment(cardData)}> Place Order </Button>
+            <Button onClick={loadCards}> Use Saved Card </Button>
           </div>
         </section>
+        <div id={styles.saved_card}>
+            <Button onClick={() => handlePayment(cardData)}> Place Order </Button>
+        </div>
       </section>
     </section>
   );
