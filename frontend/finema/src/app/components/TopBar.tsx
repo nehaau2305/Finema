@@ -6,7 +6,7 @@ import styles from './TopBar.module.css';
 import Image from 'next/image';
 import finemalogo from './finemalogo.png';
 
-const TopBar = ({ loggedIn = false, showEditProfile = true, isAdmin = false }: any) => {
+const TopBar = ({ loggedIn = false, showEditProfile = true, isAdmin = false, showOrderHistory = true}: any) => {
   const router = useRouter();
   const [token, setToken] = useToken('token');
 
@@ -45,6 +45,10 @@ const TopBar = ({ loggedIn = false, showEditProfile = true, isAdmin = false }: a
     router.push('/admin-home');
   }
 
+  function goToOrderHistory() {
+    router.push('/order-history');
+  }
+
   const loggedInUser = (
     <div className={styles.webUserTopBar}>
       <button onClick={goToLoggedInHome}>
@@ -67,6 +71,13 @@ const TopBar = ({ loggedIn = false, showEditProfile = true, isAdmin = false }: a
         <div>
           {showEditProfile ? (
             <Button onClick={goToEditProfile}>Edit Profile</Button>
+          ) : (
+            <></>
+          )}
+        </div>
+        <div>
+          {showOrderHistory ? (
+            <Button onClick={goToOrderHistory}>Order History</Button>
           ) : (
             <></>
           )}
