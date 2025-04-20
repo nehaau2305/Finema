@@ -31,9 +31,9 @@ public class ShowtimeController {
     }
 
     // Get showtimes for a specific date
-    @GetMapping("/get-by-date")
-    public ResponseEntity<List<Showtime>> getShowtimes(@RequestBody LocalDate date) {
-        System.out.println("getShowtimes in ShowtimeController entered");
+        @GetMapping("/get-by-date")
+    public ResponseEntity<List<Showtime>> getShowtimes(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        System.out.println("getShowtimes in ShowtimeController entered with date: " + date);
         List<Showtime> showtimes = showtimeService.getShowtimes(date);
         return ResponseEntity.ok(showtimes);
     }

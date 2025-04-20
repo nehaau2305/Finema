@@ -125,3 +125,66 @@
     color: black; /* Change font color to black */
     margin-top: 20px;
 }
+
+/*date styling*/
+input[type="date"].date_input {
+  color: black; /* Set text color to black */
+  background-color: white; /* Ensure the background is white */
+  border: 1px solid #ccc; /* Optional: Add a border for better visibility */
+  padding: 8px; /* Optional: Add padding for better usability */
+  font-size: 16px; /* Optional: Adjust font size */
+  border-radius: 4px; /* Optional: Add rounded corners */
+}
+
+.active_filters {
+  margin-top: 20px;
+  color: black;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.active_filters h2 {
+  margin-bottom: 10px;
+  color: black;
+}
+
+.active_filters p {
+  margin: 5px 0;
+  color: black;
+}
+
+.active_filters button {
+  margin-top: 10px;
+}
+
+.content_container {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .grid_container {
+    flex: 2;
+  }
+  
+  .show_times {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f9f9f9; /* Optional: Light background for better visibility */
+    border: 1px solid #ccc; /* Optional: Add a border for better separation */
+    border-radius: 4px; /* Optional: Rounded corners */
+  }
+  
+  .show_times h2 {
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black; /* Set the font color to black */
+  }
+  
+  .show_times p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: black; /* Set the font color to black */
+  }
