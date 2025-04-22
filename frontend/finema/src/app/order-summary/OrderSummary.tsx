@@ -40,7 +40,7 @@ const typeLabels: { [key in TicketTypes] : number} = {
 }
 
 interface Card {
-  cardID: number;
+  cardID?: number;
   cardNumber: string;
   cardholderName: string;
   expirationDate: string;
@@ -48,11 +48,11 @@ interface Card {
   billingAddress: string;
 }
 
-interface Seat {
-  id:number,
-  showroomId:number,
-  seatNum:number,
-  reserved:boolean
+interface Order {
+  numSeats:number;
+  totalPrice:number;
+  tickets: Ticket[];
+  card: Card;
 }
 
 interface Ticket {
@@ -194,8 +194,27 @@ export default function OrderSummary() {
     cvv: string;
     billingAddress: string;
   }) => {
-    reserveSeats()
-    router.push('/order-confirmation');
+    const order:Order = {
+      tickets: tickets,
+      numSeats: tickets.length,
+      totalPrice: totalAfterAddOns,
+      card: card
+    }
+    fetch('http://localhost:8080/order/add/', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(order)
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data)
+      router.push('/order-confirmation');
+    })
+    .catch((error) => console.error(error))
+    //reserveSeats()
   };
 
   const selectCard = (card: Card) => {
