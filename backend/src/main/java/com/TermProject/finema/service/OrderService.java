@@ -2,8 +2,10 @@ package com.TermProject.finema.service;
 
 import com.TermProject.finema.entity.Order;
 import com.TermProject.finema.entity.Ticket;
+import com.TermProject.finema.entity.Seat;
 import com.TermProject.finema.repository.OrderRepository;
 import com.TermProject.finema.repository.TicketRepository;
+import com.TermProject.finema.repository.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
