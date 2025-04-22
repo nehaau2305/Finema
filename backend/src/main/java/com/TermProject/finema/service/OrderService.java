@@ -25,10 +25,16 @@ public class OrderService {
     @Autowired
     private TicketRepository ticketRepository;
 
+    @Autowired
+    private SeatRepository seatRepository;
+
     public Order addOrder (Order order) {
         if (order.getTickets() != null) {
             for (Ticket ticket : order.getTickets()) {
                 ticket.setOrder(order);
+                Seat seat = ticket.getSeat();
+                seat.setReserved(true);
+                seatRepository.save(seat);
             }
         }
         // having cascading in Order allows tickets to be saved automatically when saving order

@@ -26,6 +26,14 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Ticket> tickets;
 
+    @ManyToOne
+    @JoinColumn(name = "promo")
+    private Promotion promo;
+
+    @ManyToOne
+    @JoinColumn(name = "card", nullable = false)
+    private Card card;
+
     public Order() {}
 
     public int getId() {return id;}
@@ -38,4 +46,8 @@ public class Order {
     public void setTotalPrice(double totalPrice) {this.totalPrice = totalPrice;}
     public List<Ticket> getTickets() {return tickets;}
     public void setTickets(List<Ticket> tickets) {this.tickets = tickets;}
+    public Promotion getPromo() {return promo;}
+    public void setPromo(Promotion promo) {this.promo = promo;}
+    public Card getCard() {return card;}
+    public void setCard(Card card) {this.card = card;}
 }
