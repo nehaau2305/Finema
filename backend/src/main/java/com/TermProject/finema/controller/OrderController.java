@@ -1,0 +1,25 @@
+package com.TermProject.finema.controller;
+
+import com.TermProject.finema.entity.Order;
+import com.TermProject.finema.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/order")
+@CrossOrigin(origins = "http://localhost:3000")
+public class OrderController {
+
+    @Autowired
+    private OrderService orderService;
+
+    @PostMapping("/add")
+    public ResponseEntity<Order> addOrder(@RequestBody Order order) {
+        Order savedOrder = orderService.addOrder(order);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedOrder);
+    }
+
+
+}
