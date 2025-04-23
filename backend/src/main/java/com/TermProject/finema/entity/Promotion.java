@@ -21,6 +21,8 @@ public class Promotion {
     private LocalDate startDate;
     private LocalDate endDate;
 
+    private double discount;
+
     // Getters and Setters
     public Long getId() {
         return id;
@@ -77,4 +79,8 @@ public class Promotion {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
+    public double getDiscount() { return discount; }
+
+    public void setDiscount(double discount) { this.discount = discount; }
 }

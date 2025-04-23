@@ -21,5 +21,16 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedOrder);
     }
 
+    @PostMapping("/verify-promo")
+    public ResponseEntity<?> verifyPromo(@RequestBody String promoCode) {
+        // remove quotes from raw JSON string
+        String cleanCode = promoCode.replace("\"", "");
+        try {
+            double discount = orderService.verifyPromo(cleanCode);
+            return ResponseEntity.ok(discount);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 }
