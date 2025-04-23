@@ -200,7 +200,7 @@ export default function OrderSummary() {
       totalPrice: totalAfterAddOns,
       card: card
     }
-    fetch('http://localhost:8080/order/add/', {
+    fetch('http://localhost:8080/order/add', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,

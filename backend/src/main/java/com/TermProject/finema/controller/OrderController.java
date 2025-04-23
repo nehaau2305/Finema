@@ -16,8 +16,9 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/add")
-    public ResponseEntity<Order> addOrder(@RequestBody Order order) {
-        Order savedOrder = orderService.addOrder(order);
+    public ResponseEntity<Order> addOrder(@RequestBody Order order, @RequestHeader("Authorization") String authHeader) {
+        System.out.println("order cotnroller entered with token:  " + authHeader);
+        Order savedOrder = orderService.addOrder(order, authHeader);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedOrder);
     }
 

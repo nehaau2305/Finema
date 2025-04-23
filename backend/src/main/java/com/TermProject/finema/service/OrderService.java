@@ -4,6 +4,7 @@ import com.TermProject.finema.entity.Order;
 import com.TermProject.finema.entity.Ticket;
 import com.TermProject.finema.entity.Seat;
 import com.TermProject.finema.entity.Promotion;
+import com.TermProject.finema.entity.User;
 import com.TermProject.finema.repository.OrderRepository;
 import com.TermProject.finema.repository.TicketRepository;
 import com.TermProject.finema.repository.SeatRepository;
@@ -35,11 +36,19 @@ public class OrderService {
     @Autowired
     private PromotionRepository promoRepository;
 
-    public Order addOrder (Order order) {
+    @Autowired UserService userService;
+
+    public Order addOrder (Order order, String token) {
+        System.out.println("add Order entered with token:  " + token);
+        User user = userService.getUserFromToken(token)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid token or user not found"));
+        order.setUser(user);
         if (order.getTickets() != null) {
             for (Ticket ticket : order.getTickets()) {
+                System.out.println("addOrder ticket ID: " + ticket.getId());
                 ticket.setOrder(order);
                 Seat seat = ticket.getSeat();
+                System.out.println("addOrder seat ID: " + seat.getId());
                 seat.setReserved(true);
                 seatRepository.save(seat);
             }
