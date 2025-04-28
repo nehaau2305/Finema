@@ -82,4 +82,9 @@ public class OrderService {
         }
     }
 
+    public List<Order> getAllOrders (User user) {
+        System.out.println("orderService getAllOrders entered for: " + user.getEmail());
+        return orderRepository.findByUser(user);
+    }
+
 }
