@@ -34,4 +34,12 @@ public class OrderController {
         }
     }
 
+    @PostMapping("/cancel-order")
+    public ResponseEntity<Order> cancelOrder(@RequestBody Order order) {
+        System.out.println("order controller entered for cancel order");
+        Order cancelledOrder = orderService.cancelOrder(order);
+        return ResponseEntity.ok(cancelledOrder);
+    }
+
+
 }

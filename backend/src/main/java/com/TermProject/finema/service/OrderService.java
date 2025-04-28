@@ -5,6 +5,7 @@ import com.TermProject.finema.entity.Ticket;
 import com.TermProject.finema.entity.Seat;
 import com.TermProject.finema.entity.Promotion;
 import com.TermProject.finema.entity.User;
+import com.TermProject.finema.entity.Showtime;
 import com.TermProject.finema.repository.OrderRepository;
 import com.TermProject.finema.repository.TicketRepository;
 import com.TermProject.finema.repository.SeatRepository;
@@ -65,6 +66,20 @@ public class OrderService {
         if (now.isBefore(promo.getStartDate())) throw new IllegalArgumentException("Promo code is not active yet.");
         if (now.isAfter(promo.getEndDate())) throw new IllegalArgumentException("Promo code has expired.");
         return promo.getDiscount();
+    }
+
+    public Order cancelOrder (Order order) {
+        System.out.println("cancel Order entered");
+        Showtime showtime = order.getTickets().get(0).getShowtime();
+        LocalDate now = LocalDate.now();
+        if (now.isBefore(showtime.getDate())) {
+            orderRepository.deleteById(order.getId());
+            return order;
+        } else if (now.isEqual(showtime.getDate())) {
+            throw new IllegalArgumentException("Can not cancel an order to a movie playing on the current date.");
+        } else {
+            throw new IllegalArgumentException("This movie's showtime has already passed.");
+        }
     }
 
 }
