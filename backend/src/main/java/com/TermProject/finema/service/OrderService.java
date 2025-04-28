@@ -37,7 +37,11 @@ public class OrderService {
     @Autowired
     private PromotionRepository promoRepository;
 
-    @Autowired UserService userService;
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    private MailService mailService;
 
     public Order addOrder (Order order, String token) {
         System.out.println("add Order entered with token:  " + token);
@@ -55,6 +59,7 @@ public class OrderService {
             }
         }
         // having cascading in Order allows tickets to be saved automatically when saving order
+        mailService.sendOrderConfirmation(order);
         return orderRepository.save(order);
     }
 

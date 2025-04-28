@@ -1,6 +1,8 @@
 package com.TermProject.finema.service;
 
 import com.TermProject.finema.entity.User;
+import com.TermProject.finema.entity.Order;
+import com.TermProject.finema.entity.Showtime;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -16,6 +18,9 @@ public class MailService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     public boolean sendRegistrationEmail(String toEmail, String userName, String code) {
         try {
@@ -121,6 +126,29 @@ public class MailService {
             return "promotion email sent";
         } catch (Exception e) {
             return "rrror sending promotion email: " + e.getMessage();
+        }
+    }
+
+    public String sendOrderConfirmation(Order order) {
+        Showtime showtime = order.getTickets().get(0).getShowtime();
+        try {
+            String cardNum = userService.decrypt(order.getCard().getCardNumber());
+            String subject = "Finema Movie Order Confirmation for " + showtime.getMovie().getTitle();
+            String message = "Hi " + order.getUser().getName() + ",\n\n" +
+                    "You have " + order.getNumSeats() + " tickets to " + showtime.getMovie().getTitle() + " on " + showtime.getDate() + " at " + showtime.getTime() + "\n\n" +
+                    "Your order total was $" + order.getTotalPrice() + " and was charged to the card ending in " + cardNum.substring(cardNum.length() - 4) + "\n\n" +
+                    "Best Regards,\nFinema Team";
+
+            SimpleMailMessage email = new SimpleMailMessage();
+            email.setTo(order.getUser().getEmail());
+            email.setSubject(subject);
+            email.setText(message);
+            email.setFrom("finemateam@gmail.com");
+
+            mailSender.send(email);
+            return "order confirmation email sent";
+        } catch (Exception e) {
+            return e.getMessage();
         }
     }
 
