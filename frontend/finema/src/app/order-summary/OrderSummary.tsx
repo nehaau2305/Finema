@@ -84,7 +84,17 @@ export default function OrderSummary() {
   const movieId = searchParams.get('movieId') || 'Unknown movieId';
 
   const searchParamTickets = JSON.parse(searchParams.get('tickets') || "[]");
-  const [tickets, setTickets] = useState(searchParamTickets)
+  const tempTickets = []
+  for (let i = 0; i < searchParamTickets.length; i++) {
+    const tempTicket:Ticket = {
+      seatID: searchParamTickets[i].seatID,
+      seat: searchParamTickets[i].seat,
+      ticketAge: searchParamTickets[i].ticketAge
+    }
+    tempTickets.push(tempTicket)
+  }
+  const [tickets, setTickets] = useState<Ticket[]>(tempTickets)
+
   console.log(tickets)
 
   const [token, setToken] = useToken('token');
@@ -194,7 +204,15 @@ export default function OrderSummary() {
     .then((response) => response.json())
     .then((data) => {
       console.log(data)
-      router.push('/order-confirmation');
+      const query = new URLSearchParams({
+        movieTitle: movieTitle || '',
+        tickets: JSON.stringify(tickets),
+        date: date,
+        time: time,
+        movieId: movieId,
+        total: totalAfterAddOns.toString()
+      }).toString();
+      router.push(`/order-confirmation?${query}`);
     })
     .catch((error) => console.error(error))
     //reserveSeats()
@@ -218,7 +236,7 @@ export default function OrderSummary() {
           {
             seatID: ticket.seatID,
             seat: ticket.seat,
-            type: ticketAge
+            ticketAge: ticketAge
           }
         )
       } else {
@@ -260,9 +278,9 @@ export default function OrderSummary() {
     }
     setCostTotal(tempTotal)
     setSavings(tempSavings)
-    setFees(0)
+    setFees(5)
     setTaxes(tempTotal * .04) // As far as I can tell it would be a 4% tax, I think depending on physical location of theater this may change
-    setTotalAfterAddOns(tempTotal - tempSavings + fees + tempTotal * .04)
+    setTotalAfterAddOns(tempTotal - tempSavings + 5 + tempTotal * .04)
 
   }, [tickets/*, promotions*/])
 
@@ -355,59 +373,69 @@ export default function OrderSummary() {
           </div>
         </section>
         <h2 id={styles.payment_title}>Payment Information</h2>
-        <section className={styles.payment}>
-          <div className={styles.input_section}>
-            <h1>Cardholder Name</h1>
-            <input
-              name="cardholderName"
-              value={cardData.cardholderName || ''}
-              onChange={handleCardChange}
-              className={styles.text_fields}
-            />
+        <form onSubmit={(e) => {
+          e.preventDefault()
+          handlePayment(cardData)
+        }}>
+          <section className={styles.payment}>
+            <div className={styles.input_section}>
+              <h1>Cardholder Name</h1>
+              <input
+                name="cardholderName"
+                value={cardData.cardholderName || ''}
+                onChange={handleCardChange}
+                className={styles.text_fields}
+                required
+              />
+            </div>
+            <div className={styles.input_section}>
+              <h1>Card Number</h1>
+              <input
+                name="cardNumber"
+                value={cardData.cardNumber || ''}
+                onChange={handleCardChange}
+                className={styles.text_fields}
+                required
+              />
+            </div>
+            <div className={styles.input_section}>
+              <h1>Expiration Date</h1>
+              <input
+                name="expirationDate"
+                value={cardData.expirationDate || ''}
+                onChange={handleCardChange}
+                className={styles.text_fields}
+                required
+              />
+            </div>
+            <div className={styles.input_section}>
+              <h1> CVV </h1>
+              <input
+                name="cvv"
+                value={cardData.cvv || ''}
+                onChange={handleCardChange}
+                className={styles.text_fields}
+                required
+              />
+            </div>
+            <div className={styles.address_field}>
+              <h1>Billing Address</h1>
+              <input
+                name="billingAddress"
+                value={cardData.billingAddress || ''}
+                onChange={handleCardChange}
+                className={styles.text_fields}
+                required
+              />
+            </div>
+            <div className={styles.button}>
+              <Button onClick={loadCards}> Use Saved Card </Button>
+            </div>
+          </section>
+          <div id={styles.saved_card}>
+              <Button type='submit' > Place Order </Button>
           </div>
-          <div className={styles.input_section}>
-            <h1>Card Number</h1>
-            <input
-              name="cardNumber"
-              value={cardData.cardNumber || ''}
-              onChange={handleCardChange}
-              className={styles.text_fields}
-            />
-          </div>
-          <div className={styles.input_section}>
-            <h1>Expiration Date</h1>
-            <input
-              name="expirationDate"
-              value={cardData.expirationDate || ''}
-              onChange={handleCardChange}
-              className={styles.text_fields}
-            />
-          </div>
-          <div className={styles.input_section}>
-            <h1> CVV </h1>
-            <input
-              name="cvv"
-              value={cardData.cvv || ''}
-              onChange={handleCardChange}
-              className={styles.text_fields}
-            />
-          </div>
-          <div className={styles.address_field}>
-            <h1>Billing Address</h1>
-            <input
-              name="billingAddress"
-              value={cardData.billingAddress || ''}
-              onChange={handleCardChange}
-              className={styles.text_fields}
-            />
-          </div>
-          <div className={styles.button}>
-            <Button onClick={loadCards}> Use Saved Card </Button>
-          </div>
-        </section>
-        <div id={styles.saved_card}>
-            <Button onClick={() => handlePayment(cardData)}> Place Order </Button>
-        </div>
+        </form>
       </section>
     </section>
   );

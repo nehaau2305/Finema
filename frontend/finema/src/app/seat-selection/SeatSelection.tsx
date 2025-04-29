@@ -155,7 +155,6 @@ export default function ShowTime() {
           const query = new URLSearchParams({
             name: name || '',
             tickets: JSON.stringify(tickets),
-            totalSeats: initialTotalSeats.toString(), // Total number of tickets selected
             date: date,
             time: time,
             showtimeId: showtimeId,

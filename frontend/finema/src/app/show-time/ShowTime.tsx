@@ -4,6 +4,7 @@ import styles from './ShowTime.module.css';
 import Button from '../components/Button';
 import ShowCard from '../components/ShowCard';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useToken } from '../components/useToken'
 import Link from 'next/link';
 
 interface ShowTime {
@@ -47,6 +48,12 @@ senior: 11.00,
 }
 
 export default function ShowTime() {
+  const [token, setToken] = useToken('token');
+  useEffect(()=> {
+    if (token == '') {
+      router.push('/web-user-home')
+    }
+  }, [])
   const router = useRouter();
   const searchParams = useSearchParams();
   const name = searchParams.get('name');
