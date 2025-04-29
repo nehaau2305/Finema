@@ -15,10 +15,6 @@ public class Ticket {
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "showtime", nullable = false) // Foreign key for Showtime
-    private Showtime showtime;
-
-    @ManyToOne
     @JoinColumn(name = "seat", nullable = false) // Foreign key for Seat
     private Seat seat;
 
@@ -31,8 +27,6 @@ public class Ticket {
     public void setId(int id) {this.id = id;}
     public Order getOrder() {return order;}
     public void setOrder(Order order) {this.order = order;}
-    public Showtime getShowtime() {return showtime;}
-    public void setShowtime(Showtime showtime) {this.showtime = showtime;}
     public Seat getSeat() {return seat;}
     public void setSeat(Seat seat) {this.seat = seat;}
     public TicketAge getTicketAge() {return ticketAge;}

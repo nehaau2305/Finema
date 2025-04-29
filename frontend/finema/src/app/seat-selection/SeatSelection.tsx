@@ -29,16 +29,16 @@ const timeLabels: { [key in ConsecutiveTimes]: string } = {
 
 
 interface Seat {
-  id:number,
-  showroomID:number,
-  seatNum:number,
-  reserved:boolean
+  id:number;
+  showtimeID:number;
+  seatNum:number;
+  reserved:boolean;
 }
 
 interface Ticket {
-  seatID:number,
-  seatNum:number,
-  type:string
+  seatID:number;
+  seat:Seat;
+  ticketAge:string;
 }
 
 
@@ -105,17 +105,6 @@ export default function ShowTime() {
     }
   }, [adult, child, senior])
 
-
-  var defaultSeats:Seat[] = []
-  for (let i = 0; i < 56; i++) {
-    const aSeat = {
-      id: i,
-      showroomID: 0,
-      seatNum: i,
-      reserved: false
-    }
-    defaultSeats.push(aSeat)
-  } 
   const [seats, setSeats] = useState<Seat[]>([])
   const [firstFourtyFive, setFirstFourtyFive] = useState<Seat[]>([])
   const [secondSeven, setSecondSeven] = useState<Seat[]>([])
@@ -149,12 +138,12 @@ export default function ShowTime() {
     setlastFour(seats.splice(0, 4));
   }, [seats])
 
-  const createAndAddTicket = (seat:Seat, type:string) => {
+  const createAndAddTicket = (seat:Seat, ticketAge:string) => {
     // This could optionally also send the tickets to the database one at a time, so the seats get reserved
     const newTicket = {
       seatID: seat.id,
-      seatNum: seat.seatNum,
-      type: type
+      seat: seat,
+      ticketAge: ticketAge
     }
     const newTickets = tickets;
     newTickets.push(newTicket)
@@ -186,7 +175,7 @@ export default function ShowTime() {
     } else {
       if (curSeatType == 0) {
         setAdult(adult - 1)
-        createAndAddTicket(seat, "adult")
+        createAndAddTicket(seat, "ADULT")
         if (adult - 1 == 0) {
           setCurSeatType(1);
           if ((senior == 0) && (child == 0)) {
@@ -195,7 +184,7 @@ export default function ShowTime() {
         }
       } else if (curSeatType == 1) {
         setChild(child - 1)
-        createAndAddTicket(seat, "child")
+        createAndAddTicket(seat, "CHILD")
         if (child - 1 == 0) {
           setCurSeatType(2);
           if (senior == 0) {
@@ -204,7 +193,7 @@ export default function ShowTime() {
         }
       } else {
         setSenior(senior - 1)
-        createAndAddTicket(seat, "senior")
+        createAndAddTicket(seat, "SENIOR")
         if (senior - 1 == 0) {
           endAndSend();
         }

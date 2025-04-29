@@ -29,14 +29,14 @@ const timeLabels: { [key in ConsecutiveTimes]: string } = {
 };
 
 type TicketTypes = 
-  | 'child'
-  | 'adult'
-  | 'senior'
+  | 'CHILD'
+  | 'ADULT'
+  | 'SENIOR'
 
 const typeLabels: { [key in TicketTypes] : number} = {
-  child: 8.00,
-  adult: 15.00,
-  senior: 11.00,
+  CHILD: 8.00,
+  ADULT: 15.00,
+  SENIOR: 11.00,
 }
 
 interface Card {
@@ -53,12 +53,21 @@ interface Order {
   totalPrice:number;
   tickets: Ticket[];
   card: Card;
+  movie: number;
+  showtimeID: number;
+}
+
+interface Seat {
+  id:number;
+  showtimeID:number;
+  seatNum:number;
+  reserved:boolean;
 }
 
 interface Ticket {
-  seatID: number;
-  seatNum: number;
-  type: string;
+  seatID:number;
+  seat:Seat;
+  ticketAge:string;
 }
 
 export default function OrderSummary() {
@@ -70,10 +79,13 @@ export default function OrderSummary() {
   const date = searchParams.get('date') || 'Unknown Date';
   const time = searchParams.get('time') || 'Unknown Time';
   const showtimeId = searchParams.get('showtimeId') || 'Unknown showtimeId';
-  const showroomId = searchParams.get('showroomId') || 'Unknown showtimeId';
+  const showroomId = searchParams.get('showroomId') || 'Unknown showroomId';
+
+  const movieId = searchParams.get('movieId') || 'Unknown movieId';
 
   const searchParamTickets = JSON.parse(searchParams.get('tickets') || "[]");
   const [tickets, setTickets] = useState(searchParamTickets)
+  console.log(tickets)
 
   const [token, setToken] = useToken('token');
   if (token === '') {
@@ -156,37 +168,6 @@ export default function OrderSummary() {
   const [taxes, setTaxes] = useState(0)
   const [totalAfterAddOns, setTotalAfterAddOns] = useState(0)
 
-  const reserveSeats = () => {
-    const seats = [];
-    let temp;
-    for (let i = 0; i < tickets.length ; i++) {
-      temp = {
-        id:tickets[i].seatID,
-        showtimeId:showtimeId,
-        seatNum:tickets[i].seatNum,
-        reserved:true
-      }
-      seats.push(temp)
-    }
-    fetch('http://localhost:8080/showtimes/reserve-seats/' + showtimeId, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(seats)
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to reserve seats');
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching cards:', error);
-        setIsLoading(false);
-      });
-  }
-
   const handlePayment = (card: {
     cardNumber: string;
     cardholderName: string;
@@ -198,7 +179,9 @@ export default function OrderSummary() {
       tickets: tickets,
       numSeats: tickets.length,
       totalPrice: totalAfterAddOns,
-      card: card
+      card: card,
+      movie: parseInt(movieId),
+      showtimeID: parseInt(showtimeId)
     }
     fetch('http://localhost:8080/order/add', {
       method: 'POST',
@@ -227,15 +210,15 @@ export default function OrderSummary() {
     });
   };
 
-  const changeType = ({ticket, type} : {ticket:Ticket, type:string}) => {
+  const changeAge = ({ticket, ticketAge} : {ticket:Ticket, ticketAge:string}) => {
     let newTickets = []
     for (let i = 0 ; i < tickets.length ; i++) {
       if (tickets[i].seatID == ticket.seatID) {
         newTickets.push(
           {
             seatID: ticket.seatID,
-            seatNum: ticket.seatNum,
-            type: type
+            seat: ticket.seat,
+            type: ticketAge
           }
         )
       } else {
@@ -269,7 +252,7 @@ export default function OrderSummary() {
     let tempTotal = 0
     let tempSavings = 0
     for (let i = 0; i < tickets.length ; i++) {
-      tempTotal += typeLabels[tickets[i].type as TicketTypes]
+      tempTotal += typeLabels[tickets[i].ticketAge as TicketTypes]
       /**
        * Add promotion stuff here
        * Have it add up the savings it applies
@@ -330,7 +313,7 @@ export default function OrderSummary() {
             {tickets.length > 0 ? (
               tickets.map((ticket: Ticket) => (
                 <li key={ticket.seatID}>
-                  <TicketStub ticket={ticket} changeTicketType={changeType} deleteTicket={removeTicket} />
+                  <TicketStub ticket={ticket} changeTicketAge={changeAge} deleteTicket={removeTicket} />
                 </li>
               ))
             ) : (

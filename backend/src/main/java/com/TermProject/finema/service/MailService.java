@@ -131,7 +131,7 @@ public class MailService {
     }
 
     public String sendOrderConfirmation(Order order) {
-        Showtime showtime = order.getTickets().get(0).getShowtime();
+        Showtime showtime = order.getShowtime();
         try {
             String cardNum = userService.decrypt(order.getCard().getCardNumber());
             String subject = "Finema Movie Order Confirmation for " + showtime.getMovie().getTitle();

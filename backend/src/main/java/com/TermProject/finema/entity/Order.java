@@ -14,8 +14,18 @@ public class Order {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "user", nullable = false) // Foreign key for Showtime
+    @JoinColumn(name = "user", nullable = false) // Foreign key for User
     private User user;
+
+    @Column(name = "showtimeID", nullable = false)
+    private int showtimeID;
+
+    @ManyToOne
+    @JoinColumn(name = "showtime", nullable = false) // Foreign key for Showtime
+    private Showtime showtime;
+
+    @Column(name = "movieId", nullable = false) // Foreign key for Movie
+    private int movieId;
 
     @Column(name = "num_seats", nullable = false)
     private int numSeats;
@@ -36,6 +46,12 @@ public class Order {
     public void setId(int id) {this.id = id;}
     public User getUser() {return user;}
     public void setUser(User user) {this.user = user;}
+    public int getMovieId() {return movieId;}
+    public void setMovieId(int movieId) {this.movieId = movieId;}
+    public int getShowtimeID() {return showtimeID;}
+    public void setShowtimeID(int showtimeID) {this.showtimeID = showtimeID;}
+    public Showtime getShowtime() {return showtime;}
+    public void setShowtime(Showtime showtime) {this.showtime = showtime;}
     public int getNumSeats() {return numSeats;}
     public void setNumSeats(int numSeats) {this.numSeats = numSeats;}
     public double getTotalPrice() {return totalPrice;}
