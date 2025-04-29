@@ -31,6 +31,9 @@ public class Movie {
     @Column(length = 5000)
     private String cast;
 
+    private double childTicketPrice;
+    private double adultTicketPrice;
+    private double seniorTicketPrice;
 
     // Getter and Setter methods
     public int getId() {
@@ -115,6 +118,18 @@ public class Movie {
 
     public String getCast() {return cast;}
 
-    public void setCast(String cast) {this.cast = cast;
-    }
+    public void setCast(String cast) {this.cast = cast;}
+
+    public double getChildTicketPrice() {return childTicketPrice;}
+
+    public void setChildTicketPrice(double childTicketPrice) {this.childTicketPrice = childTicketPrice;}
+
+    public double getAdultTicketPrice() {return adultTicketPrice;}
+
+    public void setAdultTicketPrice(double adultTicketPrice) {this.adultTicketPrice = adultTicketPrice;}
+
+    public double getSeniorTicketPrice() {return seniorTicketPrice;}
+
+    public void setSeniorTicketPrice(double seniorTicketPrice) {this.seniorTicketPrice = seniorTicketPrice;}
+
 }

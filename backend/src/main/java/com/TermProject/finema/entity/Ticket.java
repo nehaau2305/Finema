@@ -23,7 +23,7 @@ public class Ticket {
     private Seat seat;
 
     @Enumerated(EnumType.STRING)
-    private TicketType ticketType;
+    private TicketAge ticketAge;
 
     public Ticket() {}
 
@@ -35,7 +35,6 @@ public class Ticket {
     public void setShowtime(Showtime showtime) {this.showtime = showtime;}
     public Seat getSeat() {return seat;}
     public void setSeat(Seat seat) {this.seat = seat;}
-    public TicketType getTicketType() {return ticketType;}
-    public void setTicketType(TicketType ticketType) {this.ticketType = ticketType;}
-    public double getPrice() {return ticketType.getPrice();}
+    public TicketAge getTicketAge() {return ticketAge;}
+    public void setTicketType(TicketAge ticketAge) {this.ticketAge = ticketAge;}
 }

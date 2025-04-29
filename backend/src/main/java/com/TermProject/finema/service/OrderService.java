@@ -3,9 +3,11 @@ package com.TermProject.finema.service;
 import com.TermProject.finema.entity.Order;
 import com.TermProject.finema.entity.Ticket;
 import com.TermProject.finema.entity.Seat;
+import com.TermProject.finema.entity.Movie;
 import com.TermProject.finema.entity.Promotion;
 import com.TermProject.finema.entity.User;
 import com.TermProject.finema.entity.Showtime;
+import com.TermProject.finema.entity.TicketAge;
 import com.TermProject.finema.repository.OrderRepository;
 import com.TermProject.finema.repository.TicketRepository;
 import com.TermProject.finema.repository.SeatRepository;
@@ -48,18 +50,33 @@ public class OrderService {
         User user = userService.getUserFromToken(token)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid token or user not found"));
         order.setUser(user);
+        Movie movie = order.getTickets().get(0).getShowtime().getMovie();
+        double thePrice = 0;
         if (order.getTickets() != null) {
             for (Ticket ticket : order.getTickets()) {
                 System.out.println("addOrder ticket ID: " + ticket.getId());
                 ticket.setOrder(order);
+                TicketAge age = ticket.getTicketAge();
+                switch (age) {
+                    case CHILD:
+                        thePrice += movie.getChildTicketPrice();
+                        break;
+                    case ADULT:
+                        thePrice += movie.getAdultTicketPrice();
+                        break;
+                    case SENIOR:
+                        thePrice += movie.getSeniorTicketPrice();
+                        break;
+                }
                 Seat seat = ticket.getSeat();
                 System.out.println("addOrder seat ID: " + seat.getId());
                 seat.setReserved(true);
                 seatRepository.save(seat);
             }
         }
-        // having cascading in Order allows tickets to be saved automatically when saving order
+        order.setTotalPrice(thePrice);
         mailService.sendOrderConfirmation(order);
+        // having cascading in Order allows tickets to be saved automatically when saving order
         return orderRepository.save(order);
     }
 
