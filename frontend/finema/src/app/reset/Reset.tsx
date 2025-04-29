@@ -6,19 +6,20 @@ import styles from './Reset.module.css'
 import Image from 'next/image'
 import finemalogo from './finemalogo.png'
 
-async function sendNewPassword(password:string, email:string) {
-  fetch('http://localhost:8080/auth/newpassword', {
+async function sendNewPassword(password:string, token:string) {
+  fetch('http://localhost:8080/auth/password-change-after-forgot', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({password:password, email:email})
+    body: JSON.stringify({password:password, token:token})
   })
-  .then(response => {
+  .then(async response => {
     if (response.ok) {
       alert('Password updated successfully');
     } else {
-      alert('Error updating password');
+      const errorData = await response.text();
+      alert('Error updating password: ' + errorData);
     }
   })
   .catch(error => console.error('Error updating password:', error));
@@ -28,7 +29,7 @@ export default function Reset() {
   const router = useRouter();
   const [password1, setPassword1] = useState("");
   //const [email, setEmail] = useState("");
-  const [email, setEmail] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [password2, setPassword2] = useState("");
   const [msg, setMsg] = useState("");
 
@@ -36,9 +37,9 @@ export default function Reset() {
     e.preventDefault()
     if (password1 === password2) {
       const urlParams = new URLSearchParams(window.location.search);
-      const email = urlParams.get("email");
-      if (email != null) {
-        sendNewPassword(password1, email).then((result)=> {
+      const token = urlParams.get("token");
+      if (token != null) {
+        sendNewPassword(password1, token).then((result)=> {
           setMsg("Reset Successfull!")
           setTimeout(() => router.push("/login"), 1000)
         }).catch((error) => setMsg("Error Has occured: " + error))

@@ -31,7 +31,7 @@ const LoginPopup = ({
      })
      .then(response => {
        if (response.ok) {
-         setMsg('Password change successfully');
+         setMsg('Password change email sent successfully');
        } else {
          setMsg('Error sending email, email incorrect or error occured');
        }

@@ -51,7 +51,8 @@ public class UserController {
         if (email == null || email.isEmpty()) {return ResponseEntity.badRequest().body("Email is required");}
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent()) {
-            String response = mailService.sendResetPasswordEmail(user.get().getEmail(), user.get().getName());
+            String token = userService.sendForgotPasswordToken(user.get().getEmail());
+            String response = mailService.sendResetPasswordEmail(user.get().getEmail(), user.get().getName(), token);
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found");

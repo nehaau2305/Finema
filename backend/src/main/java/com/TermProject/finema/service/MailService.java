@@ -44,9 +44,10 @@ public class MailService {
         }
     } // sendConfirmationEmail
 
-    public String sendResetPasswordEmail(String toEmail, String userName) {
+    //for forgot password
+    public String sendResetPasswordEmail(String toEmail, String userName, String token) {
         try {
-            String resetLink = "http://localhost:3000/reset?email=" + toEmail;
+            String resetLink = "http://localhost:3000/reset?token=" + token;
 
             String subject = "Finema Account: Reset Password";
             String message = "Hi " + userName + ",\n\n" +

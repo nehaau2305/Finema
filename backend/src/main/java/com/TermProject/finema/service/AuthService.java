@@ -1,12 +1,15 @@
 package com.TermProject.finema.service;
 
 import com.TermProject.finema.entity.User;
+import com.TermProject.finema.entity.ForgotPasswordToken;
 import com.TermProject.finema.jwt.JwtTokenProvider;
 import com.TermProject.finema.repository.UserRepository;
+import com.TermProject.finema.repository.ForgotPassTokenRepository;
 import com.TermProject.finema.service.MailService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.time.LocalDateTime;
 
 @Service
 public class AuthService {
@@ -15,6 +18,8 @@ public class AuthService {
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private MailService mailService;
+    @Autowired
+    private ForgotPassTokenRepository forgotPassTokenRepository;
 
     @Autowired
     public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
@@ -55,6 +60,25 @@ public class AuthService {
         User newUser = userRepository.save(user);
         System.out.println("4");
         mailService.sendPasswordResetConfirmationEmail(newUser.getEmail(), newUser.getName());
+        return newUser;
+    }
+
+    public boolean validateForgotPasswordToken(String token) {
+        return forgotPassTokenRepository.findByToken(token)
+                .filter(t -> t.getExpirationTime().isAfter(LocalDateTime.now()))
+                .isPresent();
+    }
+
+    public User changeAfterForgotPassword(String token, String newPassword) {
+        ForgotPasswordToken fpToken = forgotPassTokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Token invalid"));
+        User user = fpToken.getUser();
+        if (!validateForgotPasswordToken(token)) {
+            throw new RuntimeException("Token expired.");
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        User newUser = userRepository.save(user);
+        mailService.sendPasswordResetConfirmationEmail(newUser.getEmail(), newUser.getName());
+        forgotPassTokenRepository.delete(fpToken);
         return newUser;
     }
 }
