@@ -25,3 +25,49 @@
     border-radius: 10px;
     margin: 50px;
 }
+
+.user_list {
+    margin-bottom: 20px;
+}
+  
+.user_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.user_table th,
+.user_table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.user_table th {
+    background-color: #346bbe;
+}
+
+.user_table tr:nth-child(even) {
+    background-color: #e56d11;
+}
+
+.user_table tr:hover {
+    background-color: #896565;
+}
+
+.email_input {
+    width: 100%; /* Full width */
+    padding: 10px; /* Add padding for better usability */
+    margin-bottom: 10px; /* Add spacing below the input */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px; /* Rounded corners */
+    background-color: white; /* White background */
+    color: black; /* Black text */
+    font-size: 16px; /* Adjust font size */
+  }
+  
+  .email_input:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: #007bff; /* Highlight border on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a subtle shadow on focus */
+  }

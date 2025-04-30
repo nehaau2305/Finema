@@ -170,4 +170,34 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+        @PostMapping("/suspend")
+    public ResponseEntity<User> suspendUser(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        User user = userService.suspendUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+    
+    @PostMapping("/unsuspend")
+    public ResponseEntity<User> unsuspendUser(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        User user = userService.unsuspendUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+    
+    @PostMapping("/makeAdmin")
+    public ResponseEntity<User> makeAdmin(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        User user = userService.makeAdminByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+    
+    @PostMapping("/removeAdmin")
+    public ResponseEntity<User> removeAdmin(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        User user = userService.removeAdminByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+
+
 }
