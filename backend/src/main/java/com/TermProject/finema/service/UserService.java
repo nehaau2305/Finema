@@ -48,6 +48,10 @@ public class UserService implements UserDetailsService {
     Cipher cipher = null;
 
 
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username)
