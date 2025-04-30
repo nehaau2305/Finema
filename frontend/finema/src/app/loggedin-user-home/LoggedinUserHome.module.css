@@ -5,6 +5,7 @@
 
 .movies_body {
     width: 82.2%;
+    min-width: 804px;
     display: flex;
     justify-content: space-around;
     background-color: #A2D8FA;

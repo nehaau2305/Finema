@@ -1,7 +1,7 @@
 .main_body {
     display: flex;
     justify-content: space-between;
-    min-width: 500px;
+    min-width: 600px;
     max-height: 50px;
     text-wrap: nowrap;
 }

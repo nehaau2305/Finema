@@ -54,11 +54,10 @@
 .movie_card {
     text-align: center;
     background-color: #1449FF;
-    margin: auto;
     padding: 10px;
+    max-height: 270px;
     border-radius: 10px;
     margin: 5px;
-    max-height: 180px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -83,6 +82,7 @@
 
 .movie_banner {
     width: 140px;
+    max-height: 190px;
     margin-right: auto;
     margin-left: auto;
     margin-top: 2px;

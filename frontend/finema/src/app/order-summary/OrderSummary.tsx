@@ -95,8 +95,6 @@ export default function OrderSummary() {
   }
   const [tickets, setTickets] = useState<Ticket[]>(tempTickets)
 
-  console.log(tickets)
-
   const [token, setToken] = useToken('token');
   if (token === '') {
     router.push('/login'); // Redirect to login if token is missing
@@ -203,7 +201,6 @@ export default function OrderSummary() {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data)
       const query = new URLSearchParams({
         movieTitle: movieTitle || '',
         tickets: JSON.stringify(tickets),
@@ -257,32 +254,37 @@ export default function OrderSummary() {
   }
 
   const [promotionCode, setPromotionCode] = useState('')
+  const [discount, setDiscount] = useState(0)
 
   const addPromotion = () => {
-    /**
-     * Send code to backend to verify promotion
-     * Send back the discount for each ticket type
-     */
-    console.log(promotionCode)
+    fetch('http://localhost:8080/order/verify-promo', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(promotionCode)
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setDiscount(data)
+      console.log(data)
+    })
+    .catch((error) => console.error(error))
   }
 
   useEffect(() => {
     let tempTotal = 0
-    let tempSavings = 0
     for (let i = 0; i < tickets.length ; i++) {
       tempTotal += typeLabels[tickets[i].ticketAge as TicketTypes]
-      /**
-       * Add promotion stuff here
-       * Have it add up the savings it applies
-       */
     }
     setCostTotal(tempTotal)
-    setSavings(tempSavings)
+    setSavings(tempTotal * discount)
     setFees(5)
     setTaxes(tempTotal * .04) // As far as I can tell it would be a 4% tax, I think depending on physical location of theater this may change
-    setTotalAfterAddOns(tempTotal - tempSavings + 5 + tempTotal * .04)
+    setTotalAfterAddOns(tempTotal - tempTotal * discount + 5 + tempTotal * .04)
 
-  }, [tickets/*, promotions*/])
+  }, [tickets, discount])
 
   return (
     <section className={styles.main_body}>

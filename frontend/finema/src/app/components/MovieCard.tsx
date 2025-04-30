@@ -5,6 +5,27 @@ import MovieInfoPopup from './MovieInfoPopup';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link'
 
+type ConsecutiveTimes =
+  | 'TWELVE_AM'
+  | 'THREE_AM'
+  | 'SIX_AM'
+  | 'NINE_AM'
+  | 'TWELVE_PM'
+  | 'THREE_PM'
+  | 'SIX_PM'
+  | 'NINE_PM';
+
+const timeLabels: { [key in ConsecutiveTimes]: string } = {
+  TWELVE_AM: '12:00 AM',
+  THREE_AM: '3:00 AM',
+  SIX_AM: '6:00 AM',
+  NINE_AM: '9:00 AM',
+  TWELVE_PM: '12:00 PM',
+  THREE_PM: '3:00 PM',
+  SIX_PM: '6:00 PM',
+  NINE_PM: '9:00 PM'
+};
+
 interface Review {
   id: number,
   reviewText: string
@@ -12,8 +33,9 @@ interface Review {
 
 interface ShowTime {
   id: number;
-  date: string;
-  time: string;
+  movieId: number;
+  date: string; // Format: YYYY-MM-DD
+  time: string; // Format: HH:MM
 }
 
 interface MovieCardProps {
@@ -25,9 +47,12 @@ interface MovieCardProps {
   director: string;
   producer: string;
   cast: string;
+  date?: string;
+  showtimes?:ShowTime[];
+  showShowtimes?:boolean;
 }
 
-export default function MovieCard({ name, source, movieId, synopsis, director, producer, mpaaRating, cast}: MovieCardProps) {
+export default function MovieCard({ name, source, movieId, synopsis, director, producer, mpaaRating, cast, date, showtimes=[], showShowtimes = false}: MovieCardProps) {
   const [isOpened, setIsOpened] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([])
   const [showTimes, setShowTimes] = useState<ShowTime[]>([]);
@@ -45,6 +70,11 @@ export default function MovieCard({ name, source, movieId, synopsis, director, p
       .catch(error => console.error('Error fetching reviews:', error));
   }, [])
 
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toLocaleString('fr-CA', { timeZone: 'America/New_York' }).split(' ')[0]; // Get current date in "YYYY-MM-DD" format
+  };
+
   useEffect(() => {
     // Fetch showtimes for the movie
     const fetchShowTimes = async () => {
@@ -56,7 +86,6 @@ export default function MovieCard({ name, source, movieId, synopsis, director, p
           }
           const data: ShowTime[] = await response.json();
           setShowTimes(data);
-          console.log('Showtimes fetched:', data);
       } catch (error) {
           console.error('Error fetching showtimes:', error);
       }
@@ -64,26 +93,56 @@ export default function MovieCard({ name, source, movieId, synopsis, director, p
     fetchShowTimes();
   }, [movieId])
 
-  const router = useRouter();
+  const filteredShowtimes:ShowTime[] = [];
+  const movieShowtimes = showtimes.filter((showTime) => showTime.movieId === movieId);
+  let existsFlag = false;
+  for (let i = 0; i < movieShowtimes.length; i++) {
+    existsFlag = false;
+    for (let j = 0; j < filteredShowtimes.length; j++) {
+      if (filteredShowtimes[j].time == movieShowtimes[i].time) {
+        existsFlag = true;
+        break;
+      }
+    }
+    if (!existsFlag) {
+      filteredShowtimes.push(movieShowtimes[i]);
+    }
+  }
+
+
+  const showtimeSection = (
+    <section className={styles.show_times}>
+      <h2>Show Times for {date || getTodayDate()}:</h2>
+      {filteredShowtimes.length > 0 ? filteredShowtimes
+        .map((showTime) => (
+          <p key={showTime.id}>{timeLabels[showTime.time as ConsecutiveTimes]}</p> // Display only the time
+        )) : (
+          <p> No Showtimes Found </p>
+        )}
+    </section>
+  )
 
   return (
     <div className={styles.main_body}>
-      <div onClick={() => setIsOpened(true)}>
-        <h1 className={styles.headers}> {name} </h1>
-        <h1 className={styles.headers}> {mpaaRating} </h1>
-        <section>
-          <img className={styles.movie_banner} src={source} alt={name} />
-        </section>
-      </div>
-      <Link href={{
-          pathname: '/show-time',
-          query: {
-            name: name,
-            movieId: movieId,
-            date: showTimes[0]?.date,
-        },
-        }}> Book Tickets 
-      </Link>
+      <section className={styles.left}>
+        <div onClick={() => setIsOpened(true)}>
+          <h1 className={styles.headers}> {name} </h1>
+          <h1 className={styles.headers}> {mpaaRating} </h1>
+          <section>
+            <img className={styles.movie_banner} src={source} alt={name} />
+          </section>
+        </div>
+        <Link href={{
+            pathname: '/show-time',
+            query: {
+              name: name,
+              movieId: movieId,
+              date: showTimes[0]?.date,
+          },
+          }}> Book Tickets 
+        </Link>
+      </section>
+      {showShowtimes ? showtimeSection : (<div></div>)}
       
       <MovieInfoPopup
         isOpened={isOpened}
