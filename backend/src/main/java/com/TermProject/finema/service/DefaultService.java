@@ -87,5 +87,60 @@ public class DefaultService {
         } else {
             System.out.println("Default Jaws movie already exists.");
         }
-    } // createDefaultNemo
+    } // createDefaultJaws
+
+
+    @PostConstruct
+    public void createDefaultSharknadoMovie() {
+        boolean movieExists = movieRepository.existsByTitle("Sharknado");
+        if (movieExists == false) {
+            Movie movie = new Movie();
+            movie.setTitle("Sharknado");
+            movie.setCategory("Horror");
+            movie.setDirector("Anthony C. Ferrante");
+            movie.setProducer("David Michael Latt and Geoffrey Mark");
+            movie.setSynopsis("A group of friends try to save the Santa Monica coast from shark-infested tornadoes.");
+            movie.setTrailerPicture("https://m.media-amazon.com/images/M/MV5BNTNkOTA0NjYtM2VjOC00ZmYzLWI1NzQtMjY4NTU2MGNkZmU0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg");
+            movie.setTrailerVideo("https://www.youtube.com/watch?v=TWu0zZljle4");
+            movie.setMpaaRating(MpaaRating.valueOf("R"));
+            movie.setNowShowing(true);
+            movie.setComingSoon(false);
+            movie.setCast("Ian Ziering, Tara Reid, John Heard, Cassandra Scerbo, Jaason Simmons");
+            movie.setChildTicketPrice(15.50);
+            movie.setAdultTicketPrice(24.00);
+            movie.setSeniorTicketPrice(20.00);
+            movieRepository.save(movie);
+            System.out.println("Default Sharknado movie just created.");
+        } else {
+            System.out.println("Default Sharknado movie already exists.");
+        }
+    } // createDefaultSharknado
+
+
+
+    @PostConstruct
+    public void createDefaultSharkTaleMovie() {
+        boolean movieExists = movieRepository.existsByTitle("Shark Tale");
+        if (movieExists == false) {
+            Movie movie = new Movie();
+            movie.setTitle("Shark Tale");
+            movie.setCategory("Kids");
+            movie.setDirector("Rob Letterman, Vicky Jenson, Bibo Bergeron");
+            movie.setProducer("Dreamworks");
+            movie.setSynopsis("A small fish and a shark son of a mob boss team up to portray the fish as the 'Sharkslayer'.");
+            movie.setTrailerPicture("https://m.media-amazon.com/images/I/51kG6eufR-L._AC_UF894,1000_QL80_.jpg");
+            movie.setTrailerVideo("https://www.youtube.com/watch?v=b5EcRbTWm2A");
+            movie.setMpaaRating(MpaaRating.valueOf("PG"));
+            movie.setNowShowing(false);
+            movie.setComingSoon(true);
+            movie.setCast("Will Smith, Robert De Niro, Jack Black, Martin Scorsese, Renée Zellweger, Angelina Jolie");
+            movie.setChildTicketPrice(7.50);
+            movie.setAdultTicketPrice(13.50);
+            movie.setSeniorTicketPrice(10.00);
+            movieRepository.save(movie);
+            System.out.println("Default Shark Tale movie just created.");
+        } else {
+            System.out.println("Default Shark Tale movie already exists.");
+        }
+    } // createDefaultSharkTale
 }

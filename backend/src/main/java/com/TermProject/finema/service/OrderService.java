@@ -8,12 +8,14 @@ import com.TermProject.finema.entity.Promotion;
 import com.TermProject.finema.entity.User;
 import com.TermProject.finema.entity.Showtime;
 import com.TermProject.finema.entity.TicketAge;
+import com.TermProject.finema.entity.Card;
 import com.TermProject.finema.repository.OrderRepository;
 import com.TermProject.finema.repository.TicketRepository;
 import com.TermProject.finema.repository.SeatRepository;
 import com.TermProject.finema.repository.PromotionRepository;
 import com.TermProject.finema.repository.MovieRepository;
 import com.TermProject.finema.repository.ShowtimeRepository;
+import com.TermProject.finema.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
@@ -48,6 +50,9 @@ public class OrderService {
     private MovieRepository movieRepository;
 
     @Autowired
+    private CardRepository CardRepository;
+
+    @Autowired
     UserService userService;
 
     @Autowired
@@ -58,29 +63,42 @@ public class OrderService {
         User user = userService.getUserFromToken(token)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid token or user not found"));
         order.setUser(user);
+        System.out.println("user id: " + order.getUser().getId());
         System.out.println("card num: " + order.getCard().getCardNumber());
         try {
             String encryptedCard = userService.encrypt(order.getCard().getCardNumber());
             order.getCard().setCardNumber(encryptedCard);
+            order.getCard().setUser(user);
+            order.getCard().setUserID(user);
+            cardRepository.save(order.getCard());
+            System.out.println("card user: " + order.getCard().getUser().getId());
         } catch (Exception e) {
             System.out.println("Exception: " + e.getMessage());
         }
-        if (order.getTickets() != null) {
-            for (Ticket ticket : order.getTickets()) {
-                System.out.println("addOrder ticket ID: " + ticket.getId());
-                ticket.setOrder(order);
-                Seat seat = ticket.getSeat();
-                System.out.println("addOrder seat ID: " + seat.getId());
-                seat.setReserved(true);
-                seatRepository.save(seat);
-            }
-        }
+        List<Ticket> theTickets = order.getTickets();
+        order.setTickets(null);
         int showtimeID = order.getShowtimeID();
         Showtime showtime = showtimeRepository.getReferenceById(showtimeID);
         order.setShowtime(showtime);
-        mailService.sendOrderConfirmation(order);
+        System.out.println("movie id: " + order.getMovieId());
+        Order savedOrder = orderRepository.save(order);
+        if (theTickets != null) {
+            for (Ticket ticket : theTickets) {
+                System.out.println("addOrder ticket ID: " + ticket.getId());
+                ticket.setOrder(savedOrder);
+                System.out.println("order id: " + savedOrder.getId());
+                Seat seat = ticket.getSeat();
+                System.out.println("addOrder seat ID: " + seat.getId());
+                seat.setReserved(true);
+                seat.setShowtime(showtime);
+                seat.setShowtimeID(showtimeID);
+                seatRepository.save(seat);
+            }
+        }
+        savedOrder.setTickets(theTickets);
+        mailService.sendOrderConfirmation(savedOrder);
         // having cascading in Order allows tickets to be saved automatically when saving order
-        return orderRepository.save(order);
+        return orderRepository.save(savedOrder);
     }
 
 
