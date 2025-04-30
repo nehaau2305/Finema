@@ -29,10 +29,10 @@ interface MovieCardProps {
 
 export default function MovieCard({ name, source, movieId, synopsis, director, producer, mpaaRating, cast}: MovieCardProps) {
   const [isOpened, setIsOpened] = useState(false);
-  const [reviews, setReviews] = useState<Review[]>([])
+  //const [reviews, setReviews] = useState<Review[]>([])
   const [showTimes, setShowTimes] = useState<ShowTime[]>([]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     fetch('http://localhost:8080/review/movie/' + movieId, {
       method: 'GET',
       headers: {
@@ -43,7 +43,7 @@ export default function MovieCard({ name, source, movieId, synopsis, director, p
       .then(response => response.json())
       .then(data => setReviews(data))
       .catch(error => console.error('Error fetching reviews:', error));
-  }, [])
+  }, [])*/
 
   useEffect(() => {
     // Fetch showtimes for the movie
@@ -96,7 +96,6 @@ export default function MovieCard({ name, source, movieId, synopsis, director, p
         director={director}
         producer={producer}
         cast={cast}
-        reviews={reviews}
       />
 
     </div>
