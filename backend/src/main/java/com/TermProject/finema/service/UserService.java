@@ -208,4 +208,32 @@ public class UserService implements UserDetailsService {
         forgotPassTokenRepository.deleteAll(expired);
     }
 
+
+    public User suspendUserByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setSuspended(true);
+        return userRepository.save(user);
+    }
+
+    public User unsuspendUserByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setSuspended(false);
+        return userRepository.save(user);
+    }
+
+    public User makeAdminByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setAdmin(true);
+        return userRepository.save(user);
+    }
+
+    public User removeAdminByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setAdmin(false);
+        return userRepository.save(user);
+    }
 }

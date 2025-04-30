@@ -19,6 +19,9 @@ public class Review {
     @Column(length = 5000)
     private String reviewText;
 
+    //add rating
+    private int rating;
+
     public int getId() {return this.id;}
 
     public void setId(int id) {this.id = id;}
@@ -34,4 +37,8 @@ public class Review {
     public String getReviewText() {return reviewText;}
 
     public void setReviewText(String reviewText) {this.reviewText = reviewText;}
+
+    public int getRating() {return rating;}
+
+    public void setRating(int rating) {this.rating = rating;}
 }

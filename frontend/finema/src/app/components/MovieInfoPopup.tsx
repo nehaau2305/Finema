@@ -6,7 +6,15 @@ import Link from 'next/link'
 
 interface Review {
     id: number,
-    reviewText: string
+    reviewText: string,
+    user_id: number,
+    movie_id: number,
+    userName: string,
+    rating: number,
+    user: {
+        id: number,
+        name: string,
+    }
 }
 
 type ConsecutiveTimes =
@@ -41,7 +49,7 @@ type Props = {
         producer: string;
         mpaaRating: string;
         cast: string;
-        reviews: Review[];
+        //reviews: Review[];
     };
 
     
@@ -62,11 +70,11 @@ const MovieInfoPopup = ({
         director,
         producer,
         cast,
-        reviews
     }: Props) => {
     const ref = useRef<HTMLDialogElement>(null);
     const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
     const [showTimes, setShowTimes] = useState<ShowTime[]>([]);
+    const [reviews, setReviews] = useState<Review[]>([]);
 
 
     useEffect(() => {
@@ -111,6 +119,33 @@ const MovieInfoPopup = ({
             ref.current?.close();
             document.body.classList.remove("modal-open");
         }
+    }, [isOpened, movieId]);
+
+    useEffect(() => {
+      if (isOpened) {
+        ref.current?.showModal();
+        document.body.classList.add("modal-open");
+
+    
+        const fetchReviewsWithUsernames = async () => {
+          try {
+            const response = await fetch(`http://localhost:8080/review/movie/${movieId}`);
+            if (!response.ok) {
+              throw new Error('Failed to fetch reviews');
+            }
+            const reviewsData: Review[] = await response.json();            
+    
+            setReviews(reviewsData);
+          } catch (error) {
+            console.error('Error fetching reviews:', error);
+          }
+        };
+    
+        fetchReviewsWithUsernames();
+      } else {
+        ref.current?.close();
+        document.body.classList.remove("modal-open");
+      }
     }, [isOpened, movieId]);
 
     const router = useRouter()
@@ -171,15 +206,17 @@ const MovieInfoPopup = ({
                         <h1> Cast: {cast} </h1>
                     </section>
                     <section id={styles.reviews}>
+                        <h2>Reviews</h2>
                         <ul>
                             {reviews.length > 0 ? (
-                                reviews.map((review: Review) => (
-                                <li key={review.id}>
-                                    {review.reviewText}
+                            reviews.map((review: Review) => (
+                                <li key={review.id} className={styles.review_item}>
+                                <p><strong>{review.user.name}</strong> - <span>{review.rating}/5</span></p>
+                                <p>{review.reviewText}</p>
                                 </li>
-                                ))
+                            ))
                             ) : (
-                                <p>No reviews found</p>
+                            <p>No reviews found</p>
                             )}
                         </ul>
                     </section>
