@@ -58,26 +58,17 @@ public class OrderService {
         User user = userService.getUserFromToken(token)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid token or user not found"));
         order.setUser(user);
+        System.out.println("card num: " + order.getCard().getCardNumber());
+        try {
+            String encryptedCard = userService.encrypt(order.getCard().getCardNumber());
+            order.getCard().setCardNumber(encryptedCard);
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
         if (order.getTickets() != null) {
             for (Ticket ticket : order.getTickets()) {
                 System.out.println("addOrder ticket ID: " + ticket.getId());
                 ticket.setOrder(order);
-                // System.out.println(ticket);
-                // TicketAge age = ticket.getTicketAge();
-                // System.out.println(age);
-                // switch (age) {
-                //     case CHILD:
-                //         thePrice += movie.getChildTicketPrice();
-                //         break;
-                //     case ADULT:
-                //         thePrice += movie.getAdultTicketPrice();
-                //         break;
-                //     case SENIOR:
-                //         thePrice += movie.getSeniorTicketPrice();
-                //         break;
-                //     default:
-                //         System.out.println("None match lol");
-                // }
                 Seat seat = ticket.getSeat();
                 System.out.println("addOrder seat ID: " + seat.getId());
                 seat.setReserved(true);
