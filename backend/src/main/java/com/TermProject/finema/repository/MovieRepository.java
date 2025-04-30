@@ -21,4 +21,6 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
     List<Movie> findByComingSoonTrue();
     List<Movie> findByCategory(String category);
 
+    //for default movie creation
+    boolean existsByTitle(String title);
 }

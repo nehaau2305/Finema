@@ -9,7 +9,7 @@
     color: white;
 }
 .order_buttons {
-    margin-left: 180px;
+    margin-left: 120px;
     margin-right: 80px;
 }
 
@@ -70,7 +70,7 @@
     flex-direction: column;
     align-items: center;
     margin-right: 240px;
-    margin-left: 80px;
+    margin-left: 40px;
     min-width: 500px;
     min-height: 600px;
     background-color: #33B0FF;

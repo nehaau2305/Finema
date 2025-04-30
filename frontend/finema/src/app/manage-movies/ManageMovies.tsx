@@ -37,7 +37,10 @@ export default function ManageMovies() {
   const [synopsis, setSynopsis] = useState('');
   const [mpaaRating, setMpaaRating] = useState('G');
   const [nowShowing, setNowShowing] = useState(false);
-  const [comingSoon, setComingSoon] = useState(false);
+  const [comingSoon, setComingSoon] = useState(true);
+  const [childTicketPrice, setChildTicketPrice] = useState('');
+  const [adultTicketPrice, setAdultTicketPrice] = useState('');
+  const [seniorTicketPrice, setSeniorTicketPrice] = useState('');
 
   const [token, setToken] = useToken('token');
   if (token === '') {
@@ -78,7 +81,10 @@ export default function ManageMovies() {
       trailerPicture,
       synopsis,
       nowShowing,
-      comingSoon
+      comingSoon,
+      childTicketPrice,
+      adultTicketPrice,
+      seniorTicketPrice
     };
     //console.log(movie.nowShowing)
     try {
@@ -113,8 +119,10 @@ export default function ManageMovies() {
       setTrailerPicture('');
       setSynopsis('');
       setMpaaRating('');
-      setComingSoon(false);
-      setNowShowing(false);
+      setComingSoon(true);
+      setChildTicketPrice('');
+      setAdultTicketPrice('');
+      setSeniorTicketPrice('');
     } catch (error) {
       console.error('Error adding movie:', error);
       setMsg('Error adding movie.');
@@ -180,50 +188,22 @@ export default function ManageMovies() {
               <h1> Trailer Picture (image link) </h1>
               <input value={trailerPicture} onChange={(e) => setTrailerPicture(e.target.value)} required />
             </div>
-            <div>
-              <h1>Now Playing</h1>
-              <input
-                type="checkbox"
-                value='true'
-                checked={nowShowing === true}
-                onChange={() => setNowShowing(true)}
-              />
+            <h1> Ticket Prices: </h1>
+            <div className={styles.input_section}>
+              <h1> Child: </h1>
+              <input type="number" value={childTicketPrice} onChange={(e) => setChildTicketPrice(e.target.value)} required />
             </div>
-            <div>
-              <h1>Coming Soon</h1>
-                <input
-                  type="checkbox"
-                  value='true'
-                  checked={comingSoon === true}
-                  onChange={() => setComingSoon(true)}
-               />
+            <div className={styles.input_section}>
+              <h1> Adult: </h1>
+              <input type="number" value={adultTicketPrice} onChange={(e) => setAdultTicketPrice(e.target.value)} required />
+            </div>
+            <div className={styles.input_section}>
+              <h1> Senior: </h1>
+              <input type="number" value={seniorTicketPrice} onChange={(e) => setSeniorTicketPrice(e.target.value)} required />
             </div>
             <Button type='submit'> Add Movie </Button>
           </form>
           {msg && <p>{msg}</p>}
-        </section>
-        <h1> lists all movies in database with option to edit or delete </h1>
-        <section>
-          {/* TODO: Implement movie list with edit and delete options */}
-          <ul className={styles.list}>
-            {movies.length > 0 ? (
-              movies.map((movie) => (
-                <li key={movie.id}>
-                  <AdminMovieCard
-                  name={movie.title} 
-                  source={movie.trailerPicture} 
-                  movieId={movie.id} 
-                  synopsis={movie.synopsis}
-                  director={movie.director}
-                  producer={movie.producer}
-                  cast={movie.cast}
-                  />
-                </li>
-               ))
-              ) : (
-                <p>No movies available at the moment.</p>
-            )}
-          </ul>
         </section>
       </section>
     </div>

@@ -5,17 +5,23 @@ import styles from './TicketStub.module.css'
 import { useRouter, useSearchParams } from 'next/navigation';
 
 
-interface Ticket {
-  seatID:number,
-  seatNum:number,
-  type:string
+interface Seat {
+  id:number;
+  showtimeID:number;
+  seatNum:number;
+  reserved:boolean;
 }
 
-export default function OrderSummary({ticket, changeTicketType, deleteTicket} : {ticket:Ticket, changeTicketType:({ticket, type} : {ticket:Ticket, type:string})=>void, deleteTicket:(ticket : Ticket)=>void}) {
+interface Ticket {
+  seatID:number;
+  seat:Seat;
+  ticketAge:string;
+}
+
+export default function OrderSummary({ticket, changeTicketAge, deleteTicket} : {ticket:Ticket, changeTicketAge:({ticket, ticketAge} : {ticket:Ticket, ticketAge:string})=>void, deleteTicket:(ticket : Ticket)=>void}) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [ticketType, setTicketType] = useState(ticket.type)
-  console.log(ticket)
+  const [ticketAge, setTicketAge] = useState(ticket.ticketAge)
 
   function goSeat() {
     router.push(
@@ -42,11 +48,11 @@ export default function OrderSummary({ticket, changeTicketType, deleteTicket} : 
     }
   }, [isOpened]);
 
-  const [changeToTicketType, setChangeToTicketType] = useState(ticket.type)
+  const [changeToTicketAge, setChangeToTicketAge] = useState(ticket.ticketAge)
 
   const handleChange = () => {
-    setTicketType(changeToTicketType)
-    changeTicketType({ticket:ticket, type:changeToTicketType})
+    setTicketAge(changeToTicketAge)
+    changeTicketAge({ticket:ticket, ticketAge:changeToTicketAge})
   }
 
 
@@ -60,16 +66,16 @@ export default function OrderSummary({ticket, changeTicketType, deleteTicket} : 
               <Button onClick={() => setIsOpened(false)}> X </Button>
             </section>
             <h1 className={styles.headers}> Change Type </h1>
-            <select defaultValue={ticketType} onChange={e => setChangeToTicketType(e.target.value)}>
-              <option value='child'>child</option>
-              <option value='adult'>adult</option>
-              <option value='senior'>senior</option>
+            <select defaultValue={ticketAge} onChange={e => setChangeToTicketAge(e.target.value)}>
+              <option value='CHILD'>child</option>
+              <option value='ADULT'>adult</option>
+              <option value='SENIOR'>senior</option>
             </select>
             <Button onClick={handleChange}> Change </Button>
           </section>
         </dialog>
-        <h1> Type: {ticketType} </h1> 
-        <h1> Seat: {ticket.seatNum} </h1>
+        <h1> Type: {ticketAge} </h1> 
+        <h1> Seat: {ticket.seat.seatNum} </h1>
         <div className={styles.button}>
           <Button onClick={() => setIsOpened(true)}> Edit Type </Button>
         </div>

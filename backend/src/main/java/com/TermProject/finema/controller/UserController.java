@@ -35,6 +35,13 @@ public class UserController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @GetMapping("/all")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        System.out.println(users);
+        return ResponseEntity.ok(users);
+    }
+
     @GetMapping("/profile")
     public ResponseEntity<User> getUserByToken(@RequestHeader("Authorization") String token) {
         Optional<User> user = userService.getUserFromToken(token);
@@ -51,7 +58,8 @@ public class UserController {
         if (email == null || email.isEmpty()) {return ResponseEntity.badRequest().body("Email is required");}
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent()) {
-            String response = mailService.sendResetPasswordEmail(user.get().getEmail(), user.get().getName());
+            String token = userService.sendForgotPasswordToken(user.get().getEmail());
+            String response = mailService.sendResetPasswordEmail(user.get().getEmail(), user.get().getName(), token);
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found");

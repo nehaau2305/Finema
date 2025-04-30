@@ -2,9 +2,11 @@ package com.TermProject.finema.entity;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.List;
+
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     //aka "booking" or "payment"
     @Id
@@ -12,12 +14,18 @@ public class Order {
     private int id;
 
     @ManyToOne
+    @JoinColumn(name = "user", nullable = false) // Foreign key for User
+    private User user;
+
+    @Column(name = "showtimeID", nullable = false)
+    private int showtimeID;
+
+    @ManyToOne
     @JoinColumn(name = "showtime", nullable = false) // Foreign key for Showtime
     private Showtime showtime;
 
-    @ManyToOne
-    @JoinColumn(name = "user", nullable = false) // Foreign key for Showtime
-    private User user;
+    @Column(name = "movieId", nullable = false) // Foreign key for Movie
+    private int movieId;
 
     @Column(name = "num_seats", nullable = false)
     private int numSeats;
@@ -25,16 +33,31 @@ public class Order {
     @Column(name = "total_price", nullable = false)
     private double totalPrice;
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Ticket> tickets;
+
+    @ManyToOne
+    @JoinColumn(name = "card", nullable = false)
+    private Card card;
+
     public Order() {}
 
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
-    public Showtime getShowtime() {return showtime;}
-    public void setShowtime(Showtime showtime) {this.showtime = showtime;}
     public User getUser() {return user;}
     public void setUser(User user) {this.user = user;}
+    public int getMovieId() {return movieId;}
+    public void setMovieId(int movieId) {this.movieId = movieId;}
+    public int getShowtimeID() {return showtimeID;}
+    public void setShowtimeID(int showtimeID) {this.showtimeID = showtimeID;}
+    public Showtime getShowtime() {return showtime;}
+    public void setShowtime(Showtime showtime) {this.showtime = showtime;}
     public int getNumSeats() {return numSeats;}
     public void setNumSeats(int numSeats) {this.numSeats = numSeats;}
     public double getTotalPrice() {return totalPrice;}
     public void setTotalPrice(double totalPrice) {this.totalPrice = totalPrice;}
+    public List<Ticket> getTickets() {return tickets;}
+    public void setTickets(List<Ticket> tickets) {this.tickets = tickets;}
+    public Card getCard() {return card;}
+    public void setCard(Card card) {this.card = card;}
 }

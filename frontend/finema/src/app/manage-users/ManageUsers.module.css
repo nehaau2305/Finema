@@ -2,33 +2,26 @@
     display: flex;
     background-color: #A2D8FA;
     height: 90vh;
-    justify-content: space-around;
     align-items: center;
     flex-direction: column;
     gap: 100px;
     color: #1449ff;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
 }
 
-.promotion_info {
-    background-color: #33B0FF;
-    margin-bottom: 25px;
-    border-radius: 10px;
-    padding: 20px;
-}
-.input_section {
+
+.users {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.input_section input {
     background-color: #33b0ff;
-    border: 2px solid #1449ff;
-    border-radius: 10px;
-    display: flex;
     justify-content: space-between;
-}
-.input_section h1 {
-    margin-right: 10px;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 50px;
 }

@@ -1,15 +1,19 @@
 package com.TermProject.finema.service;
 
 import com.TermProject.finema.entity.User;
+import com.TermProject.finema.entity.ForgotPasswordToken;
 import com.TermProject.finema.repository.UserRepository;
 import com.TermProject.finema.entity.Card;
 import com.TermProject.finema.repository.CardRepository;
+import com.TermProject.finema.repository.ForgotPassTokenRepository;
 import com.TermProject.finema.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.*;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+import org.springframework.transaction.annotation.Transactional;
 
 //for card encyption
 import javax.crypto.Cipher;
@@ -32,13 +36,21 @@ public class UserService implements UserDetailsService {
     private CardRepository cardRepository;
 
     @Autowired
+    private ForgotPassTokenRepository forgotPassTokenRepository;
+
+    @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
 
     private String secretKey = "SecretFinemaCard"; // has to be 16 bytes for AES-128 encryption
     // AES allows for encryption & decryption using same key
     SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "AES"); // convert secretKey into byte array
     Cipher cipher = null;
 
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -175,5 +187,25 @@ public class UserService implements UserDetailsService {
     //public List<Card> getCardsByUser(User user) {
         //return cardRepository.findByUser(user);
     //}
+
+    public String sendForgotPasswordToken (String email) {
+        deleteExpiredForgotPasswordTokens();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        String token = UUID.randomUUID().toString();
+        LocalDateTime expiration = LocalDateTime.now().plusMinutes(20);
+        ForgotPasswordToken fpToken = new ForgotPasswordToken();
+        fpToken.setToken(token);
+        fpToken.setUser(user);
+        fpToken.setExpirationTime(expiration);
+        forgotPassTokenRepository.save(fpToken);
+        return fpToken.getToken();
+    }
+
+    @Transactional
+    public void deleteExpiredForgotPasswordTokens() {
+        List<ForgotPasswordToken> expired = forgotPassTokenRepository.findAllByExpirationTimeBefore(LocalDateTime.now());
+        forgotPassTokenRepository.deleteAll(expired);
+    }
 
 }

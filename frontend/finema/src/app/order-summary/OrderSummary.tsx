@@ -29,18 +29,18 @@ const timeLabels: { [key in ConsecutiveTimes]: string } = {
 };
 
 type TicketTypes = 
-  | 'child'
-  | 'adult'
-  | 'senior'
+  | 'CHILD'
+  | 'ADULT'
+  | 'SENIOR'
 
 const typeLabels: { [key in TicketTypes] : number} = {
-  child: 8.00,
-  adult: 15.00,
-  senior: 11.00,
+  CHILD: 8.00,
+  ADULT: 15.00,
+  SENIOR: 11.00,
 }
 
 interface Card {
-  cardID: number;
+  cardID?: number;
   cardNumber: string;
   cardholderName: string;
   expirationDate: string;
@@ -48,17 +48,26 @@ interface Card {
   billingAddress: string;
 }
 
+interface Order {
+  numSeats:number;
+  totalPrice:number;
+  tickets: Ticket[];
+  card: Card;
+  movie: number;
+  showtimeID: number;
+}
+
 interface Seat {
-  id:number,
-  showroomId:number,
-  seatNum:number,
-  reserved:boolean
+  id:number;
+  showtimeID:number;
+  seatNum:number;
+  reserved:boolean;
 }
 
 interface Ticket {
-  seatID: number;
-  seatNum: number;
-  type: string;
+  seatID:number;
+  seat:Seat;
+  ticketAge:string;
 }
 
 export default function OrderSummary() {
@@ -70,10 +79,21 @@ export default function OrderSummary() {
   const date = searchParams.get('date') || 'Unknown Date';
   const time = searchParams.get('time') || 'Unknown Time';
   const showtimeId = searchParams.get('showtimeId') || 'Unknown showtimeId';
-  const showroomId = searchParams.get('showroomId') || 'Unknown showtimeId';
+  const showroomId = searchParams.get('showroomId') || 'Unknown showroomId';
+
+  const movieId = searchParams.get('movieId') || 'Unknown movieId';
 
   const searchParamTickets = JSON.parse(searchParams.get('tickets') || "[]");
-  const [tickets, setTickets] = useState(searchParamTickets)
+  const tempTickets = []
+  for (let i = 0; i < searchParamTickets.length; i++) {
+    const tempTicket:Ticket = {
+      seatID: searchParamTickets[i].seatID,
+      seat: searchParamTickets[i].seat,
+      ticketAge: searchParamTickets[i].ticketAge
+    }
+    tempTickets.push(tempTicket)
+  }
+  const [tickets, setTickets] = useState<Ticket[]>(tempTickets)
 
   const [token, setToken] = useToken('token');
   if (token === '') {
@@ -156,37 +176,6 @@ export default function OrderSummary() {
   const [taxes, setTaxes] = useState(0)
   const [totalAfterAddOns, setTotalAfterAddOns] = useState(0)
 
-  const reserveSeats = () => {
-    const seats = [];
-    let temp;
-    for (let i = 0; i < tickets.length ; i++) {
-      temp = {
-        id:tickets[i].seatID,
-        showtimeId:showtimeId,
-        seatNum:tickets[i].seatNum,
-        reserved:true
-      }
-      seats.push(temp)
-    }
-    fetch('http://localhost:8080/showtimes/reserve-seats/' + showtimeId, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(seats)
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to reserve seats');
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching cards:', error);
-        setIsLoading(false);
-      });
-  }
-
   const handlePayment = (card: {
     cardNumber: string;
     cardholderName: string;
@@ -194,8 +183,36 @@ export default function OrderSummary() {
     cvv: string;
     billingAddress: string;
   }) => {
-    reserveSeats()
-    router.push('/order-confirmation');
+    const order:Order = {
+      tickets: tickets,
+      numSeats: tickets.length,
+      totalPrice: totalAfterAddOns,
+      card: card,
+      movie: parseInt(movieId),
+      showtimeID: parseInt(showtimeId)
+    }
+    fetch('http://localhost:8080/order/add', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(order)
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      const query = new URLSearchParams({
+        movieTitle: movieTitle || '',
+        tickets: JSON.stringify(tickets),
+        date: date,
+        time: time,
+        movieId: movieId,
+        total: totalAfterAddOns.toString()
+      }).toString();
+      router.push(`/order-confirmation?${query}`);
+    })
+    .catch((error) => console.error(error))
+    //reserveSeats()
   };
 
   const selectCard = (card: Card) => {
@@ -208,15 +225,15 @@ export default function OrderSummary() {
     });
   };
 
-  const changeType = ({ticket, type} : {ticket:Ticket, type:string}) => {
+  const changeAge = ({ticket, ticketAge} : {ticket:Ticket, ticketAge:string}) => {
     let newTickets = []
     for (let i = 0 ; i < tickets.length ; i++) {
       if (tickets[i].seatID == ticket.seatID) {
         newTickets.push(
           {
             seatID: ticket.seatID,
-            seatNum: ticket.seatNum,
-            type: type
+            seat: ticket.seat,
+            ticketAge: ticketAge
           }
         )
       } else {
@@ -237,32 +254,37 @@ export default function OrderSummary() {
   }
 
   const [promotionCode, setPromotionCode] = useState('')
+  const [discount, setDiscount] = useState(0)
 
   const addPromotion = () => {
-    /**
-     * Send code to backend to verify promotion
-     * Send back the discount for each ticket type
-     */
-    console.log(promotionCode)
+    fetch('http://localhost:8080/order/verify-promo', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(promotionCode)
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setDiscount(data)
+      console.log(data)
+    })
+    .catch((error) => console.error(error))
   }
 
   useEffect(() => {
     let tempTotal = 0
-    let tempSavings = 0
     for (let i = 0; i < tickets.length ; i++) {
-      tempTotal += typeLabels[tickets[i].type as TicketTypes]
-      /**
-       * Add promotion stuff here
-       * Have it add up the savings it applies
-       */
+      tempTotal += typeLabels[tickets[i].ticketAge as TicketTypes]
     }
     setCostTotal(tempTotal)
-    setSavings(tempSavings)
-    setFees(0)
+    setSavings(tempTotal * discount)
+    setFees(5)
     setTaxes(tempTotal * .04) // As far as I can tell it would be a 4% tax, I think depending on physical location of theater this may change
-    setTotalAfterAddOns(tempTotal - tempSavings + fees + tempTotal * .04)
+    setTotalAfterAddOns(tempTotal - tempTotal * discount + 5 + tempTotal * .04)
 
-  }, [tickets/*, promotions*/])
+  }, [tickets, discount])
 
   return (
     <section className={styles.main_body}>
@@ -311,7 +333,7 @@ export default function OrderSummary() {
             {tickets.length > 0 ? (
               tickets.map((ticket: Ticket) => (
                 <li key={ticket.seatID}>
-                  <TicketStub ticket={ticket} changeTicketType={changeType} deleteTicket={removeTicket} />
+                  <TicketStub ticket={ticket} changeTicketAge={changeAge} deleteTicket={removeTicket} />
                 </li>
               ))
             ) : (
@@ -353,59 +375,69 @@ export default function OrderSummary() {
           </div>
         </section>
         <h2 id={styles.payment_title}>Payment Information</h2>
-        <section className={styles.payment}>
-          <div className={styles.input_section}>
-            <h1>Cardholder Name</h1>
-            <input
-              name="cardholderName"
-              value={cardData.cardholderName || ''}
-              onChange={handleCardChange}
-              className={styles.text_fields}
-            />
+        <form onSubmit={(e) => {
+          e.preventDefault()
+          handlePayment(cardData)
+        }}>
+          <section className={styles.payment}>
+            <div className={styles.input_section}>
+              <h1>Cardholder Name</h1>
+              <input
+                name="cardholderName"
+                value={cardData.cardholderName || ''}
+                onChange={handleCardChange}
+                className={styles.text_fields}
+                required
+              />
+            </div>
+            <div className={styles.input_section}>
+              <h1>Card Number</h1>
+              <input
+                name="cardNumber"
+                value={cardData.cardNumber || ''}
+                onChange={handleCardChange}
+                className={styles.text_fields}
+                required
+              />
+            </div>
+            <div className={styles.input_section}>
+              <h1>Expiration Date</h1>
+              <input
+                name="expirationDate"
+                value={cardData.expirationDate || ''}
+                onChange={handleCardChange}
+                className={styles.text_fields}
+                required
+              />
+            </div>
+            <div className={styles.input_section}>
+              <h1> CVV </h1>
+              <input
+                name="cvv"
+                value={cardData.cvv || ''}
+                onChange={handleCardChange}
+                className={styles.text_fields}
+                required
+              />
+            </div>
+            <div className={styles.address_field}>
+              <h1>Billing Address</h1>
+              <input
+                name="billingAddress"
+                value={cardData.billingAddress || ''}
+                onChange={handleCardChange}
+                className={styles.text_fields}
+                required
+              />
+            </div>
+            <div className={styles.button}>
+              <Button onClick={loadCards}> Use Saved Card </Button>
+            </div>
+          </section>
+          <div id={styles.saved_card}>
+              <Button type='submit' > Place Order </Button>
           </div>
-          <div className={styles.input_section}>
-            <h1>Card Number</h1>
-            <input
-              name="cardNumber"
-              value={cardData.cardNumber || ''}
-              onChange={handleCardChange}
-              className={styles.text_fields}
-            />
-          </div>
-          <div className={styles.input_section}>
-            <h1>Expiration Date</h1>
-            <input
-              name="expirationDate"
-              value={cardData.expirationDate || ''}
-              onChange={handleCardChange}
-              className={styles.text_fields}
-            />
-          </div>
-          <div className={styles.input_section}>
-            <h1> CVV </h1>
-            <input
-              name="cvv"
-              value={cardData.cvv || ''}
-              onChange={handleCardChange}
-              className={styles.text_fields}
-            />
-          </div>
-          <div className={styles.address_field}>
-            <h1>Billing Address</h1>
-            <input
-              name="billingAddress"
-              value={cardData.billingAddress || ''}
-              onChange={handleCardChange}
-              className={styles.text_fields}
-            />
-          </div>
-          <div className={styles.button}>
-            <Button onClick={loadCards}> Use Saved Card </Button>
-          </div>
-        </section>
-        <div id={styles.saved_card}>
-            <Button onClick={() => handlePayment(cardData)}> Place Order </Button>
-        </div>
+        </form>
       </section>
     </section>
   );

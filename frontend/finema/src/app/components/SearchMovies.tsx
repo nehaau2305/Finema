@@ -70,7 +70,7 @@ export default function SearchMovies() {
 
   const getTodayDate = () => {
     const today = new Date();
-    return today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    return today.toLocaleString('fr-CA', { timeZone: 'America/New_York' }).split(' ')[0]; // Get current date in "YYYY-MM-DD" format
   };
 
   const fetchShowTimesForDay = async (date: string) => {
@@ -95,7 +95,7 @@ export default function SearchMovies() {
     fetchShowTimesForDay(selectedDate); // Fetch showtimes whenever the selected date changes
   }, [selectedDate]);
 
-  const applyFilters = (category: string, date: string) => {
+  const applyFilters = (category: string, date: string, showtimes?: ShowTime[]) => {
     let filtered = results;
   
     // Apply category filter if a category is selected
@@ -106,9 +106,15 @@ export default function SearchMovies() {
     // Apply show date filter if a date is selected
     if (date) {
       const showTimes = showTimesCache[date] || []; // Use cached showtimes if available
-      filtered = filtered.filter((movie) =>
-        showTimes.some((showTime) => showTime.movieId === movie.id)
-      );
+      if (showTimes.length === 0 && showtimes != undefined) {
+        filtered = filtered.filter((movie) =>
+          showtimes.some((showTime) => showTime.movieId === movie.id)
+        );
+      } else {
+        filtered = filtered.filter((movie) =>
+          showTimes.some((showTime) => showTime.movieId === movie.id)
+        );
+      }
     }
   
     setFilteredResults(filtered);
@@ -148,18 +154,15 @@ export default function SearchMovies() {
     if (!showTimesCache[date]) {
       const showTimes = await fetchShowTimesByDate(date);
       setShowTimesCache((prev) => ({ ...prev, [date]: showTimes })); // Cache the showtimes
+      applyFilters(selectedCategory, date, showTimes); // Apply both filters
+    } else {
+      applyFilters(selectedCategory, date, showTimesCache[date]); // Apply both filters
     }
-  
-    applyFilters(selectedCategory, date); // Apply both filters
   };
 
-  const handleShowDateSearch = () => {
-    if (selectedDate) {
-      handleShowDateFilter(selectedDate);
-      setIsShowDatesModalOpened(false); // Close the modal after filtering
-    } else {
-      alert('Please select a date.');
-    }
+  const handleShowDateSearch = (date:string) => {
+    handleShowDateFilter(date);
+    setIsShowDatesModalOpened(false); // Close the modal after filtering
   };
 
   const clearFilters = () => {
@@ -225,9 +228,11 @@ export default function SearchMovies() {
               type="date"
               className={styles.date_input}
               value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
+              onChange={(e) => {
+                setSelectedDate(e.target.value)
+                handleShowDateSearch(e.target.value)
+              }}
             />
-            <Button onClick={handleShowDateSearch}>Filter</Button>
           </section>
         </section>
       </dialog>
@@ -270,15 +275,18 @@ export default function SearchMovies() {
                 director={movie.director}
                 producer={movie.producer}
                 cast={movie.cast}
+                date={selectedDate || getTodayDate()}
+                showtimes={showTimesForDay}
+                showShowtimes={true}
               />
-              <section className={styles.show_times}>
+              {/* <section className={styles.show_times}>
                 <h2>Show Times for {selectedDate || getTodayDate()}:</h2>
                 {showTimesForDay
                   .filter((showTime) => showTime.movieId === movie.id) // Filter showtimes for this movie
                   .map((showTime) => (
                     <p key={showTime.id}>{showTime.time}</p> // Display only the time
                   ))}
-              </section>
+              </section> */}
             </div>
           ))
         ) : (

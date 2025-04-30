@@ -11,18 +11,15 @@ public class Ticket {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "order", nullable = false) // Foreign key for Order
+    @JoinColumn(name = "order_id", nullable = false) // Foreign key for Order
     private Order order;
 
     @ManyToOne
     @JoinColumn(name = "seat", nullable = false) // Foreign key for Seat
     private Seat seat;
 
-    @Column(name = "num_seats", nullable = false)
-    private int numSeats;
-
     @Enumerated(EnumType.STRING)
-    private TicketType ticketType;
+    private TicketAge ticketAge;
 
     public Ticket() {}
 
@@ -32,7 +29,6 @@ public class Ticket {
     public void setOrder(Order order) {this.order = order;}
     public Seat getSeat() {return seat;}
     public void setSeat(Seat seat) {this.seat = seat;}
-    public TicketType getTicketType() {return ticketType;}
-    public void setTicketType(TicketType ticketType) {this.ticketType = ticketType;}
-    public double getPrice() {return ticketType.getPrice();}
+    public TicketAge getTicketAge() {return ticketAge;}
+    public void setTicketType(TicketAge ticketAge) {this.ticketAge = ticketAge;}
 }

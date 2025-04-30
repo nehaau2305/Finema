@@ -7,6 +7,9 @@
     flex-direction: column;
     gap: 100px;
     color: #1449ff;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
 }
 
 .movie_info {
@@ -20,6 +23,9 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 15px;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    color: white;
 }
 
 .input_section input {

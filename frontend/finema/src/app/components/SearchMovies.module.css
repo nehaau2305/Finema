@@ -5,6 +5,7 @@
     background-color: #33B0FF;
     height: 100vh;
     padding: 10px;
+    min-width: 373px;
     font-weight: bold;
     font-family: var(--font-inter);
     color: white;
@@ -87,7 +88,7 @@
     max-height: calc(100vh - 300px); /* Adjust height to prevent overlap */
     overflow-y: auto; /* Enable vertical scrolling */
     padding: 10px;
-    background-color: #ffffff; /* White background for the grid */
+    background-color: #A2D8FA; /* White background for the grid */
     border-radius: 10px;
     border: 1px solid #ccc;
 }
@@ -97,10 +98,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f5f5f5; /* Light background for individual cards */
+    /* background-color: #A2D8FA; Light background for individual cards
     border-radius: 10px;
     padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
 }
 
 /* Scrollbar styling for the grid container */
@@ -141,7 +142,7 @@ input[type="date"].date_input {
   color: black;
   padding: 10px;
   border: 1px solid #ccc;
-  background-color: #f9f9f9;
+  background-color: #A2D8FA;
   border-radius: 4px;
 }
 
@@ -160,31 +161,31 @@ input[type="date"].date_input {
 }
 
 .content_container {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .grid_container {
-    flex: 2;
-  }
-  
-  .show_times {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #f9f9f9; /* Optional: Light background for better visibility */
-    border: 1px solid #ccc; /* Optional: Add a border for better separation */
-    border-radius: 4px; /* Optional: Rounded corners */
-  }
-  
-  .show_times h2 {
-    margin-bottom: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    color: black; /* Set the font color to black */
-  }
-  
-  .show_times p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: black; /* Set the font color to black */
-  }
+  display: flex;
+  gap: 20px;
+}
+
+.grid_container {
+  flex: 2;
+}
+
+.show_times {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f9f9f9; /* Optional: Light background for better visibility */
+  border: 1px solid #ccc; /* Optional: Add a border for better separation */
+  border-radius: 4px; /* Optional: Rounded corners */
+}
+
+.show_times h2 {
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: black; /* Set the font color to black */
+}
+
+.show_times p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: black; /* Set the font color to black */
+}

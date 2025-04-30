@@ -5,6 +5,7 @@ import com.TermProject.finema.dto.LoginRequest;
 import com.TermProject.finema.dto.PasswordChangeRequest;
 import com.TermProject.finema.dto.AuthRequest;
 import com.TermProject.finema.dto.AuthResponse;
+import com.TermProject.finema.dto.ForgotPasswordRequest;
 import com.TermProject.finema.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,19 @@ public class AuthController {
         try {
             authService.changePassword(passwordChange.getEmail(), passwordChange.getNewPassword(), passwordChange.getCurrentPassword());
             return ResponseEntity.status(201).body("User registered successfully");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(400).body("Error changing password: " + e.getMessage());
+        }
+    } // register
+
+    @PutMapping("/password-change-after-forgot")
+    public ResponseEntity<String> setAfterForgotPassword(@RequestBody ForgotPasswordRequest forgotPassword) {
+        try {
+            System.out.println("pw: " + forgotPassword.getpassword());
+            System.out.println("token: " + forgotPassword.getToken());
+            authService.changeAfterForgotPassword(forgotPassword.getToken(), forgotPassword.getpassword());
+            return ResponseEntity.status(201).body("Password changed successfully");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseEntity.status(400).body("Error changing password: " + e.getMessage());

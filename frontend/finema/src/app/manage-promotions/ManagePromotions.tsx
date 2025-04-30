@@ -14,6 +14,7 @@ export default function ManagePromotions() {
   const [code, setCode] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [discount, setDiscount] = useState('');
 
   if (token === '') {
     router.push('/web-user-home');
@@ -33,6 +34,7 @@ export default function ManagePromotions() {
           code: code,
           startDate: startDate,
           endDate: endDate,
+          discount: discount
         }),
       });
 
@@ -78,6 +80,18 @@ export default function ManagePromotions() {
             <input
               value={code}
               onChange={(e) => setCode(e.target.value)}
+              placeholder="Enter promotion code"
+            />
+            <h1>Discount(Percent off)</h1>
+            <input
+              value={discount}
+              onChange={(e) => {
+                const temp = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+                if (parseFloat(temp) <= 1 || temp === '' || temp === '.') {
+                  setDiscount(temp)
+                }
+                // setDiscount(e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1'))
+              }}
               placeholder="Enter promotion code"
             />
             <h1>Start Date</h1>
