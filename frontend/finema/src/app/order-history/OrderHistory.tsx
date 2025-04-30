@@ -35,7 +35,12 @@ export default function OrderHistory() {
     if (token == '') {
       router.push('/web-user-home')
     }
-    fetch('') // Call for all orders associated with a user
+    fetch('http://localhost:8080/order/all',{
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    }) // Call for all orders associated with a user
     .then(response => response.json())
     .then(data => setOrderHistory(data))
     .catch(error => console.error('An error occured retrieving order history: ' + error))

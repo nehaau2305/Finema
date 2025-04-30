@@ -3,12 +3,17 @@ package com.TermProject.finema.controller;
 import com.TermProject.finema.entity.Order;
 import com.TermProject.finema.service.OrderService;
 import com.TermProject.finema.entity.User;
+import com.TermProject.finema.entity.Showtime;
 import com.TermProject.finema.service.UserService;
+import com.TermProject.finema.dto.OrderDTO;
+import com.TermProject.finema.dto.TicketDTO;
+import com.TermProject.finema.dto.ShowtimeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.List;
 
 @RestController
@@ -49,12 +54,35 @@ public class OrderController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Order>> getAll(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<List<OrderDTO>> getAll(@RequestHeader("Authorization") String authHeader) {
         System.out.println("order controller entered for getting all orders for given user: " + authHeader);
         Optional<User> user = userService.getUserFromToken(authHeader);
         if (user.isPresent()) {
             List<Order> orders = orderService.getAllOrders(user.get());
-            return ResponseEntity.ok(orders);
+            List<OrderDTO> orderDTOList = orders.stream().map(order -> {
+                List<TicketDTO> ticketDTOList = order.getTickets().stream().map(ticket -> {
+                    int seatNum = ticket.getSeat().getSeatNum();
+                    return new TicketDTO(ticket.getId(), seatNum, ticket.getTicketAge());
+                }).collect(Collectors.toList());
+
+                Showtime showtime = order.getShowtime();
+                ShowtimeDTO showtimeDTO = new ShowtimeDTO(
+                    showtime.getId(),
+                    showtime.getDate().toString(),
+                    showtime.getTime(),
+                    showtime.getMovie().getTitle()
+                );
+
+                return new OrderDTO (
+                    order.getId(),
+                    showtimeDTO,
+                    order.getMovieId(),
+                    order.getNumSeats(),
+                    order.getTotalPrice(),
+                    ticketDTOList
+                );
+            }).collect(Collectors.toList());
+            return ResponseEntity.ok(orderDTOList);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
