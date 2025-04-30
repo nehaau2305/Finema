@@ -139,7 +139,7 @@ export default function Registration() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    if (phone.length !== 10) {
+    if (phone && phone.length !== 10) {
       alert("Phone number must be 10 digits.");
       return;
     }

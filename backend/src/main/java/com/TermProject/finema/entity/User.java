@@ -21,7 +21,7 @@ public class User {
     private String name;
 
     @Column(nullable = true)
-    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be 10 digits")
+    @Pattern(regexp = "^$|^[0-9]{10}$", message = "Phone number must be 10 digits")
     private String phone;
 
     @Column(nullable = false, unique = true)
