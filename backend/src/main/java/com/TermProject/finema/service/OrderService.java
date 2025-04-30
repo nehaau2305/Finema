@@ -50,10 +50,13 @@ public class OrderService {
     private MovieRepository movieRepository;
 
     @Autowired
-    private CardRepository CardRepository;
+    private CardRepository cardRepository;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
+
+    @Autowired
+    private MovieService movieService;
 
     @Autowired
     private MailService mailService;
@@ -80,6 +83,7 @@ public class OrderService {
         int showtimeID = order.getShowtimeID();
         Showtime showtime = showtimeRepository.getReferenceById(showtimeID);
         order.setShowtime(showtime);
+        order.setMovieId(order.getShowtime().getMovieId());
         System.out.println("movie id: " + order.getMovieId());
         Order savedOrder = orderRepository.save(order);
         if (theTickets != null) {
