@@ -7,6 +7,20 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useToken } from '../components/useToken'
 import Link from 'next/link';
 
+interface Movie {
+  title: string;
+  source: string;
+  movieId: number;
+  mpaaRating: string; 
+  synopsis: string;
+  director: string;
+  producer: string;
+  cast: string;
+  childTicketPrice: number;
+  adultTicketPrice: number;
+  seniorTicketPrice: number;
+}
+
 interface ShowTime {
   id: number;
   movieID: number;
@@ -41,11 +55,6 @@ type TicketTypes =
 | 'adult'
 | 'senior'
 
-const typeLabels: { [key in TicketTypes] : number} = {
-child: 8.00,
-adult: 15.00,
-senior: 11.00,
-}
 
 export default function ShowTime() {
   const [token, setToken] = useToken('token');
@@ -58,6 +67,27 @@ export default function ShowTime() {
   const searchParams = useSearchParams();
   const name = searchParams.get('name');
   const movieId = searchParams.get('movieId'); // Use movieId to fetch showtimes
+
+  const [movie, setMovie] = useState<Movie>()
+
+  useEffect(() => {
+    fetch('http://localhost:8080/movies/' + movieId, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json()
+    )
+      .then((data) => {
+        setMovie(data)
+      })
+      .catch((error) => {
+        console.error('Error fetching movie:', error);
+      });
+  }, [movieId])
+
 
   const [adult, setAdult] = useState<string>("0");
   const [child, setChild] = useState<string>("0");
@@ -185,7 +215,7 @@ export default function ShowTime() {
                 onChange={handleTicketInput(setAdult)}
                 type="text"
               />
-              <h2 className={styles.price}> - {'$' + typeLabels['adult' as TicketTypes].toFixed(2)} per </h2>
+              <h2 className={styles.price}> - {'$' + movie?.adultTicketPrice.toFixed(2)} per </h2>
             </div>
             <div>
               <h2> Child: </h2>
@@ -196,7 +226,7 @@ export default function ShowTime() {
                 onChange={handleTicketInput(setChild)}
                 type="text"
               />
-              <h2 className={styles.price}> - {'$' + typeLabels['child' as TicketTypes].toFixed(2)} per </h2>
+              <h2 className={styles.price}> - {'$' + movie?.childTicketPrice.toFixed(2)} per </h2>
             </div>
             <div>
               <h2> Senior: </h2>
@@ -207,7 +237,7 @@ export default function ShowTime() {
                 onChange={handleTicketInput(setSenior)}
                 type="text"
               />
-              <h2 className={styles.price}> - {'$' + typeLabels['senior' as TicketTypes].toFixed(2)} per </h2>
+              <h2 className={styles.price}> - {'$' + movie?.seniorTicketPrice.toFixed(2)} per </h2>
             </div>
           </section>
         </section>

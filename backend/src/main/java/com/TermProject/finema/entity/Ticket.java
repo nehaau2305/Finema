@@ -3,6 +3,8 @@ package com.TermProject.finema.entity;
 import jakarta.persistence.*;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "ticket")
 public class Ticket {
@@ -12,6 +14,7 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false) // Foreign key for Order
+    @JsonBackReference
     private Order order;
 
     @ManyToOne

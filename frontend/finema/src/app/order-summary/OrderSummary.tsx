@@ -7,6 +7,20 @@ import { useToken } from '../components/useToken';
 import TicketStub from '../components/TicketStub';
 import PayCard from '../components/PayCard';
 
+interface Movie {
+  title: string;
+  source: string;
+  movieId: number;
+  mpaaRating: string; 
+  synopsis: string;
+  director: string;
+  producer: string;
+  cast: string;
+  childTicketPrice: number;
+  adultTicketPrice: number;
+  seniorTicketPrice: number;
+}
+
 type ConsecutiveTimes =
   | 'TWELVE_AM'
   | 'THREE_AM'
@@ -32,12 +46,6 @@ type TicketTypes =
   | 'CHILD'
   | 'ADULT'
   | 'SENIOR'
-
-const typeLabels: { [key in TicketTypes] : number} = {
-  CHILD: 8.00,
-  ADULT: 15.00,
-  SENIOR: 11.00,
-}
 
 interface Card {
   cardID?: number;
@@ -82,6 +90,26 @@ export default function OrderSummary() {
   const showroomId = searchParams.get('showroomId') || 'Unknown showroomId';
 
   const movieId = searchParams.get('movieId') || 'Unknown movieId';
+
+  const [movie, setMovie] = useState<Movie>()
+
+  useEffect(() => {
+    fetch('http://localhost:8080/movies/' + movieId, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json()
+    )
+      .then((data) => {
+        setMovie(data)
+      })
+      .catch((error) => {
+        console.error('Error fetching movie:', error);
+      });
+  }, [movieId])
 
   const searchParamTickets = JSON.parse(searchParams.get('tickets') || "[]");
   const tempTickets = []
@@ -274,17 +302,25 @@ export default function OrderSummary() {
   }
 
   useEffect(() => {
-    let tempTotal = 0
-    for (let i = 0; i < tickets.length ; i++) {
-      tempTotal += typeLabels[tickets[i].ticketAge as TicketTypes]
+    if (movie != undefined){
+      let tempTotal = 0
+      console.log(movie.childTicketPrice)
+      const typeLabels: { [key in TicketTypes] : number} = {
+        CHILD: movie.childTicketPrice,
+        ADULT: movie.adultTicketPrice,
+        SENIOR: movie.seniorTicketPrice,
+      }
+      for (let i = 0; i < tickets.length ; i++) {
+        tempTotal += typeLabels[tickets[i].ticketAge as TicketTypes]
+      }
+      setCostTotal(tempTotal)
+      setSavings(tempTotal * discount)
+      setFees(5)
+      setTaxes(tempTotal * .04) // As far as I can tell it would be a 4% tax, I think depending on physical location of theater this may change
+      setTotalAfterAddOns(tempTotal - tempTotal * discount + 5 + tempTotal * .04)
     }
-    setCostTotal(tempTotal)
-    setSavings(tempTotal * discount)
-    setFees(5)
-    setTaxes(tempTotal * .04) // As far as I can tell it would be a 4% tax, I think depending on physical location of theater this may change
-    setTotalAfterAddOns(tempTotal - tempTotal * discount + 5 + tempTotal * .04)
 
-  }, [tickets, discount])
+  }, [tickets, discount, movie])
 
   return (
     <section className={styles.main_body}>

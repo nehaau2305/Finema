@@ -247,7 +247,8 @@ const MovieInfoPopup = ({
                                 movieId: movieId,
                                 date: showTimes[0]?.date,
                             },
-                        }}> Book Tickets
+                        }}
+                        id={styles.link}> Book Tickets
                         </Link>
                     </div>
                 </section>
@@ -272,22 +273,24 @@ const MovieInfoPopup = ({
                         <h1> Cast: {cast} </h1>
                     </section> 
                     <br />
-                    <section id={styles.reviews}>  
-                        <h2>Reviews</h2>
-                        <ul>
-                            {reviews.length > 0 ? (
-                                reviews.map((review: Review) => (
-                                    <li key={review.id} className={styles.review_item}>
-                                        <p><strong>{review.user.name}</strong> - <span>{review.rating}/5</span></p>
-                                        <p>{review.reviewText}</p>
-                                    </li>
-                                ))
-                            ) : (
-                                <p>No reviews found</p>
-                            )}
-                        </ul>
-                    </section>
-                    <Button onClick={handleOpenReviewPopup}>Add Review</Button>
+                    <div id={styles.review_area}>
+                        <section id={styles.reviews}>  
+                            <h2>Reviews</h2>
+                            <ul>
+                                {reviews.length > 0 ? (
+                                    reviews.map((review: Review) => (
+                                        <li key={review.id} className={styles.review_item}>
+                                            <p><strong>{review.user.name}</strong> - <span>{review.rating}/5</span></p>
+                                            <p>{review.reviewText}</p>
+                                        </li>
+                                    ))
+                                ) : (
+                                    <p>No reviews found</p>
+                                )}
+                            </ul>
+                        </section>
+                        <Button onClick={handleOpenReviewPopup}>Add Review</Button>
+                    </div>
                     {errorMessage && (
                         <p className={styles.error_message}>{errorMessage}</p>
                     )}

@@ -23,13 +23,19 @@
 .order {
     display: flex;
     align-items: center;
-    height: 10vh;
-    width: 40vw;
+    height: fit-content;
+    min-height: 10vh;
+    width: 59vw;
     margin-bottom: 30px;
     border: 1px solid #1449FF;
     border-radius: 20px;
     padding: 10px;
     gap: 10px;
+}
+.order div {
+    width: 25%;
+    overflow-y: auto;
+    margin-left: 10px;
 }
 
 .seat_section {

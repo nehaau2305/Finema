@@ -54,35 +54,38 @@ public class OrderController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<OrderDTO>> getAll(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<List<Order>> getAll(@RequestHeader("Authorization") String authHeader) {
         System.out.println("order controller entered for getting all orders for given user: " + authHeader);
         Optional<User> user = userService.getUserFromToken(authHeader);
         if (user.isPresent()) {
             List<Order> orders = orderService.getAllOrders(user.get());
-            List<OrderDTO> orderDTOList = orders.stream().map(order -> {
-                List<TicketDTO> ticketDTOList = order.getTickets().stream().map(ticket -> {
-                    int seatNum = ticket.getSeat().getSeatNum();
-                    return new TicketDTO(ticket.getId(), seatNum, ticket.getTicketAge());
-                }).collect(Collectors.toList());
+            // List<OrderDTO> orderDTOList = orders.stream().map(order -> {
+            //     List<TicketDTO> ticketDTOList = order.getTickets().stream().map(ticket -> {
+            //         int seatNum = ticket.getSeat().getSeatNum();
+            //         return new TicketDTO(ticket.getId(), seatNum, ticket.getTicketAge());
+            //     }).collect(Collectors.toList());
 
-                Showtime showtime = order.getShowtime();
-                ShowtimeDTO showtimeDTO = new ShowtimeDTO(
-                    showtime.getId(),
-                    showtime.getDate().toString(),
-                    showtime.getTime(),
-                    showtime.getMovie().getTitle()
-                );
+            //     Showtime showtime = order.getShowtime();
+            //     ShowtimeDTO showtimeDTO = new ShowtimeDTO(
+            //         showtime.getId(),
+            //         showtime.getDate().toString(),
+            //         showtime.getTime(),
+            //         showtime.getMovie().getTitle()
+            //     );
 
-                return new OrderDTO (
-                    order.getId(),
-                    showtimeDTO,
-                    order.getMovieId(),
-                    order.getNumSeats(),
-                    order.getTotalPrice(),
-                    ticketDTOList
-                );
-            }).collect(Collectors.toList());
-            return ResponseEntity.ok(orderDTOList);
+            //     return new OrderDTO (
+            //         order.getId(),
+            //         showtimeDTO,
+            //         order.getMovieId(),
+            //         order.getNumSeats(),
+            //         order.getTotalPrice(),
+            //         ticketDTOList
+            //     );
+            // }).collect(Collectors.toList());
+            for (Order order: orders) {
+                System.out.println(order.getShowtime().getMovie().getTitle());
+            }
+            return ResponseEntity.ok(orders);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
