@@ -191,15 +191,30 @@ export default function ManageMovies() {
             <h1> Ticket Prices: </h1>
             <div className={styles.input_section}>
               <h1> Child: </h1>
-              <input type="number" value={childTicketPrice} onChange={(e) => setChildTicketPrice(e.target.value)} required />
+              <input value={childTicketPrice} onChange={(e) => {
+                const temp = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+                if (parseFloat(temp) > 0 || temp === '' || temp === '.') {
+                  setChildTicketPrice(temp)
+                }
+                }} required />
             </div>
             <div className={styles.input_section}>
               <h1> Adult: </h1>
-              <input type="number" value={adultTicketPrice} onChange={(e) => setAdultTicketPrice(e.target.value)} required />
+              <input value={adultTicketPrice} onChange={(e) => {
+                const temp = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+                if (parseFloat(temp) > 0 || temp === '' || temp === '.') {
+                  setAdultTicketPrice(temp)
+                }
+              }} required />
             </div>
             <div className={styles.input_section}>
               <h1> Senior: </h1>
-              <input type="number" value={seniorTicketPrice} onChange={(e) => setSeniorTicketPrice(e.target.value)} required />
+              <input value={seniorTicketPrice} onChange={(e) => {
+                const temp = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+                if (parseFloat(temp) > 0 || temp === '' || temp === '.') {
+                  setSeniorTicketPrice(temp)
+                }
+                }} required />
             </div>
             <Button type='submit'> Add Movie </Button>
           </form>
