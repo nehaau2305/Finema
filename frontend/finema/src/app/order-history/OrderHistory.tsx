@@ -202,7 +202,7 @@ export default function OrderHistory() {
                     </ul>
                     <div>
                       <p> Price: </p>
-                      <p> {entry.totalPrice} </p>
+                      <p> {'$' + entry.totalPrice.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} </p>
                     </div>
                   </li>
                 ))

@@ -110,7 +110,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{username}")
+    @PutMapping("/update/{username}")
     public ResponseEntity<User> updateUser(@PathVariable String username, @RequestBody User user) {
         Optional<User> existingUser = userService.getUserByUsername(username);
         if (existingUser.isPresent()) {

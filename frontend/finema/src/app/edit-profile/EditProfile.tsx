@@ -176,7 +176,7 @@ export default function EditProfile() {
     const sendUserData = {...userData, promotions:promotions}
 
     // Submit updated user data to the backend
-    fetch('http://localhost:8080/users/' + userData.email, {
+    fetch('http://localhost:8080/users/update/' + userData.email, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -222,7 +222,7 @@ export default function EditProfile() {
   };
 
   const handlePromotionSubmit = () => {
-    fetch(`http://localhost:8080/users/${userData.email}`, {
+    fetch(`http://localhost:8080/users/update/${userData.email}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -249,12 +249,12 @@ export default function EditProfile() {
         <section className={styles.personal_promotion}>
           <section className={styles.personal}>
             <div className={styles.input_section}>
-              <h1>Name</h1>
-              <input name="name" value={userData.name || ''} onChange={handleChange} />
+              <h1>Email</h1>
+              <p> {userData.email || ''} </p>
             </div>
             <div className={styles.input_section}>
-              <h1>Email</h1>
-              <input name="email" value={userData.email || ''} readOnly />
+              <h1>Name</h1>
+              <input name="name" value={userData.name || ''} onChange={handleChange} />
             </div>
             <div className={styles.input_section}>
               <h1>Phone Number</h1>
