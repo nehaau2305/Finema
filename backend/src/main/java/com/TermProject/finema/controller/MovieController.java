@@ -124,4 +124,11 @@ public class MovieController {
         return movieService.getShowtimes(movieId);
     }
 
+    // Get ticket prices for a specific movie ID
+    // will return child, adult, senior prices as a list
+    @GetMapping("/get-ticket-prices-by-movie/{movieId}")
+    public ResponseEntity<List<Double>> getTicketPricesByMovieId(@PathVariable int movieId) {
+        List<Double> prices = movieService.getTicketPricesByMovieId(movieId);
+        return ResponseEntity.ok(prices);
+    }
 }

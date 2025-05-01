@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,5 +88,9 @@ public class MovieService {
         return showtimeRepository.findByMovieIdAndDateGreaterThanEqual(movieId, now);
     }
 
-
+    public List<Double> getTicketPricesByMovieId(int movieId) {
+        Movie movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new RuntimeException("Movie not found."));
+        return Arrays.asList(movie.getChildTicketPrice(), movie.getAdultTicketPrice(), movie.getSeniorTicketPrice());
+    }
 }
