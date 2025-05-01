@@ -93,4 +93,10 @@ public class OrderController {
         }
     }
 
+    @PostMapping
+    public ResponseEntity<String> returnOrder(@RequestBody Order order) {
+        orderService.returnOrder(order);
+        return ResponseEntity.status(201).body("Order returned successfully. Refund will be processed.");
+    }
+
 }
