@@ -124,10 +124,12 @@ export default function ScheduleMovies() {
     const [isLoading, setIsLoading] = useState(true);
     const [query, setQuery] = useState('');
     const sendQuery = async () => {
-      if (query.trim() === '') return;
-  
       try {
-        const response = await fetch(`http://localhost:8080/movies/search?query=${query}`);
+        const endpoint = query.trim() === '' 
+          ? 'http://localhost:8080/movies/all' // Fetch all movies
+          : `http://localhost:8080/movies/search?query=${query}`;
+    
+        const response = await fetch(endpoint);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
