@@ -75,6 +75,11 @@ public class ShowtimeController {
     @PostMapping ("/schedule-movie")
     public ResponseEntity<Showtime> scheduleMovie(@RequestBody Showtime showtime) {
         Showtime scheduledShowtime = showtimeService.scheduleMovie(showtime);
+        //Movie movie = scheduledShowtime.getMovie();
+        //    if (movie != null && !movie.isNowShowing()) {
+        //        movie.setNowShowing(true);
+        //        movieRepository.save(movie);
+        //    }
         return ResponseEntity.ok(scheduledShowtime);
     }
 }

@@ -1,11 +1,12 @@
 package com.TermProject.finema.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto generates the primary key value
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generates the primary key value
     private int id;
 
     @ManyToOne
@@ -19,26 +20,46 @@ public class Review {
     @Column(length = 5000)
     private String reviewText;
 
-    //add rating
     private int rating;
 
-    public int getId() {return this.id;}
+    // Getters and Setters
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int id) {this.id = id;}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public Movie getMovie() {return movie;}
+    public Movie getMovie() {
+        return movie;
+    }
 
-    public void setMovie(Movie movie) {this.movie = movie;}
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
 
-    public User getUser() {return user;}
+    public User getUser() {
+        return user;
+    }
 
-    public void setUser(User user) {this.user = user;}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-    public String getReviewText() {return reviewText;}
+    public String getReviewText() {
+        return reviewText;
+    }
 
-    public void setReviewText(String reviewText) {this.reviewText = reviewText;}
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
+    }
 
-    public int getRating() {return rating;}
+    public int getRating() {
+        return rating;
+    }
 
-    public void setRating(int rating) {this.rating = rating;}
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 }

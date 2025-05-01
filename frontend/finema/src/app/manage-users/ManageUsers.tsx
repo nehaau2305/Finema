@@ -5,16 +5,9 @@ import { useToken } from '../components/useToken'
 import styles from './ManageUsers.module.css'
 import TopBar from '../components/TopBar';
 import Button from '../components/Button';
+import ManageUserPopup from '../components/ManageUserPopup';
 
-interface User {
-  id: number;
-  name: string;
-  email: string; 
-  isAdmin: boolean;
-  suspended: boolean;
-}
-
-interface UserCardProps {
+interface UserPopupProps {
   id: number;
   active: boolean;
   name: string;
@@ -30,7 +23,10 @@ export default function ManageUsers() {
   const [token, setToken] = useToken('token');
   const [email, setEmail] = useState(''); // State for the email input
   const [message, setMessage] = useState(''); // State for success/error messages
-  const [users, setUsers] = useState<UserCardProps[]>([]); // State for the list of users
+  const [users, setUsers] = useState<UserPopupProps[]>([]); // State for the list of users
+  const [isOpened, setIsOpened] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserPopupProps | null>(null);
+
 
   useEffect(() => {
     if (token === '') {
@@ -79,7 +75,6 @@ export default function ManageUsers() {
       // Display success message
       setMessage(`User ${email} successfully ${action}ed.`);
 
-      // Update the user list
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user.email === updatedUser.email ? updatedUser : user
@@ -91,14 +86,20 @@ export default function ManageUsers() {
     }
   };
 
+  const handleClick = (user: UserPopupProps) => {
+    setSelectedUser(user);
+    setIsOpened(true);
+  };
+  
+
   return (
     <div>
       <div className={styles.top}>
         <TopBar loggedIn={true} showEditProfile={false} />
       </div>
 
+
       <section className={styles.main_body}>
-        {/* User List Section */}
         <section className={styles.user_list}>
           <h2>User List</h2>
           <table className={styles.user_table}>
@@ -113,7 +114,11 @@ export default function ManageUsers() {
             <tbody>
               {users.length > 0 ? (
                 users.map((user) => (
-                  <tr key={user.id}>
+                  <tr 
+                    key={user.id}
+                    onClick={() => handleClick(user)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{user.isAdmin ? 'Yes' : 'No'}</td>
@@ -127,9 +132,18 @@ export default function ManageUsers() {
               )}
             </tbody>
           </table>
+          
+          {isOpened && selectedUser && (
+            <ManageUserPopup
+              email={selectedUser.email}
+              onClose={() => {
+                setIsOpened(false);
+                setSelectedUser(null);
+              }}
+            />
+          )}
         </section>
 
-        {/* User Action Section */}
         <section className={styles.user_actions}>
           <h2>Manage User</h2>
           <input

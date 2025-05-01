@@ -1,0 +1,45 @@
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #33B0FF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup {
+    background: white;
+    padding: 2rem;
+    width: 400px;
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    background-color: #33B0FF;
+    border-radius: 10px;
+    font-weight: bold;
+    font-family: var(--font-inter);
+    text-align: center;
+    color: white;
+    border: 2px solid #1449FF;
+  }
+
+  .popup input {
+    background-color: #33B0FF;
+    border: 2px solid #1449FF;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+  
+  .buttonGroup {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .message {
+    margin-top: 1rem;
+    color: green;
+  }
+  

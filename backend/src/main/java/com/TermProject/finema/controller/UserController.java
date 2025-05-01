@@ -86,6 +86,15 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/{email}")
+    public ResponseEntity<User> getUserEmail(@PathVariable String email) {
+        User user = userService.getUserByEmail(email).orElse(null);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(user);
+    }
+
     @PostMapping("/logout")
     public ResponseEntity<User> updateUserToken(@RequestHeader("Authorization") String token) {
 
@@ -123,6 +132,33 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+    @PutMapping("/{email}")
+    public ResponseEntity<User> updateUserByEmail(@PathVariable String email, @RequestBody User user) {
+        System.out.println("PUT request recieved: " + email);
+
+        Optional<User> existingUser = userService.getUserByEmail(email);
+        if (existingUser.isPresent()) {
+            User updatedUser = existingUser.get();
+            updatedUser.setName(user.getName());
+            updatedUser.setPhone(user.getPhone());
+            updatedUser.setHomeAddress(user.getHomeAddress());
+
+            //boolean response = userService.updateUser(updatedUser);
+            //if (response == true) {
+            //    return ResponseEntity.ok(updatedUser);
+            //} else {
+            //    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+           // }
+
+        User savedUser = userService.updateUser(updatedUser);
+        System.out.println("updating user: " + updatedUser);
+        return ResponseEntity.ok(savedUser);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+    
 
     @GetMapping("/cards")
     public ResponseEntity<List<Card>> getUserCards(@RequestHeader("Authorization") String token) {
