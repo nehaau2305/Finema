@@ -39,7 +39,6 @@ public class MovieService {
         Optional<Movie> movie = movieRepository.findById(movieId);
         movie.get().setComingSoon(false);
         movie.get().setNowShowing(true);
-        System.out.println(movie.get().getTitle());
         return movieRepository.save(movie.get());
     }
 
