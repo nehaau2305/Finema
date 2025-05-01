@@ -22,7 +22,7 @@ export default function ManageUserPopup({ email, onClose }: Props) {
     name: '',
     phone: '',
     email: '',
-    homeAddress: '' 
+    home_address: '' 
     });
 
   const [cards, setCards] = useState<Card[]>([]);
@@ -83,7 +83,7 @@ export default function ManageUserPopup({ email, onClose }: Props) {
         <h2>Phone</h2>
         <input name="phone" value={userData.phone} onChange={e => setUserData({ ...userData, phone: e.target.value })} />
         <h2>Home Address</h2>
-        <input name="homeAddress" value={userData.homeAddress} onChange={e => setUserData({ ...userData, homeAddress: e.target.value })} />
+        <input name="homeAddress" value={userData.home_address} onChange={e => setUserData({ ...userData, home_address: e.target.value })} />
         <div>
             <Button onClick={updateUser}>Save</Button>
             <Button onClick={onClose}>Close</Button>

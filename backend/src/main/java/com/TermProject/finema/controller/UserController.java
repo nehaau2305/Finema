@@ -135,7 +135,7 @@ public class UserController {
 
     @PutMapping("/{email}")
     public ResponseEntity<User> updateUserByEmail(@PathVariable String email, @RequestBody User user) {
-        System.out.println("PUT request recieved: " + email)
+        System.out.println("PUT request recieved: " + email);
 
         Optional<User> existingUser = userService.getUserByEmail(email);
         if (existingUser.isPresent()) {
