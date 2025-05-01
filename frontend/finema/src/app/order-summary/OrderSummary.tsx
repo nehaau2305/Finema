@@ -283,6 +283,7 @@ export default function OrderSummary() {
 
   const [promotionCode, setPromotionCode] = useState('')
   const [discount, setDiscount] = useState(0)
+  const [msg, setMsg] = useState('')
 
   const addPromotion = () => {
     fetch('http://localhost:8080/order/verify-promo', {
@@ -298,7 +299,9 @@ export default function OrderSummary() {
       setDiscount(data)
       console.log(data)
     })
-    .catch((error) => console.error(error))
+    .catch((error) => {
+      setMsg("Incorrect Promo Code")
+      console.error(error)})
   }
 
   useEffect(() => {
@@ -406,6 +409,7 @@ export default function OrderSummary() {
               className={styles.text_fields}
             />
           </div>
+          {msg && <p>{msg}</p>}
           <div className={styles.button}>
             <Button onClick={addPromotion}> Add Promotion </Button>
           </div>
