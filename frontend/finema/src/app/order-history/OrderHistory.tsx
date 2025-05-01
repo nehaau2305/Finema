@@ -85,11 +85,6 @@ export default function OrderHistory() {
     .catch(error => console.error('An error occured retrieving order history: ' + error))
   }, [token])
 
-  useEffect(()=> {
-    orderHistory.map((entry:Order) => {
-      console.log(entry)
-    })
-  }, [orderHistory])
 
   const returnTicketHandler = (order:Order) => {
     fetch('http://localhost:8080/order/return',{
