@@ -68,16 +68,22 @@ public class OrderService {
         order.setUser(user);
         System.out.println("user id: " + order.getUser().getId());
         System.out.println("card num: " + order.getCard().getCardNumber());
+        Card card = order.getCard();
         try {
             String encryptedCard = userService.encrypt(order.getCard().getCardNumber());
             order.getCard().setCardNumber(encryptedCard);
             order.getCard().setUser(user);
             order.getCard().setUserID(user);
-            cardRepository.save(order.getCard());
+            if (!cardRepository.existsByCardNumber(encryptedCard)) {
+                card = cardRepository.save(order.getCard());
+            } else {
+                card = cardRepository.findByCardNumber(encryptedCard);
+            }
             System.out.println("card user: " + order.getCard().getUser().getId());
         } catch (Exception e) {
             System.out.println("Exception: " + e.getMessage());
         }
+        order.setCard(card);
         List<Ticket> theTickets = order.getTickets();
         order.setTickets(null);
         int showtimeID = order.getShowtimeID();
