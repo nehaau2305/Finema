@@ -4,6 +4,7 @@ import com.TermProject.finema.entity.Showtime;
 import com.TermProject.finema.entity.Showroom;
 import com.TermProject.finema.entity.Seat;
 import com.TermProject.finema.service.ShowtimeService;
+import com.TermProject.finema.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,9 @@ public class ShowtimeController {
 
     @Autowired
     private ShowtimeService showtimeService;
+
+    @Autowired
+    private MovieService movieService;
 
     // Add showtimes for a specific date
     @PostMapping("/add")
@@ -75,6 +79,7 @@ public class ShowtimeController {
     @PostMapping ("/schedule-movie")
     public ResponseEntity<Showtime> scheduleMovie(@RequestBody Showtime showtime) {
         Showtime scheduledShowtime = showtimeService.scheduleMovie(showtime);
+        movieService.setNowPlaying(showtime.getMovieId());
         //Movie movie = scheduledShowtime.getMovie();
         //    if (movie != null && !movie.isNowShowing()) {
         //        movie.setNowShowing(true);

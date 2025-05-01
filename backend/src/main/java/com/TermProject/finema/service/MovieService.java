@@ -35,6 +35,14 @@ public class MovieService {
         return movieRepository.save(movie);
     }
 
+    public Movie setNowPlaying(int movieId) {
+        Optional<Movie> movie = movieRepository.findById(movieId);
+        movie.get().setComingSoon(false);
+        movie.get().setNowShowing(true);
+        System.out.println(movie.get().getTitle());
+        return movieRepository.save(movie.get());
+    }
+
     public void deleteMovie(int id) {
         movieRepository.deleteById(id);
     }
