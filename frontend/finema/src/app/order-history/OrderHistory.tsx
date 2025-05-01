@@ -4,6 +4,7 @@ import styles from './OrderHistory.module.css'
 import { useRouter } from 'next/navigation'
 import { useToken } from '../components/useToken'
 import TopBar from '../components/TopBar'
+import Button from '../components/Button';
 
 
 type ConsecutiveTimes =
@@ -84,87 +85,20 @@ export default function OrderHistory() {
     .catch(error => console.error('An error occured retrieving order history: ' + error))
   }, [token])
 
-  useEffect(()=> {
-    orderHistory.map((entry:Order) => {
-      console.log(entry)
-    })
-  }, [orderHistory])
 
-  // // Fake Data
-  // const showtimeEx1 = {
-  //   movie: "Batman",
-  //   date: "4/30/02",
-  //   time: '3AM'
-  // }
-  // const showtimeEx2 = {
-  //   movie: "Superman",
-  //   date: "5/6/25",
-  //   time: '7PM'
-  // }
-
-  // const seat11 = {
-  //   showTime: showtimeEx1,
-  //   seatNum: 3,
-  // }
-  // const seat12 = {
-  //   showTime: showtimeEx1,
-  //   seatNum: 4,
-  // }
-  // const seat13 = {
-  //   showTime: showtimeEx1,
-  //   seatNum: 5,
-  // }
-  // const seat14 = {
-  //   showTime: showtimeEx1,
-  //   seatNum: 6,
-  // }
-  // const seat21 = {
-  //   showTime: showtimeEx2,
-  //   seatNum: 4,
-  // }
-  // const seat22 = {
-  //   showTime: showtimeEx2,
-  //   seatNum: 5,
-  // }
-
-  // const ticket11 = {
-  //   seat: seat11,
-  //   ticketType: 'adult',
-  // }
-  // const ticket12 = {
-  //   seat: seat12,
-  //   ticketType: 'adult',
-  // }
-  // const ticket13 = {
-  //   seat: seat13,
-  //   ticketType: 'child',
-  // }
-  // const ticket14 = {
-  //   seat: seat14,
-  //   ticketType: 'senior',
-  // }
-  // const ticket21 = {
-  //   seat: seat21,
-  //   ticketType: 'adult',
-  // }
-  // const ticket22 = {
-  //   seat: seat22,
-  //   ticketType: 'adult',
-  // }
-
-  // const order1 = {
-  //   id: 1,
-  //   showTime: showtimeEx1,
-  //   totalPrice: 123.01,
-  //   tickets: [ticket11, ticket12, ticket13, ticket14]
-  // }
-  // const order2 = {
-  //   id: 2,
-  //   showTime: showtimeEx2,
-  //   totalPrice: 13.83,
-  //   tickets: [ticket21, ticket22]
-  // }
-
+  const returnTicketHandler = (order:Order) => {
+    fetch('http://localhost:8080/order/return',{
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(order)
+    }) // Call for all orders associated with a user
+    .then(response => response.json())
+    .then(data => {
+      setOrderHistory(data)})
+    .catch(error => console.error('An error occured retrieving order history: ' + error))
+  }
   
   return (
     <div>
@@ -197,13 +131,14 @@ export default function OrderHistory() {
                           </li>
                         ))
                       ) : (
-                        <p>No history found</p>
+                        <p>No tickets found</p>
                       )}
                     </ul>
                     <div>
                       <p> Price: </p>
-                      <p> {entry.totalPrice} </p>
+                      <p> {'$' + entry.totalPrice.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} </p>
                     </div>
+                    <Button onClick={()=>returnTicketHandler(entry)}> Return Ticket </Button>
                   </li>
                 ))
               ) : (

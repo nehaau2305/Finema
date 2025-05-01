@@ -140,4 +140,16 @@ public class OrderService {
         return orderRepository.findByUser(user);
     }
 
+    public void returnOrder (Order order) {
+        if (order.getTickets() != null) {
+            for (Ticket ticket : order.getTickets()) {
+                Seat seat = ticket.getSeat();
+                seat.setReserved(false);
+                seatRepository.save(seat);
+            }
+        }
+        mailService.sendReturnConfirmation(order);
+        // having cascading in Order allows tickets to be saved automatically when saving order
+        orderRepository.delete(order);
+    }
 }

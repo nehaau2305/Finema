@@ -145,9 +145,30 @@ public class MailService {
             email.setSubject(subject);
             email.setText(message);
             email.setFrom("finemateam@gmail.com");
-
             mailSender.send(email);
             return "order confirmation email sent";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String sendReturnConfirmation(Order order) {
+        Showtime showtime = order.getShowtime();
+        try {
+            String cardNum = userService.decrypt(order.getCard().getCardNumber());
+            String subject = "Finema Order Return Confirmation for " + showtime.getMovie().getTitle();
+            String message = "Hi " + order.getUser().getName() + ",\n\n" +
+                    "You have " + order.getNumSeats() + " tickets to " + showtime.getMovie().getTitle() + " on " + showtime.getDate() + " at " + showtime.getTime() + "\n\n" +
+                    "Your order total was $" + order.getTotalPrice() + " and will get refunded to the card ending in " + cardNum.substring(cardNum.length() - 4) + "\n\n" +
+                    "Best Regards,\nFinema Team";
+
+            SimpleMailMessage email = new SimpleMailMessage();
+            email.setTo(order.getUser().getEmail());
+            email.setSubject(subject);
+            email.setText(message);
+            email.setFrom("finemateam@gmail.com");
+            mailSender.send(email);
+            return "order return email sent";
         } catch (Exception e) {
             return e.getMessage();
         }

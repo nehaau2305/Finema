@@ -93,4 +93,11 @@ public class OrderController {
         }
     }
 
+    @PostMapping("/return")
+    public ResponseEntity<List<Order>> returnOrder(@RequestBody Order order) {
+        orderService.returnOrder(order);
+        List<Order> orders = orderService.getAllOrders(order.getUser());
+        return ResponseEntity.ok(orders);
+    }
+
 }
