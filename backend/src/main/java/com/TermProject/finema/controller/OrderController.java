@@ -93,7 +93,7 @@ public class OrderController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/return")
     public ResponseEntity<String> returnOrder(@RequestBody Order order) {
         orderService.returnOrder(order);
         return ResponseEntity.status(201).body("Order returned successfully. Refund will be processed.");
