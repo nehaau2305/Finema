@@ -23,97 +23,97 @@ Finema is an online cinema e-booking system that allows users to create an accou
 
 ## Screenshots
 <a href="images/landing_page.png">
-  <img src="images/landing_page.png" height="180">
+  <img src="images/landing_page.png" height="200">
 </a>
 <a href="images/account_sign_up.png">
-  <img src="images/account_sign_up.png" height="180">
+  <img src="images/account_sign_up.png" height="200">
 </a>
 <a href="images/account_sign_up_card.png">
-  <img src="images/account_sign_up_card.png" height="180">
+  <img src="images/account_sign_up_card.png" height="200">
 </a>
 <a href="images/account_verify.png">
-  <img src="images/account_verify.png" height="180">
+  <img src="images/account_verify.png" height="200">
 </a>
 <a href="images/database_encryption.png">
   <img src="images/database_encryption.png" height="90">
 </a>
 <a href="images/movie_search.png">
-  <img src="images/movie_search.png" height="180">
+  <img src="images/movie_search.png" height="210">
 </a>
 <a href="images/movie_search_filter.png">
-  <img src="images/movie_search_filter.png" height="180">
+  <img src="images/movie_search_filter.png" height="210">
 </a>
 <a href="images/reset_password.png">
-  <img src="images/reset_password.png" height="180">
+  <img src="images/reset_password.png" height="200">
 </a>
 <a href="images/reset_password_token.png">
-  <img src="images/reset_password_token.png" height="180">
+  <img src="images/reset_password_token.png" height="200">
 </a>
 
 ### Admin
 <a href="images/admin_login.png">
-  <img src="images/admin_login.png" height="180">
+  <img src="images/admin_login.png" height="200">
 </a>
 <a href="images/admin_landing_page.png">
-  <img src="images/admin_landing_page.png" height="180">
+  <img src="images/admin_landing_page.png" height="200">
 </a>
 <a href="images/admin_add_movie.png">
-  <img src="images/admin_add_movie.png" height="180">
+  <img src="images/admin_add_movie.png" height="200">
 </a>
 <a href="images/admin_select_date.png">
-  <img src="images/admin_select_date.png" height="180">
+  <img src="images/admin_select_date.png" height="200">
 </a>
 <a href="images/admin_select_showroom.png">
-  <img src="images/admin_select_showroom.png" height="180">
+  <img src="images/admin_select_showroom.png" height="200">
 </a>
 <a href="images/admin_select_movie.png">
-  <img src="images/admin_select_movie.png" height="180">
+  <img src="images/admin_select_movie.png" height="200">
 </a>
 <a href="images/admin_manage_users.png">
-  <img src="images/admin_manage_users.png" height="180">
+  <img src="images/admin_manage_users.png" height="200">
 </a>
 <a href="images/admin_add_promo.png">
-  <img src="images/admin_add_promo.png" height="180">
+  <img src="images/admin_add_promo.png" height="200">
 </a>
 
 ### User
 <a href="images/user_select_movie.png">
-  <img src="images/user_select_movie.png" height="180">
+  <img src="images/user_select_movie.png" height="200">
 </a>
 <a href="images/user_book_tickets.png">
-  <img src="images/user_book_tickets.png" height="180">
+  <img src="images/user_book_tickets.png" height="200">
 </a>
 <a href="images/user_select_time_tickets.png">
-  <img src="images/user_select_time_tickets.png" height="180">
+  <img src="images/user_select_time_tickets.png" height="200">
 </a>
 <a href="images/user_select_seats.png">
-  <img src="images/user_select_seats.png" height="180">
+  <img src="images/user_select_seats.png" height="200">
 </a>
 <a href="images/user_order_summ.png">
-  <img src="images/user_order_summ.png" height="180">
+  <img src="images/user_order_summ.png" height="200">
 </a>
 <a href="images/user_order_booked.png">
-  <img src="images/user_order_booked.png" height="180">
+  <img src="images/user_order_booked.png" height="200">
 </a>
 <a href="images/user_order_history.png">
-  <img src="images/user_order_history.png" height="180">
+  <img src="images/user_order_history.png" height="200">
 </a>
 <a href="images/user_manage_profile.png">
-  <img src="images/user_manage_profile.png" height="180">
+  <img src="images/user_manage_profile.png" height="200">
 </a>
 <a href="images/user_saved_cards.png">
-  <img src="images/user_saved_cards.png" height="180">
+  <img src="images/user_saved_cards.png" height="200">
 </a>
 
 ### Email
 <a href="images/email_account_verif_code.png">
-  <img src="images/email_account_verif_code.png" height="180">
+  <img src="images/email_account_verif_code.png" height="210">
 </a>
 <a href="images/email_reset_passw.png">
-  <img src="images/email_reset_passw.png" height="180">
+  <img src="images/email_reset_passw.png" height="210">
 </a>
 <a href="images/email_promo.png">
-  <img src="images/email_promo.png" height="180">
+  <img src="images/email_promo.png" height="210">
 </a>
 
 ## Prerequisites
